@@ -59,6 +59,7 @@ class App extends React.Component {
          zipValue: '',
          cityValue: '',
          dataReady: false,
+         callerError: false,
          weatherData: '',
          class: ''
       }
@@ -66,6 +67,7 @@ class App extends React.Component {
       this.getWeather = this.getWeather.bind(this)
    }
 
+   // Openweathermaps caller
    // There's gotta be a better way to write this:
    getWeather(url){
       (function(){
@@ -204,9 +206,9 @@ class Day extends React.Component {
    render(){
 
       let onceDailyIndex = 0 + this.props.number*8
-      let icon = this.props.data.list[onceDailyIndex].weather[0].icon
       let description = this.props.data.list[onceDailyIndex].weather[0].description
       let time = this.props.data.list[onceDailyIndex].dt_txt
+      let icon = this.props.data.list[onceDailyIndex].weather[0].icon
       let iconPath = `http://openweathermap.org/img/wn/${icon}@2x.png`;
       let tempKelvin = this.props.data.list[onceDailyIndex].main.temp
       let temp = {
