@@ -59,7 +59,8 @@ class App extends React.Component {
          zipValue: '',
          cityValue: '',
          dataReady: false,
-         weatherData: ''
+         weatherData: '',
+         class: ''
       }
       this.renderDay = this.renderDay.bind(this)
       this.getWeather = this.getWeather.bind(this)
@@ -85,7 +86,7 @@ class App extends React.Component {
          return JSON.parse(data)
       })
       .then( (parsedData) => {
-         this.setState( {dataReady: true, weatherData: parsedData} )
+         this.setState( {dataReady: true, weatherData: parsedData, readyClass: 'data-ready'} )
       })
       .then( () => {
          if (this.state.dataReady){
@@ -129,9 +130,9 @@ class App extends React.Component {
 
 
       return (
-         <div className="app">
+         <div id="app">
             <div className="body">
-               <form className="locator">
+               <form className={`locator ${this.state.readyClass}`}>
                   <h2>Choose your Location</h2>
                   <input name="city" type="text"
                      placeholder="Search by City Name" value={this.state.cityValue} onChange={this.cityHandler} onKeyDown={this.cityHandler} />
@@ -170,7 +171,7 @@ function Empty(){
 class Week extends React.Component {
    constructor(props){
       super(props)
-      this.state = {class: 'hidden'}
+      this.state = {class: ''}
    }
 
    renderDay(i) {
@@ -179,7 +180,7 @@ class Week extends React.Component {
 
    componentDidMount(){
       let delay = () => { this.setState({class: 'visible'}) };
-      setTimeout(delay, 2000)
+      setTimeout(delay, 1)
    }
 
    render (){
@@ -202,7 +203,7 @@ class Week extends React.Component {
 class Day extends React.Component {
    render(){
 
-      let onceDailyIndex = 5 + this.props.number*8
+      let onceDailyIndex = 0 + this.props.number*8
       let icon = this.props.data.list[onceDailyIndex].weather[0].icon
       let description = this.props.data.list[onceDailyIndex].weather[0].description
       let time = this.props.data.list[onceDailyIndex].dt_txt
@@ -217,8 +218,8 @@ class Day extends React.Component {
          <div className="day">
             <div className="cardIndex">{ this.props.number + 1 }</div>
 
-            <h2>{ days[ modulus(date.getDay() + this.props.number, 5) ] }</h2>
-            <h2>{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
+            <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
+            <h2 className="date">{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
             <img className="weatherIcon" src={iconPath} />
             <p>Time: {time}</p>
             <p>Temp: {temp[this.props.units]} °{this.props.units}</p>

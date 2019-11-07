@@ -4,9 +4,18 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
+html, body, #root, #app{
+   height: 100%;
+   margin: 0px;
+   padding: 0px;
+}
 
 
 .body{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
    padding: 30px 125px;
 }
 
@@ -17,7 +26,11 @@ html {
 
 form.locator{
    width: 100%;
-   margin: 20px 0px;
+   margin: 120px 0px 20px 0px;
+   transition: margin 0.5s;
+}
+form.locator.data-ready{
+   margin: 20px 0px 20px 0px;
 }
 form.locator h2{
    text-align: left;
@@ -40,37 +53,51 @@ input:last-of-type{
    FORECAST STYLES
 ---------------------------------------------------*/
 
-#forecast.hidden{
-   opacity: 0.5;
-   transition: opacity 1s;
+#forecast{
+   width: 100%;
+   height: 0px;
+   opacity: 0;
+   transition: opacity 0.5s, height 0.5s;
 }
 #forecast.visible{
+   height: 300px;
    opacity: 1.0;
 }
 
 .week{
-   margin: auto;
    display: flex;
-   flex-wrap: wrap;
-   align-items: center;
    justify-content: space-between;
+   overflow: hidden;
 }
+
+/*---------------------------------------------------
+   DAY CARD STYLES
+---------------------------------------------------*/
 
 .day{
    width: calc(1/6 * 100%);
-   /* height: 350px; */
    border: 1px solid black;
    margin: 0px;
 
+   position: relative;
    display: flex;
    flex-direction: column;
    align-items: center;
+   justify-content: flex-start;
 }
 
-
+.cardIndex{
+   width: 100%;
+   position: absolute;
+   top: 0px;
+   left: 0px;
+}
 
 h2{
    text-align: center;
+}
+h2.date{
+   margin: 0px;
 }
 
 .weatherIcon{
