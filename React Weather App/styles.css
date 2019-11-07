@@ -10,6 +10,11 @@ html {
    padding: 30px 125px;
 }
 
+
+/*---------------------------------------------------
+   FORM STYLES
+---------------------------------------------------*/
+
 form.locator{
    width: 100%;
    margin: 20px 0px;
@@ -28,6 +33,19 @@ input{
 input:last-of-type{
    width: 35%;
    margin-left: 10%
+}
+
+
+/*---------------------------------------------------
+   FORECAST STYLES
+---------------------------------------------------*/
+
+#forecast.hidden{
+   opacity: 0.5;
+   transition: opacity 1s;
+}
+#forecast.visible{
+   opacity: 1.0;
 }
 
 .week{

@@ -168,14 +168,23 @@ function Empty(){
 }
 
 class Week extends React.Component {
+   constructor(props){
+      super(props)
+      this.state = {class: 'hidden'}
+   }
 
    renderDay(i) {
-      return <Day number={i} data={this.props.data} units="F"/>
+      return <Day number={i} data={this.props.data} units="F" />
+   }
+
+   componentDidMount(){
+      let delay = () => { this.setState({class: 'visible'}) };
+      setTimeout(delay, 2000)
    }
 
    render (){
       return(
-         <div>
+         <div id="forecast" className={this.state.class}>
             <h3>Weather for {this.props.data.city.name}</h3>
             <div className="week">
                { this.renderDay(0) }
