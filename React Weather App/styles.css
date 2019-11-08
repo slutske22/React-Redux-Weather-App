@@ -1,5 +1,6 @@
 html {
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 *, *:before, *:after {
   box-sizing: inherit;
@@ -102,4 +103,16 @@ h2.date{
 
 .weatherIcon{
    text-align: center;
+}
+
+
+/*---------------------------------------------------
+   ERROR STYLES
+---------------------------------------------------*/
+
+ .error{
+    font-weight: lighter;
+}
+.error span{
+   text-transform: lowercase;
 }

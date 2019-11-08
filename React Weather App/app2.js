@@ -88,7 +88,7 @@ class App extends React.Component {
          return JSON.parse(data)
       })
       .then( (parsedData) => {
-         this.setState( {dataReady: true, weatherData: parsedData, readyClass: 'data-ready'} )
+         this.setState( {dataReady: true, weatherData: parsedData, readyClass: 'data-ready', callerError: false} )
       })
       .then( () => {
          if (this.state.dataReady){
@@ -96,9 +96,8 @@ class App extends React.Component {
          }
       })
       .catch( (error) => {
-         this.setState({dataReady: false})
+         this.setState({dataReady: false, callerError: error, readyClass: ''})
          console.log(error)
-         console.log(this.state)
       })
    }
 
@@ -142,7 +141,8 @@ class App extends React.Component {
                      placeholder="Search by Zip" value={this.state.zipValue} onChange={this.zipHandler}
                      onKeyDown={this.zipHandler} />
                </form>
-               <Body dataReady={this.state.dataReady} data={this.state.weatherData} />
+               <Body dataReady={this.state.dataReady} data={this.state.weatherData}
+               callerError={this.state.callerError} />
             </div>
          </div>
       )
@@ -157,10 +157,12 @@ class Body extends React.Component{
    }
 
    render(){
-      if (this.props.dataReady){
+      if (this.props.dataReady && !this.props.callerError){
          return <Week data={this.props.data} />
+      } else if (!this.props.dataReady && this.props.callerError) {
+         return  <Error callerError={this.props.callerError}/>
       } else {
-         return  <Empty />
+         return <Empty />
       }
    }
 
@@ -168,6 +170,18 @@ class Body extends React.Component{
 
 function Empty(){
    return <div className="empty"></div>
+}
+
+class Error extends React.Component{
+   constructor(props){
+      super(props)
+   }
+
+   render(){
+      return(
+         <h3 className="error">Something's not right. Location <span>{this.props.callerError}</span></h3>
+      )
+   }
 }
 
 class Week extends React.Component {
