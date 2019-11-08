@@ -105,6 +105,12 @@ h2.date{
    text-align: center;
 }
 
+.maxTemp{
+   padding: 0px;
+   margin: 0px;
+   font-size: 1.4em;
+}
+
 
 /*---------------------------------------------------
    ERROR STYLES
