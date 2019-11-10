@@ -104,7 +104,7 @@ class App extends React.Component {
       }
       this.renderDay = this.renderDay.bind(this);
       this.getLocations = this.getLocations.bind(this);
-      // this.getWeather = this.getWeather.bind(this);
+      this.getWeather = this.getWeather.bind(this);
    }
 
 
@@ -128,16 +128,18 @@ class App extends React.Component {
                app.setState({
                   locationData: locationData,
                   dataReady: false,
-                  callerError: 'Search term did not return any results.  Try something else.'
+                  callerError: 'Search term did not return any results.  Try something else.',
+                  readyClass: '',
                })
 
                console.log(app.state);
 
             } else if (locationData.length === 1){
-               // app.getWeather(locationData)
+               app.getWeather(locationData)
                app.setState({
                   locationData: locationData,
                   dataReady: true,
+                  readyClass: 'data-ready',
                   callerError: ''
                })
 
@@ -145,10 +147,11 @@ class App extends React.Component {
 
 
             } else  if (locationData.length > 1){
-               // app.getWeather(locationData)
+               app.getWeather(locationData)
                app.setState({
                   locationData: locationData,
                   dataReady: true,
+                  readyClass: 'data-ready',
                   callerError: ''
                })
 
@@ -160,31 +163,31 @@ class App extends React.Component {
          .catch( (error) => {console.log(error)} )
    } // getWeather()
 
-   // getWeather(locationData){
-   //
-   //    let app = this;
-   //
-   //    let lat = locationData[0].lat
-   //    let lon = locationData[0].lon
-   //    let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
-   //
-   //    //  Feed the lat lng into the weather caller
-   //    apiCaller(url)
-   //       .then( (weatherData) => {
-   //          console.log(app.state);
-   //          console.log(JSON.parse(weatherData));
-   //          // Put weather data into state object to be used in componnts
-   //          app.setState({
-   //             callerError: false,
-   //             dataReady: true,
-   //             weatherData: JSON.parse(weatherData)
-   //          })
-   //
-   //       })
-   //       .catch( (error) => {
-   //          console.log(error)
-   //       })
-   // }
+   getWeather(locationData){
+
+      let app = this;
+
+      let lat = locationData[0].lat
+      let lon = locationData[0].lon
+      let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
+
+      //  Feed the lat lng into the weather caller
+      apiCaller(url)
+         .then( (weatherData) => {
+            console.log("State:", app.state);
+            console.log('Weather:', JSON.parse(weatherData));
+            // Put weather data into state object to be used in componnts
+            app.setState({
+               callerError: false,
+               dataReady: true,
+               weatherData: JSON.parse(weatherData)
+            })
+
+         })
+         .catch( (error) => {
+            console.log(error)
+         })
+   }
 
 
    zipHandler = (e) => {
@@ -288,6 +291,7 @@ class Week extends React.Component {
       return(
          <div id="forecast" className={this.state.class}>
             <h3>Weather for {this.props.locationData[0].display_name}</h3>
+            <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#">Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
             <div className="week">
                { this.renderDay(0) }
                { this.renderDay(1) }
