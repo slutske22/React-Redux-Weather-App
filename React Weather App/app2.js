@@ -33,16 +33,37 @@ function kelvinToCelcius(degreeKelvin){
 
 
 //----------------------------------------------------------------//
-//    Openweathermaps Caller
+//    API caller
 //----------------------------------------------------------------//
 
-var openWeatherMapsApiKey = 'ae9a514eab7934500eeb71f723b38277';
 
-function makeCityURL(cityName){
-   return `https://api.openweathermap.org/data/2.5/forecast?q=${cityName},us&cnt=56&mode=json&APPID=${openWeatherMapsApiKey}`
+function apiCaller(url){
+   return new Promise( (resolve, reject) => {
+      var request = new XMLHttpRequest()
+      request.open('GET', url);
+      request.onload = function(){
+         if (request.status === 200) {
+           resolve(request.response)
+         } else {
+           reject(request.statusText)
+         }
+      } // .onload
+      request.send()
+   })
 }
+
+// NOMATIM URL MAKERS
+
+function makeOpenSearchUrl(cityName){
+   return `https://nominatim.openstreetmap.org/search?q=${searchTerm}&format=json`
+}
+
+function makeCityURL(cityName, stateName=''){
+   return `https://nominatim.openstreetmap.org/search?city=${cityName}&state=${stateName}&country=USA&format=json`
+}
+
 function makeZipURL(zipCode){
-   return `https://api.openweathermap.org/data/2.5/forecast?zip=${zipCode},us&cnt=56&mode=json&APPID=${openWeatherMapsApiKey}`
+   return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=USA&format=json`
 }
 
 
@@ -223,32 +244,20 @@ class Day extends React.Component {
       let onceDailyIndex = 0 + this.props.number*8
 
       {/*Some time correction terms: */}
-      let userLocationOffset = -60 * new Date().getTimezoneOffset();
-      let searchedLocationOffset = this.props.data.city.timezone;
-      let unix_timestampUTC = this.props.data.list[onceDailyIndex].dt;
-      let unix_timestampLocation = unix_timestampUTC + userLocationOffset + searchedLocationOffset;
-      let localTime = new Date( (unix_timestampUTC - userLocationOffset + searchedLocationOffset)*1000).getHours();
 
-      let description = this.props.data.list[onceDailyIndex].weather[0].description;
-      let time = this.props.data.list[onceDailyIndex].dt_txt;
-      let icon = this.props.data.list[onceDailyIndex].weather[0].icon;
-      let iconPath = `http://openweathermap.org/img/wn/${icon}@2x.png`;
-      let tempKelvin = this.props.data.list[onceDailyIndex].main.temp;
-      let maxTempKelvin = this.props.data.list[onceDailyIndex].main.temp_max
-      let minTempKelvin = this.props.data.list[onceDailyIndex].main.temp_min;
 
-      let temp = {
-         'C': Math.floor( kelvinToCelcius(tempKelvin) ),
-         'F': Math.floor( kelvinToFahrenheit(tempKelvin) )
-      }
-      let maxTemp = {
-         'C': Math.floor( kelvinToCelcius(maxTempKelvin) ),
-         'F': Math.floor( kelvinToFahrenheit(maxTempKelvin) )
-      }
-      let minTemp = {
-         'C': Math.floor( kelvinToCelcius(minTempKelvin) ),
-         'F': Math.floor( kelvinToFahrenheit(minTempKelvin) )
-      }
+      // let temp = {
+      //    'C': Math.floor( kelvinToCelcius(tempKelvin) ),
+      //    'F': Math.floor( kelvinToFahrenheit(tempKelvin) )
+      // }
+      // let maxTemp = {
+      //    'C': Math.floor( kelvinToCelcius(maxTempKelvin) ),
+      //    'F': Math.floor( kelvinToFahrenheit(maxTempKelvin) )
+      // }
+      // let minTemp = {
+      //    'C': Math.floor( kelvinToCelcius(minTempKelvin) ),
+      //    'F': Math.floor( kelvinToFahrenheit(minTempKelvin) )
+      // }
 
       return (
          <div className="day">
@@ -256,11 +265,11 @@ class Day extends React.Component {
 
             <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
             <h2 className="date">{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
-            <img className="weatherIcon" src={iconPath} />
-            <p style={{'textTransform': 'capitalize'}}>{description}</p>
-            <p>Time: {localTime}</p>
-            <p className="maxTemp">{maxTemp[this.props.units]} °{this.props.units}</p>
-            <p className="minTemp">{minTemp[this.props.units]} °{this.props.units}</p>
+            <img className="weatherIcon" />
+            <p style={{'textTransform': 'capitalize'}}>Description</p>
+            <p>Time: </p>
+            <p className="maxTemp">Max Temp</p>
+            <p className="minTemp">Min Temp</p>
 
          </div>
       )
