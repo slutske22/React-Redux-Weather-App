@@ -120,13 +120,13 @@ class App extends React.Component {
          })
          .then( function(locationData){
 
-            app.setState({locationData: locationData})
 
             //  If no results returned, array length is 0.  Return error.
             if (locationData.length === 0) {
                console.log('Search did not return any results.  Try something else.');
 
                app.setState({
+                  locationData: locationData,
                   dataReady: false,
                   callerError: 'Search term did not return any results.  Try something else.'
                })
@@ -136,6 +136,7 @@ class App extends React.Component {
             } else if (locationData.length === 1){
                // app.getWeather(locationData)
                app.setState({
+                  locationData: locationData,
                   dataReady: true,
                   callerError: ''
                })
@@ -146,6 +147,7 @@ class App extends React.Component {
             } else  if (locationData.length > 1){
                // app.getWeather(locationData)
                app.setState({
+                  locationData: locationData,
                   dataReady: true,
                   callerError: ''
                })
@@ -273,8 +275,8 @@ class Week extends React.Component {
    }
 
    renderDay(i) {
-      return <Day number={i} locationData={this.state.locationData}
-      weatherData={this.state.weatherData} units="F" />
+      return <Day number={i} locationData={this.props.locationData}
+      weatherData={this.props.weatherData} units="F" />
    }
 
    componentDidMount(){
