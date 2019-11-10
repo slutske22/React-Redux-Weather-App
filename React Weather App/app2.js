@@ -59,11 +59,11 @@ function makeOpenSearchUrl(cityName){
 }
 
 function makeCityURL(cityName, stateName=''){
-   return `https://nominatim.openstreetmap.org/search?city=${cityName}&state=${stateName}&country=USA&format=json`
+   return `https://nominatim.openstreetmap.org/search?city=${cityName}&state=${stateName}&format=json`
 }
 
 function makeZipURL(zipCode){
-   return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=USA&format=json`
+   return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&format=json`
 }
 
 
@@ -96,79 +96,110 @@ class App extends React.Component {
       this.state = {
          zipValue: '',
          cityValue: '',
-         dataReady: false,
          callerError: false,
+         dataReady: '',
+         locationData: '',
          weatherData: '',
          class: ''
       }
       this.renderDay = this.renderDay.bind(this);
-      this.getWeather = this.getWeather.bind(this);
-      this.applyWeather = this.applyWeather.bind(this);
+      this.getLocations = this.getLocations.bind(this);
+      // this.getWeather = this.getWeather.bind(this);
    }
-   // Openweathermaps caller
-   // There's gotta be a better way to write this:
-   getWeather(url){
+
+
+
+   getLocations(url){
+
+      let app = this;
+
       apiCaller(url)
          .then( (locationResults) => {
             console.log(JSON.parse(locationResults));
             return locationResults = JSON.parse(locationResults)
          })
          .then( function(locationData){
+
+            app.setState({locationData: locationData})
+
             //  If no results returned, array length is 0.  Return error.
-            if (locationData.length == 0) {
+            if (locationData.length === 0) {
                console.log('Search did not return any results.  Try something else.');
 
-               this.setState({callerError: 'Search term did not return any results.  Try something else.'})
+               app.setState({
+                  dataReady: false,
+                  callerError: 'Search term did not return any results.  Try something else.'
+               })
 
-            } else if (locationData.length == 1){
-               applyWeather(locationData)
+               console.log(app.state);
+
+            } else if (locationData.length === 1){
+               // app.getWeather(locationData)
+               app.setState({
+                  dataReady: true,
+                  callerError: ''
+               })
+
+               console.log(app.state);
+
 
             } else  if (locationData.length > 1){
-               applyWeather(locationData)
+               // app.getWeather(locationData)
+               app.setState({
+                  dataReady: true,
+                  callerError: ''
+               })
+
+               console.log(app.state);
+
             }
 
          }) // then( (locationData) => (get weather))
+         .catch( (error) => {console.log(error)} )
    } // getWeather()
 
-   applyWeather(locationData){
-
-      let lat = locationData[0].lat
-      let lon = locationData[0].lon
-      let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
-
-      //  Feed the lat lng into the weather caller
-      apiCaller(url)
-         .then( (weatherData) => {
-            console.log('Weather for:', locationData[0].display_name);
-            console.log(JSON.parse(weatherData));
-            // Put weather data into state object to be used in componnts
-            this.setState({
-               callerError: false,
-               dataReady: true,
-               weatherData: JSON.parse(weatherData)
-            })
-
-         })
-   }
+   // getWeather(locationData){
+   //
+   //    let app = this;
+   //
+   //    let lat = locationData[0].lat
+   //    let lon = locationData[0].lon
+   //    let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
+   //
+   //    //  Feed the lat lng into the weather caller
+   //    apiCaller(url)
+   //       .then( (weatherData) => {
+   //          console.log(app.state);
+   //          console.log(JSON.parse(weatherData));
+   //          // Put weather data into state object to be used in componnts
+   //          app.setState({
+   //             callerError: false,
+   //             dataReady: true,
+   //             weatherData: JSON.parse(weatherData)
+   //          })
+   //
+   //       })
+   //       .catch( (error) => {
+   //          console.log(error)
+   //       })
+   // }
 
 
    zipHandler = (e) => {
       this.setState({zipValue: e.target.value})
 
-      if (e.keyCode === 13){
+      if (e.keyCode === 13 && e.target.value.length > 0){
          let zipCode = this.state.zipValue;
-         let zipUrl = makeZipURL(zipCode);
-         this.getWeather(zipUrl)
+         this.getLocations(`https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&format=json`)
       }
    }
 
    cityHandler = (e) => {
       this.setState({cityValue: e.target.value})
 
-      if (e.keyCode === 13){
+      if (e.keyCode === 13 && e.target.value.length > 0){
          let cityName = encodeURIComponent(this.state.cityValue);
-         let cityUrl = makeCityURL(cityName);
-         this.getWeather(cityUrl)
+         this.getLocations(`https://nominatim.openstreetmap.org/search?city=${cityName}&country=US&format=json`)
       }
    }
 
@@ -191,7 +222,8 @@ class App extends React.Component {
                      placeholder="Search by Zip" value={this.state.zipValue} onChange={this.zipHandler}
                      onKeyDown={this.zipHandler} />
                </form>
-               <Body dataReady={this.state.dataReady} data={this.state.weatherData}
+               <Body dataReady={this.state.dataReady} locationData={this.state.locationData}
+               weatherData={this.state.weatherData}
                callerError={this.state.callerError} />
             </div>
          </div>
@@ -207,12 +239,12 @@ class Body extends React.Component{
    }
 
    render(){
-      if (this.props.dataReady && !this.props.callerError){
-         return <Week data={this.props.data} />
-      } else if (!this.props.dataReady && this.props.callerError) {
-         return  <Error callerError={this.props.callerError}/>
-      } else {
+      if (this.props.dataReady){
+         return <Week locationData={this.props.locationData} weatherData={this.props.weatherData} />
+      } else if (this.props.dataReady === '') {
          return <Empty />
+      } else if (!this.props.dataReady){
+         return  <Error callerError={this.props.callerError}/>
       }
    }
 
@@ -229,7 +261,7 @@ class Error extends React.Component{
 
    render(){
       return(
-         <h3 className="error">Something's not right. Location <span>{this.props.callerError}</span></h3>
+         <h3 className="error">{this.props.callerError}</h3>
       )
    }
 }
@@ -241,7 +273,8 @@ class Week extends React.Component {
    }
 
    renderDay(i) {
-      return <Day number={i} data={this.props.data} units="F" />
+      return <Day number={i} locationData={this.state.locationData}
+      weatherData={this.state.weatherData} units="F" />
    }
 
    componentDidMount(){
@@ -252,7 +285,7 @@ class Week extends React.Component {
    render (){
       return(
          <div id="forecast" className={this.state.class}>
-            <h3>Weather for {this.props.data.city.name}</h3>
+            <h3>Weather for {this.props.locationData[0].display_name}</h3>
             <div className="week">
                { this.renderDay(0) }
                { this.renderDay(1) }
@@ -272,21 +305,6 @@ class Day extends React.Component {
       {/*Define the index from the list of 3-hour forecasts: */}
       let onceDailyIndex = 0 + this.props.number*8
 
-      {/*Some time correction terms: */}
-
-
-      // let temp = {
-      //    'C': Math.floor( kelvinToCelcius(tempKelvin) ),
-      //    'F': Math.floor( kelvinToFahrenheit(tempKelvin) )
-      // }
-      // let maxTemp = {
-      //    'C': Math.floor( kelvinToCelcius(maxTempKelvin) ),
-      //    'F': Math.floor( kelvinToFahrenheit(maxTempKelvin) )
-      // }
-      // let minTemp = {
-      //    'C': Math.floor( kelvinToCelcius(minTempKelvin) ),
-      //    'F': Math.floor( kelvinToFahrenheit(minTempKelvin) )
-      // }
 
       return (
          <div className="day">
