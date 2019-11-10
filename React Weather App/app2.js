@@ -33,7 +33,7 @@ function kelvinToCelcius(degreeKelvin){
 
 
 //----------------------------------------------------------------//
-//    API caller
+//    API callers
 //----------------------------------------------------------------//
 
 
@@ -67,6 +67,23 @@ function makeZipURL(zipCode){
 }
 
 
+var dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
+
+
+
+//----------------------------------------------------------------//
+//    Openweathermaps Caller
+//----------------------------------------------------------------//
+
+// var openWeatherMapsApiKey = 'ae9a514eab7934500eeb71f723b38277';
+//
+// function makeCityURL(cityName){
+//    return `https://api.openweathermap.org/data/2.5/forecast?q=${cityName},us&cnt=56&mode=json&APPID=${openWeatherMapsApiKey}`
+// }
+// function makeZipURL(zipCode){
+//    return `https://api.openweathermap.org/data/2.5/forecast?zip=${zipCode},us&cnt=56&mode=json&APPID=${openWeatherMapsApiKey}`
+// }
+
 
 
 //----------------------------------------------------------------//
@@ -84,42 +101,54 @@ class App extends React.Component {
          weatherData: '',
          class: ''
       }
-      this.renderDay = this.renderDay.bind(this)
-      this.getWeather = this.getWeather.bind(this)
+      this.renderDay = this.renderDay.bind(this);
+      this.getWeather = this.getWeather.bind(this);
+      this.applyWeather = this.applyWeather.bind(this);
    }
-
    // Openweathermaps caller
    // There's gotta be a better way to write this:
    getWeather(url){
-      (function(){
-         return new Promise( (resolve, reject) => {
-            var weatherRequest = new XMLHttpRequest()
-            weatherRequest.open('GET', url);
-            weatherRequest.onload = function(){
-               if (weatherRequest.status === 200) {
-                 resolve(weatherRequest.response)
-               } else {
-                 reject(weatherRequest.statusText)
-               }
-            } // .onload
-            weatherRequest.send()
+      apiCaller(url)
+         .then( (locationResults) => {
+            console.log(JSON.parse(locationResults));
+            return locationResults = JSON.parse(locationResults)
          })
-      })()
-      .then( (data) => {
-         return JSON.parse(data)
-      })
-      .then( (parsedData) => {
-         this.setState( {dataReady: true, weatherData: parsedData, readyClass: 'data-ready', callerError: false} )
-      })
-      .then( () => {
-         if (this.state.dataReady){
-            console.log(this.state)
-         }
-      })
-      .catch( (error) => {
-         this.setState({dataReady: false, callerError: error, readyClass: ''})
-         console.log(error)
-      })
+         .then( function(locationData){
+            //  If no results returned, array length is 0.  Return error.
+            if (locationData.length == 0) {
+               console.log('Search did not return any results.  Try something else.');
+
+               this.setState({callerError: 'Search term did not return any results.  Try something else.'})
+
+            } else if (locationData.length == 1){
+               applyWeather(locationData)
+
+            } else  if (locationData.length > 1){
+               applyWeather(locationData)
+            }
+
+         }) // then( (locationData) => (get weather))
+   } // getWeather()
+
+   applyWeather(locationData){
+
+      let lat = locationData[0].lat
+      let lon = locationData[0].lon
+      let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
+
+      //  Feed the lat lng into the weather caller
+      apiCaller(url)
+         .then( (weatherData) => {
+            console.log('Weather for:', locationData[0].display_name);
+            console.log(JSON.parse(weatherData));
+            // Put weather data into state object to be used in componnts
+            this.setState({
+               callerError: false,
+               dataReady: true,
+               weatherData: JSON.parse(weatherData)
+            })
+
+         })
    }
 
 
