@@ -27,11 +27,11 @@ html, body, #root, #app{
 
 form.locator{
    width: 100%;
-   margin: 120px 0px 20px 0px;
+   margin: 120px 0px 0px 0px;
    transition: margin 0.5s;
 }
 form.locator.data-ready{
-   margin: 20px 0px 20px 0px;
+   margin: 20px 0px 0px 0px;
 }
 form.locator h2{
    text-align: left;
@@ -65,10 +65,24 @@ input:last-of-type{
    opacity: 1.0;
 }
 
+#forecast h3{
+   margin: 0px;
+}
+
+#forecast h5{
+   margin: 5px 0px;
+}
+
+p.summary{
+   text-align: center;
+   text-transform: capitalize;
+}
+
 .week{
    display: flex;
    justify-content: space-between;
    overflow: hidden;
+   margin-top: 30px
 }
 
 /*---------------------------------------------------
@@ -76,7 +90,7 @@ input:last-of-type{
 ---------------------------------------------------*/
 
 .day{
-   width: calc(1/6 * 100%);
+   width: calc(1/8 * 100%);
    border: 1px solid black;
    margin: 0px;
 

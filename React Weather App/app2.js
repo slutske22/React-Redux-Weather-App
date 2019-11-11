@@ -138,7 +138,6 @@ class App extends React.Component {
                app.getWeather(locationData)
                app.setState({
                   locationData: locationData,
-                  dataReady: true,
                   readyClass: 'data-ready',
                   callerError: ''
                })
@@ -150,7 +149,6 @@ class App extends React.Component {
                app.getWeather(locationData)
                app.setState({
                   locationData: locationData,
-                  dataReady: true,
                   readyClass: 'data-ready',
                   callerError: ''
                })
@@ -298,6 +296,9 @@ class Week extends React.Component {
                { this.renderDay(2) }
                { this.renderDay(3) }
                { this.renderDay(4) }
+               { this.renderDay(5) }
+               { this.renderDay(6) }
+
             </div>
          </div>
       )
@@ -308,9 +309,11 @@ class Week extends React.Component {
 class Day extends React.Component {
    render(){
 
-      {/*Define the index from the list of 3-hour forecasts: */}
-      let onceDailyIndex = 0 + this.props.number*8
-
+      let weatherData = this.props.weatherData
+      let hour = new Date(weatherData.daily.data[this.props.number].time * 1000).getHours()
+      let tempHi = Math.round(weatherData.daily.data[this.props.number].temperatureHigh)
+      let tempLow = Math.round(weatherData.daily.data[this.props.number].temperatureLow)
+      let summary = weatherData.daily.data[this.props.number].summary
 
       return (
          <div className="day">
@@ -319,10 +322,9 @@ class Day extends React.Component {
             <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
             <h2 className="date">{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
             <img className="weatherIcon" />
-            <p style={{'textTransform': 'capitalize'}}>Description</p>
-            <p>Time: </p>
-            <p className="maxTemp">Max Temp</p>
-            <p className="minTemp">Min Temp</p>
+            <p className="summary">{summary}</p>
+            <p className="maxTemp">{tempHi} °F</p>
+            <p className="minTemp">{tempLow} °F</p>
 
          </div>
       )
