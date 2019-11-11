@@ -90,6 +90,10 @@ var dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
 //  Building the App in React
 //----------------------------------------------------------------//
 
+
+//----------------------------------------------------------------//
+//    App Component
+//----------------------------------------------------------------//
 class App extends React.Component {
    constructor(props){
       super(props)
@@ -102,7 +106,6 @@ class App extends React.Component {
          weatherData: '',
          class: ''
       }
-      this.renderDay = this.renderDay.bind(this);
       this.getLocations = this.getLocations.bind(this);
       this.getWeather = this.getWeather.bind(this);
    }
@@ -206,14 +209,8 @@ class App extends React.Component {
       }
    }
 
-   renderDay(i) {
-      return <Day number={i} data={this.state.weatherData}/>
-   }
 
    render() {
-
-
-
       return (
          <div id="app">
             <div className="body">
@@ -235,7 +232,11 @@ class App extends React.Component {
 } // App
 
 
-// Body will hold either an empty div for before anything is loaded, an error message for a bad request, or the weather cards themselves
+//----------------------------------------------------------------//
+//    Body Component
+//    Body will hold either an empty div for before anything is loaded, an error message for a bad request, or the weather cards themselves
+//----------------------------------------------------------------//
+
 class Body extends React.Component{
    constructor(props){
       super(props)
@@ -269,15 +270,25 @@ class Error extends React.Component{
    }
 }
 
+
+//----------------------------------------------------------------//
+//    Week Component
+//----------------------------------------------------------------//
 class Week extends React.Component {
    constructor(props){
       super(props)
-      this.state = {class: ''}
+      this.state = {
+         class: '',
+         showMoreLocations: false,
+         locationIndex: 0
+      }
+      this.showMoreLocations = this.showMoreLocations.bind(this)
    }
 
-   renderDay(i) {
-      return <Day number={i} locationData={this.props.locationData}
-      weatherData={this.props.weatherData} units="F" />
+   showMoreLocations() {
+      console.log(this.props.locationData);
+      this.setState({showMoreLocations: true})
+      console.log(this.state);
    }
 
    componentDidMount(){
@@ -286,26 +297,41 @@ class Week extends React.Component {
    }
 
    render (){
-      return(
-         <div id="forecast" className={this.state.class}>
-            <h3>Weather for {this.props.locationData[0].display_name}</h3>
-            <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#">Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
-            <div className="week">
-               { this.renderDay(0) }
-               { this.renderDay(1) }
-               { this.renderDay(2) }
-               { this.renderDay(3) }
-               { this.renderDay(4) }
-               { this.renderDay(5) }
-               { this.renderDay(6) }
 
+      let days = [];
+      for (var i = 0; i < 7 ; i++) {
+         days.push(
+            <Day number={i} key={i} locationData={this.props.locationData}
+            weatherData={this.props.weatherData} units="F" />
+         )
+      }
+
+      if (!this.state.showMoreLocations){
+         return(
+            <div id="forecast" className={this.state.class}>
+               <h3>Weather for {this.props.locationData[this.state.locationIndex].display_name}</h3>
+               <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={this.showMoreLocations}>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
+               <div className="week">
+                  {days}
+               </div>
             </div>
-         </div>
-      )
+         )
+      } else {
+         return(
+            <div id="forecast" className={this.state.class}>
+               <h3>Weather for {this.props.locationData[this.state.locationIndex].display_name}</h3>
+               <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={this.showMoreLocations}>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
+               <LocationList locationData={this.props.locationData}/>
+            </div>
+         )
+      }
+
    }
 }
 
-
+//----------------------------------------------------------------//
+//    Day Component
+//----------------------------------------------------------------//
 class Day extends React.Component {
    render(){
 
@@ -329,6 +355,40 @@ class Day extends React.Component {
          </div>
       )
    }
+}
+
+class LocationList extends React.Component {
+   constructor(props){
+      super(props)
+      this.state = {
+         listItemStyle: ''
+      }
+   }
+
+   render(){
+      // return(
+      //    <div>Locations go here</div>
+      // )
+
+
+      let locations = []
+      for (let i = 0; i < this.props.locationData.length; i++){
+         locations.push(
+            <div id={`locationResult${i}`}
+            key={i}
+            className={`location-result ${this.state.listItemStyle}`}>
+               {this.props.locationData[i].display_name}
+            </div>
+         )
+      }
+
+      return(
+         <div className="location-list">
+            {locations}
+         </div>
+      )
+   }
+
 }
 
 

@@ -127,6 +127,25 @@ h2.date{
 
 
 /*---------------------------------------------------
+   LOCATION LIST STYLES
+---------------------------------------------------*/
+.location-list{
+   margin-top: 30px;
+}
+.location-result{
+   padding: 5px;
+}
+.location-result:nth-of-type(2n){
+   background-color: rgb(134, 134, 134);
+}
+.location-result:nth-of-type(2n+1){
+   background-color: rgb(194, 194, 194);
+}
+.location-result:hover{
+   background-color: lightblue;
+}
+
+/*---------------------------------------------------
    ERROR STYLES
 ---------------------------------------------------*/
 
