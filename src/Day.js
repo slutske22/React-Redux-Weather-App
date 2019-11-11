@@ -1,5 +1,18 @@
 import React from 'react';
 
+
+
+// Some definitions for the calendar
+function modulus(i, n){
+   return (i % n + n) % n;
+}
+
+var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+var daysInAMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+var date = new Date();
+
+
 class Day extends React.Component {
   render(){
 
