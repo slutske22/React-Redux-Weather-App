@@ -104,7 +104,8 @@ class App extends React.Component {
          dataReady: '',
          locationData: '',
          weatherData: '',
-         class: ''
+         class: '',
+         showMoreLocations: false
       }
       this.getLocations = this.getLocations.bind(this);
       this.getWeather = this.getWeather.bind(this);
@@ -140,7 +141,7 @@ class App extends React.Component {
             } else if (locationData.length === 1){
                app.getWeather(locationData)
                app.setState({
-                  locationData: locationData,
+                  locationData,
                   readyClass: 'data-ready',
                   callerError: ''
                })
@@ -151,7 +152,7 @@ class App extends React.Component {
             } else  if (locationData.length > 1){
                app.getWeather(locationData)
                app.setState({
-                  locationData: locationData,
+                  locationData,
                   readyClass: 'data-ready',
                   callerError: ''
                })
@@ -181,7 +182,8 @@ class App extends React.Component {
             app.setState({
                callerError: false,
                dataReady: true,
-               weatherData: JSON.parse(weatherData)
+               weatherData: JSON.parse(weatherData),
+               showMoreLocations: false
             })
 
          })
@@ -224,7 +226,8 @@ class App extends React.Component {
                </form>
                <Body dataReady={this.state.dataReady} locationData={this.state.locationData}
                weatherData={this.state.weatherData}
-               callerError={this.state.callerError} />
+               callerError={this.state.callerError}
+               showMoreLocations={this.state.showMoreLocations} />
             </div>
          </div>
       )
@@ -244,7 +247,7 @@ class Body extends React.Component{
 
    render(){
       if (this.props.dataReady){
-         return <Week locationData={this.props.locationData} weatherData={this.props.weatherData} />
+         return <Week locationData={this.props.locationData} weatherData={this.props.weatherData} showMoreLocations={this.props.showMoreLocations}/>
       } else if (this.props.dataReady === '') {
          return <Empty />
       } else if (!this.props.dataReady){
@@ -279,7 +282,7 @@ class Week extends React.Component {
       super(props)
       this.state = {
          class: '',
-         showMoreLocations: false,
+         showMoreLocations: this.props.showMoreLocations,
          locationIndex: 0
       }
       this.showMoreLocations = this.showMoreLocations.bind(this)
@@ -335,7 +338,7 @@ class Week extends React.Component {
 class Day extends React.Component {
    render(){
 
-      let weatherData = this.props.weatherData
+      const { weatherData } = this.props
       let hour = new Date(weatherData.daily.data[this.props.number].time * 1000).getHours()
       let tempHi = Math.round(weatherData.daily.data[this.props.number].temperatureHigh)
       let tempLow = Math.round(weatherData.daily.data[this.props.number].temperatureLow)
@@ -366,10 +369,6 @@ class LocationList extends React.Component {
    }
 
    render(){
-      // return(
-      //    <div>Locations go here</div>
-      // )
-
 
       let locations = []
       for (let i = 0; i < this.props.locationData.length; i++){
