@@ -80,6 +80,7 @@ class App extends React.Component {
        locationData: '',
        weatherData: '',
        class: '',
+       multipleLocationResults: false,
        showMoreLocations: false
     }
     this.getLocations = this.getLocations.bind(this);
