@@ -80,6 +80,7 @@ class App extends React.Component {
        locationData: '',
        weatherData: '',
        class: '',
+       multipleLocationResults: false,
        showMoreLocations: false
     }
     this.getLocations = this.getLocations.bind(this);
@@ -186,6 +187,9 @@ class App extends React.Component {
   render(){
     return (
       <div className="App">
+
+        <h1>Seth's React Weather App</h1>
+        
         <form className={`locator ${this.state.readyClass}`}>
           <h2>Choose your Location</h2>
           <input name="city" type="text"
@@ -194,10 +198,12 @@ class App extends React.Component {
           placeholder="Search by Zip" value={this.state.zipValue} onChange={this.zipHandler}
           onKeyDown={this.zipHandler} />
         </form>
+
         <Body dataReady={this.state.dataReady} locationData={this.state.locationData}
           weatherData={this.state.weatherData}
           callerError={this.state.callerError}
           showMoreLocations={this.state.showMoreLocations} />
+
       </div>
     );
   }
