@@ -193,6 +193,7 @@ class App extends React.Component {
           <input name="zip" type="number"
           placeholder="Search by Zip" value={this.state.zipValue} onChange={this.zipHandler}
           onKeyDown={this.zipHandler} />
+          <h6>Search Assumes Unites States</h6>
         </form>
         <Body dataReady={this.state.dataReady} locationData={this.state.locationData}
           weatherData={this.state.weatherData}
