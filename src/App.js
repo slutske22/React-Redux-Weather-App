@@ -129,7 +129,6 @@ class App extends React.Component {
                 locationData,
                 readyClass: 'data-ready',
                 callerError: '',
-                showMoreLocations: true
             })
 
             console.log(app.state);
@@ -158,6 +157,7 @@ class App extends React.Component {
             callerError: false,
             dataReady: true,
             weatherData: JSON.parse(weatherData),
+            showMoreLocations: false
           })
 
       })
@@ -199,14 +199,12 @@ class App extends React.Component {
           <input name="zipValue" type="number"
           placeholder="Search by Zip" value={this.state.zipValue} onChange={this.zipHandler}
           onKeyDown={this.zipHandler} />
-          <h6>Search Assumes Unites States</h6>
         </form>
 
         <Body dataReady={this.state.dataReady} locationData={this.state.locationData}
           weatherData={this.state.weatherData}
           callerError={this.state.callerError}
           showMoreLocations={this.state.showMoreLocations} />
-
       </div>
     );
   }
