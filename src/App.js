@@ -50,7 +50,7 @@ function apiCaller(url){
 
 // NOMATIM URL MAKERS
 
-function makeOpenSearchUrl(cityName){
+function makeOpenSearchUrl(searchTerm){
   return `https://nominatim.openstreetmap.org/search?q=${searchTerm}&format=json`
 }
 
