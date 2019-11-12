@@ -167,7 +167,8 @@ class App extends React.Component {
   }
 
   zipHandler = (e) => {
-    this.setState({zipValue: e.target.value})
+    const name = e.target.name;
+    this.setState({[name]: e.target.value})
 
     if (e.keyCode === 13 && e.target.value.length > 0){
       let zipCode = this.state.zipValue;
@@ -176,7 +177,8 @@ class App extends React.Component {
   }
 
   cityHandler = (e) => {
-    this.setState({cityValue: e.target.value})
+    const name = e.target.name;
+    this.setState({[name]: e.target.value})
 
     if (e.keyCode === 13 && e.target.value.length > 0){
       let cityName = encodeURIComponent(this.state.cityValue);
@@ -192,9 +194,9 @@ class App extends React.Component {
 
         <form className={`locator ${this.state.readyClass}`}>
           <h2>Choose your Location</h2>
-          <input name="city" type="text"
+          <input name="cityValue" type="text"
           placeholder="Search by City Name" value={this.state.cityValue} onChange={this.cityHandler} onKeyDown={this.cityHandler} />
-          <input name="zip" type="number"
+          <input name="zipValue" type="number"
           placeholder="Search by Zip" value={this.state.zipValue} onChange={this.zipHandler}
           onKeyDown={this.zipHandler} />
           <h6>Search Assumes Unites States</h6>
