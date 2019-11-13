@@ -88,7 +88,6 @@ class App extends React.Component {
     }
     this.getLocations = this.getLocations.bind(this);
     this.getWeather = this.getWeather.bind(this);
-    this.openLocationList = this.openLocationList.bind(this);
 
  }
 
@@ -151,25 +150,34 @@ class App extends React.Component {
       })
   }
 
-  zipHandler = (e) => {
+  makeSearchTerm = {
+    domestic: {
+      cityValue: function(cityName){
+        return `https://nominatim.openstreetmap.org/search?city=${cityName}&country=US&format=json`
+      },
+      zipValue: function(zipCode){
+        return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&format=json`
+      }
+    },
+    international: {
+      cityValue: function(cityName){
+        return `https://nominatim.openstreetmap.org/search?city=${cityName}&format=json`
+      },
+      zipValue: function(zipCode){
+        return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&format=json`
+      }
+    }
+  }
+
+  searchHandler = (e) => {
     const name = e.target.name;
     this.setState({[name]: e.target.value})
 
     if (e.keyCode === 13 && e.target.value.length > 0){
-      let zipCode = this.state.zipValue;
-      this.getLocations(`https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&format=json`)
+      this.getLocations( this.makeSearchTerm.domestic[name](this.state[name]) )
     }
   }
 
-  cityHandler = (e) => {
-    const name = e.target.name;
-    this.setState({[name]: e.target.value})
-
-    if (e.keyCode === 13 && e.target.value.length > 0){
-      let cityName = encodeURIComponent(this.state.cityValue);
-      this.getLocations(`https://nominatim.openstreetmap.org/search?city=${cityName}&country=US&format=json`)
-    }
-  }
 
   openLocationList = () => {
     this.setState({showMoreLocations: true})
@@ -184,10 +192,10 @@ class App extends React.Component {
         <form className={`locator ${this.state.readyClass}`}>
           <h2>Choose your Location</h2>
           <input name="cityValue" type="text"
-          placeholder="Search by City Name" value={this.state.cityValue} onChange={this.cityHandler} onKeyDown={this.cityHandler} />
+          placeholder="Search by City Name" value={this.state.cityValue} onChange={this.searchHandler} onKeyDown={this.searchHandler} />
           <input name="zipValue" type="number"
-          placeholder="Search by Zip" value={this.state.zipValue} onChange={this.zipHandler}
-          onKeyDown={this.zipHandler} />
+          placeholder="Search by Zip" value={this.state.zipValue} onChange={this.searchHandler}
+          onKeyDown={this.searchHandler} />
         </form>
 
         <Body dataReady={this.state.dataReady} locationData={this.state.locationData}
