@@ -86,12 +86,9 @@ class App extends React.Component {
        multipleLocationResults: false,
        showMoreLocations: false
     }
-    this.getLocations = this.getLocations.bind(this);
-    this.getWeather = this.getWeather.bind(this);
-
  }
 
-  getLocations(url){
+  getLocations = (url) => {
 
     fetch(url)
       .then( results => results.json() )
@@ -126,7 +123,7 @@ class App extends React.Component {
       .catch( (error) => {console.log(error)} )
   } // getWeather()
 
-  getWeather(locationData){
+  getWeather = (locationData) => {
 
     let lat = locationData[0].lat
     let lon = locationData[0].lon
