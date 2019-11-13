@@ -14,9 +14,8 @@ class Week extends React.Component {
   }
 
   showMoreLocations() {
-     console.log(this.props.locationData);
      this.setState({showMoreLocations: true})
-     console.log(this.state);
+     console.log('<Week /> state:', this.state);
   }
 
   componentDidMount(){

@@ -31,22 +31,25 @@ function kelvinToCelcius(degreeKelvin){
 //----------------------------------------------------------------//
 //    API callers
 //----------------------------------------------------------------//
+// Outdated but leaving for reference.
+//  This whole function can be replaced with:
+// fetch(url)
+//    .then( response => response.json() )
 
-
-function apiCaller(url){
-  return new Promise( (resolve, reject) => {
-     var request = new XMLHttpRequest()
-     request.open('GET', url);
-     request.onload = function(){
-        if (request.status === 200) {
-          resolve(request.response)
-        } else {
-          reject(request.statusText)
-        }
-     } // .onload
-     request.send()
-  })
-}
+// function apiCaller(url){
+//   return new Promise( (resolve, reject) => {
+//      var request = new XMLHttpRequest()
+//      request.open('GET', url);
+//      request.onload = function(){
+//         if (request.status === 200) {
+//           resolve(request.response)
+//         } else {
+//           reject(request.statusText)
+//         }
+//      } // .onload
+//      request.send()
+//   })
+// }
 
 // NOMATIM URL MAKERS
 
@@ -89,50 +92,33 @@ class App extends React.Component {
 
   getLocations(url){
 
-    let app = this;
-
-    apiCaller(url)
-      .then( (locationResults) => {
-          console.log(JSON.parse(locationResults));
-          return locationResults = JSON.parse(locationResults)
-      })
-      .then( function(locationData){
-
-
+    fetch(url)
+      .then( results => results.json() )
+      .then( (locationData) => {
           //  If no results returned, array length is 0.  Return error.
           if (locationData.length === 0) {
             console.log('Search did not return any results.  Try something else.');
 
-            app.setState({
+            this.setState({
                 locationData: locationData,
                 dataReady: false,
                 callerError: 'Search term did not return any results.  Try something else.',
                 readyClass: '',
             })
-
-            console.log(app.state);
-
           } else if (locationData.length === 1){
-            app.getWeather(locationData)
-            app.setState({
+            this.getWeather(locationData)
+            this.setState({
                 locationData,
                 readyClass: 'data-ready',
                 callerError: ''
             })
-
-            console.log(app.state);
-
-
           } else  if (locationData.length > 1){
-            app.getWeather(locationData)
-            app.setState({
+            this.getWeather(locationData)
+            this.setState({
                 locationData,
                 readyClass: 'data-ready',
                 callerError: '',
             })
-
-            console.log(app.state);
-
           }
 
       }) // then( (locationData) => (get weather))
@@ -141,25 +127,22 @@ class App extends React.Component {
 
   getWeather(locationData){
 
-    let app = this;
-
     let lat = locationData[0].lat
     let lon = locationData[0].lon
     let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
 
     //  Feed the lat lng into the weather caller
-    apiCaller(url)
-      .then( (weatherData) => {
-          console.log("State:", app.state);
-          console.log('Weather:', JSON.parse(weatherData));
+    fetch(url)
+      .then( results => results.json() )
+      .then( weatherData => {
           // Put weather data into state object to be used in componnts
-          app.setState({
+          this.setState({
             callerError: false,
             dataReady: true,
-            weatherData: JSON.parse(weatherData),
+            weatherData: weatherData,
             showMoreLocations: false
           })
-
+          console.log("<App /> State:", this.state);
       })
       .catch( (error) => {
           console.log(error)
