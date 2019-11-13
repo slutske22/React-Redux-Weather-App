@@ -10,12 +10,11 @@ class Week extends React.Component {
         showMoreLocations: this.props.showMoreLocations,
         locationIndex: 0
      }
-     this.showMoreLocations = this.showMoreLocations.bind(this)
+     this.openLocationList = this.openLocationList.bind(this)
   }
 
-  showMoreLocations() {
-     this.setState({showMoreLocations: true})
-     console.log('<Week /> state:', this.state);
+  openLocationList() {
+     this.props.openLocationList()
   }
 
   componentDidMount(){
@@ -37,7 +36,7 @@ class Week extends React.Component {
         return(
            <div id="forecast" className={this.state.class}>
               <h3>Weather for {this.props.locationData[this.state.locationIndex].display_name}</h3>
-              <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={this.showMoreLocations}>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
+              <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={this.openLocationList}>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
               <div className="week">
                  {days}
               </div>

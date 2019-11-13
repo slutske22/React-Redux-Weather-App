@@ -88,6 +88,8 @@ class App extends React.Component {
     }
     this.getLocations = this.getLocations.bind(this);
     this.getWeather = this.getWeather.bind(this);
+    this.openLocationList = this.openLocationList.bind(this);
+
  }
 
   getLocations(url){
@@ -169,6 +171,10 @@ class App extends React.Component {
     }
   }
 
+  openLocationList = () => {
+    this.setState({showMoreLocations: true})
+  }
+
   render(){
     return (
       <div className="App">
@@ -187,7 +193,9 @@ class App extends React.Component {
         <Body dataReady={this.state.dataReady} locationData={this.state.locationData}
           weatherData={this.state.weatherData}
           callerError={this.state.callerError}
-          showMoreLocations={this.state.showMoreLocations} />
+          showMoreLocations={this.state.showMoreLocations}
+          openLocationList={this.openLocationList}
+          locationData={this.state.locationData} />
       </div>
     );
   }
