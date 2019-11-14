@@ -6,17 +6,6 @@ import Body from './Body';
 //    Generic Use functions and terms
 //----------------------------------------------------------------//
 
-// Modulus term for flying off the end of an array
-function modulus(i, n){
-  return (i % n + n) % n;
-}
-
-// Some definitions for the calendar
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-var daysInAMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
-var date = new Date();
-
 // Some conversions for weather data
 function kelvinToFahrenheit(degreeKelvin){
   return (degreeKelvin - 273.15) * 9/5 + 32;
@@ -51,7 +40,7 @@ function kelvinToCelcius(degreeKelvin){
 //   })
 // }
 
-// NOMATIM URL MAKERS
+// -------------  NOMATIM URL MAKERS ---------------------- //
 
 function makeOpenSearchUrl(searchTerm){
   return `https://nominatim.openstreetmap.org/search?q=${searchTerm}&format=json`
@@ -68,6 +57,7 @@ function makeZipURL(zipCode){
 
 var dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
 
+// -------------------------------------------------------- //
 
 
 

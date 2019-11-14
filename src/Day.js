@@ -11,10 +11,10 @@ function modulus(i, n){
    return (i % n + n) % n;
 }
 
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-var daysInAMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
-var date = new Date();
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const daysInAMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+const date = new Date();
 
 
 // from https://darksky.net/dev/docs#response-format
