@@ -19,7 +19,9 @@ class Body extends React.Component{
 
    render(){
       if (this.props.dataReady && !this.props.showMoreLocations){
-         return <Week locationData={this.props.locationData} weatherData={this.props.weatherData} showMoreLocations={this.props.showMoreLocations} openLocationList={this.openLocationList}/>
+         return <Week locationIndex={this.props.locationIndex}
+         locationData={this.props.locationData} weatherData={this.props.weatherData} showMoreLocations={this.props.showMoreLocations} openLocationList={this.openLocationList}
+         />
       } else if (this.props.dataReady === '' && !this.props.showMoreLocations) {
          return <Empty />
       } else if (!this.props.dataReady && !this.props.showMoreLocations){

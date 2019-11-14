@@ -84,7 +84,8 @@ class App extends React.Component {
        weatherData: '',
        class: '',
        multipleLocationResults: false,
-       showMoreLocations: false
+       showMoreLocations: false,
+       locationIndex: 0,
     }
  }
 
@@ -193,6 +194,7 @@ class App extends React.Component {
       .then( weatherData => {
            // Put weather data into state object to be used in componnts
            this.setState({
+             locationIndex: clickedLocationIndex,
              callerError: false,
              dataReady: true,
              weatherData: weatherData,
@@ -220,13 +222,15 @@ class App extends React.Component {
           onKeyDown={this.searchHandler} />
         </form>
 
-        <Body dataReady={this.state.dataReady} locationData={this.state.locationData}
+        <Body dataReady={this.state.dataReady}
+        locationIndex={this.state.locationIndex} locationData={this.state.locationData}
           weatherData={this.state.weatherData}
           callerError={this.state.callerError}
           showMoreLocations={this.state.showMoreLocations}
           openLocationList={this.openLocationList}
           locationData={this.state.locationData}
-          changeLocation={this.changeLocation}/>
+          changeLocation={this.changeLocation}
+          />
       </div>
     );
   }
