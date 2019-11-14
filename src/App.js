@@ -85,7 +85,7 @@ class App extends React.Component {
        class: '',
        multipleLocationResults: false,
        showMoreLocations: false,
-       locationIndex: 0,
+       locationIndex: 0, // default - always get first result
     }
  }
 
@@ -94,6 +94,7 @@ class App extends React.Component {
     fetch(url)
       .then( results => results.json() )
       .then( (locationData) => {
+          const { locationIndex } = this.state;
           //  If no results returned, array length is 0.  Return error.
           if (locationData.length === 0) {
             console.log('Search did not return any results.  Try something else.');
@@ -105,14 +106,14 @@ class App extends React.Component {
                 readyClass: '',
             })
           } else if (locationData.length === 1){
-            this.getWeather(locationData)
+            this.getWeather(locationData, locationIndex)
             this.setState({
                 locationData,
                 readyClass: 'data-ready',
                 callerError: ''
             })
           } else  if (locationData.length > 1){
-            this.getWeather(locationData)
+            this.getWeather(locationData, locationIndex)
             this.setState({
                 locationData,
                 readyClass: 'data-ready',
@@ -124,10 +125,10 @@ class App extends React.Component {
       .catch( (error) => {console.log(error)} )
   } // getWeather()
 
-  getWeather = (locationData) => {
+  getWeather = (locationData, locationIndex) => {
 
-    let lat = locationData[0].lat
-    let lon = locationData[0].lon
+    let lat = locationData[locationIndex].lat
+    let lon = locationData[locationIndex].lon
     let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
 
     //  Feed the lat lng into the weather caller
@@ -139,7 +140,7 @@ class App extends React.Component {
             callerError: false,
             dataReady: true,
             weatherData: weatherData,
-            showMoreLocations: false
+            showMoreLocations: false,
           })
           console.log("<App /> State:", this.state);
       })
@@ -173,6 +174,8 @@ class App extends React.Component {
 
     if (e.keyCode === 13 && e.target.value.length > 0){
       this.getLocations( this.makeSearchTerm.domestic[name](this.state[name]) )
+      // reset to first index with search search
+      this.setState({locationIndex: 0})
     }
   }
 
@@ -182,29 +185,9 @@ class App extends React.Component {
   }
 
   changeLocation = (clickedLocationIndex) => {
-     let clickedLocation = this.state.locationData[clickedLocationIndex]
-     let { lat } = clickedLocation
-     let { lon } = clickedLocation
-     let { display_name } = clickedLocation
-     console.log(clickedLocation);
-     console.log(lat, lon);
-
-     fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`)
-      .then( results => results.json() )
-      .then( weatherData => {
-           // Put weather data into state object to be used in componnts
-           this.setState({
-             locationIndex: clickedLocationIndex,
-             callerError: false,
-             dataReady: true,
-             weatherData: weatherData,
-             showMoreLocations: false
-           })
-           console.log("<App /> State:", this.state);
-      })
-      .catch( (error) => {
-           console.log(error)
-      })
+     // clickedLocationIndex is passed up from LocationList
+     this.setState({locationIndex: clickedLocationIndex})
+     this.getWeather( this.state.locationData, clickedLocationIndex )
   }
 
   render(){
