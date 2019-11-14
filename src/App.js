@@ -180,6 +180,31 @@ class App extends React.Component {
     this.setState({showMoreLocations: true})
   }
 
+  changeLocation = (clickedLocationIndex) => {
+     let clickedLocation = this.state.locationData[clickedLocationIndex]
+     let { lat } = clickedLocation
+     let { lon } = clickedLocation
+     let { display_name } = clickedLocation
+     console.log(clickedLocation);
+     console.log(lat, lon);
+
+     fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`)
+      .then( results => results.json() )
+      .then( weatherData => {
+           // Put weather data into state object to be used in componnts
+           this.setState({
+             callerError: false,
+             dataReady: true,
+             weatherData: weatherData,
+             showMoreLocations: false
+           })
+           console.log("<App /> State:", this.state);
+      })
+      .catch( (error) => {
+           console.log(error)
+      })
+  }
+
   render(){
     return (
       <div className="App">
@@ -200,7 +225,8 @@ class App extends React.Component {
           callerError={this.state.callerError}
           showMoreLocations={this.state.showMoreLocations}
           openLocationList={this.openLocationList}
-          locationData={this.state.locationData} />
+          locationData={this.state.locationData}
+          changeLocation={this.changeLocation}/>
       </div>
     );
   }
