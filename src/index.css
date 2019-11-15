@@ -1,9 +1,9 @@
 html {
-  box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+   box-sizing: border-box;
+   font-family: 'Roboto', sans-serif;
 }
 *, *:before, *:after {
-  box-sizing: inherit;
+   box-sizing: inherit;
 }
 html, body, #root, #app{
    height: 100%;
@@ -22,7 +22,7 @@ html, body, #root, #app{
 
 
 /*---------------------------------------------------
-   FORM STYLES
+FORM STYLES
 ---------------------------------------------------*/
 
 form.locator{
@@ -51,7 +51,7 @@ input:last-of-type{
 
 
 /*---------------------------------------------------
-   FORECAST STYLES
+FORECAST STYLES
 ---------------------------------------------------*/
 
 #forecast{
@@ -86,7 +86,7 @@ p.summary{
 }
 
 /*---------------------------------------------------
-   DAY CARD STYLES
+DAY CARD STYLES
 ---------------------------------------------------*/
 
 .day{
@@ -127,7 +127,7 @@ h2.date{
 
 
 /*---------------------------------------------------
-   LOCATION LIST STYLES
+LOCATION LIST STYLES
 ---------------------------------------------------*/
 .location-list{
    width: 100%;
@@ -147,11 +147,11 @@ h2.date{
 }
 
 /*---------------------------------------------------
-   ERROR STYLES
+ERROR STYLES
 ---------------------------------------------------*/
 
- .error{
-    font-weight: lighter;
+.error{
+   font-weight: lighter;
 }
 .error span{
    text-transform: lowercase;
