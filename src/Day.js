@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 //----------------------------------------------------------------//
 //    Generic Use functions and terms
 //----------------------------------------------------------------//
@@ -43,7 +42,7 @@ class Day extends React.Component {
          <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
          <h2 className="date">{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
          <img className="weatherIcon" style={{width: '100px'}}
-            src={`/icons/${icon}.png`}/>
+            src={`icons/${icon}.png`} alt={summary} title={summary} />
          {/*<p className="summary">{summary}</p>*/}
          <p className="maxTemp">{tempHi} °F</p>
          <p className="minTemp">{tempLow} °F</p>
