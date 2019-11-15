@@ -20,6 +20,15 @@ html, body, #root, #app{
    padding: 30px 125px;
 }
 
+a, a:visited{
+   color: inherit;
+   text-decoration: none;
+   color: rgb(0, 174, 221);
+
+}
+a:hover{
+   border-bottom: 1px solid
+}
 
 /*---------------------------------------------------
 FORM STYLES
