@@ -24,7 +24,7 @@ class Week extends React.Component {
    componentDidUpdate(prevProps) {
       // Typical usage (don't forget to compare props):
       if (this.props.weatherData !== prevProps.weatherData) {
-        console.log('Weather Data Changed');
+        console.log('<Week> updated');
       }
     }
 
