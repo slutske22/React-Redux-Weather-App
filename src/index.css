@@ -67,11 +67,12 @@ FORECAST STYLES
    width: 100%;
    height: 0px;
    opacity: 0;
-   transition: opacity 0.5s, height 0.5s;
+   transition: opacity 1ms, height 0.5s;
 }
 #forecast.visible{
    height: 300px;
    opacity: 1.0;
+   transition: opacity 0.5s;
 }
 
 #forecast h3{
