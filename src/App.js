@@ -85,34 +85,31 @@ class App extends React.Component {
       .then( results => results.json() )
       .then( (locationData) => {
          const { locationIndex } = this.state;
+
+         // When enter is pressed and locations are fetched, reset data as not ready (to dismount the week component for animation pruposes) and absorb location data into the state to be used down the chain
+         this.setState({
+            dataReady: false,
+            locationData
+         }) 
+
          //  If no results returned, array length is 0.  Return error.
          if (locationData.length === 0) {
             console.log('Search did not return any results.  Try something else.');
 
             this.setState({
-               locationData: locationData,
-               dataReady: false,
                callerError: 'Search term did not return any results.  Try something else.',
                readyClass: '',
             })
-         } else if (locationData.length === 1){
+         } else  if (locationData.length >= 1){
             this.getWeather(locationData, locationIndex)
             this.setState({
-               locationData,
-               readyClass: 'data-ready',
-               callerError: ''
-            })
-         } else  if (locationData.length > 1){
-            this.getWeather(locationData, locationIndex)
-            this.setState({
-               locationData,
                readyClass: 'data-ready',
                callerError: '',
             })
          }
-
       }) // then( (locationData) => (get weather))
       .catch( (error) => {console.log(error)} )
+
    } // getWeather()
 
    getWeather = (locationData, locationIndex) => {

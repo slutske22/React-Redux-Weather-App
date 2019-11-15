@@ -72,7 +72,7 @@ FORECAST STYLES
 #forecast.visible{
    height: 300px;
    opacity: 1.0;
-   transition: opacity 0.5s;
+   transition: opacity 0.75s;
 }
 
 #forecast h3{

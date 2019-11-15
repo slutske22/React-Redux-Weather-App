@@ -22,18 +22,18 @@ class Week extends React.Component {
       console.log('<Week> mounted')
    }
 
-   
+   // componentDidUpdate(prevProps) {
+   //    // Typical usage (don't forget to compare props):
+   //    if (this.props.weatherData !== prevProps.weatherData) {
+   //      console.log('<Week> updated');
 
-   componentDidUpdate(prevProps) {
-      // Typical usage (don't forget to compare props):
-      if (this.props.weatherData !== prevProps.weatherData) {
-        console.log('<Week> updated');
-      //   this.setState( {class: ''} )
+   //      this.setState( {class: ''} )
+   //      console.log(`Class 'visible' was removed`)
 
-      //   let delay = () => { this.setState({class: 'visible'}) };
-      //   setTimeout(delay, 11)
-      }
-    }
+   //      let delay = () => { this.setState({class: 'visible'}); console.log(`Class 'visible' was added`) };
+   //      setTimeout(delay, 5)
+   //    }
+   //  }
 
    render (){
 
