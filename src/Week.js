@@ -21,6 +21,13 @@ class Week extends React.Component {
       setTimeout(delay, 1)
    }
 
+   componentDidUpdate(prevState) {
+      // Typical usage (don't forget to compare props):
+      if (this.state.weatherData !== prevState.weatherData) {
+        console.log('Weather Data Changed');
+      }
+    }
+
    render (){
 
       let days = [];
