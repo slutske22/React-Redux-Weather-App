@@ -109,7 +109,13 @@ DAY CARD STYLES
    flex-direction: column;
    align-items: center;
    justify-content: flex-start;
+
+   cursor: pointer;
 }
+
+/* .day * {
+   pointer-events: none;
+} */
 
 .cardIndex{
    width: 100%;
