@@ -139,7 +139,7 @@ class App extends React.Component {
    makeSearchTerm = {
       domestic: {
          cityValue: function(cityName){
-            return `https://nominatim.openstreetmap.org/search?city=${cityName}&country=US&format=json`
+            return `https://nominatim.openstreetmap.org/search?q=${cityName}&format=json`
          },
          zipValue: function(zipCode){
             return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&format=json`
