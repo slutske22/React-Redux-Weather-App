@@ -29,14 +29,18 @@ class Day extends React.Component {
    constructor(props){
       super(props)
       this.state = {
-         expandedStyle: {
-            backgroundColor: 'lightblue'
-         },
-         fadeAwayStyle: {
-            backgroundColor: 'lightgrey'
-         },
-         style: null
+         style: 'normal'
       }
+   }
+
+   styles = {
+      expanded: {
+         backgroundColor: 'lightblue'
+      },
+      faded: {
+         backgroundColor: 'lightgrey'
+      },
+      normal: null
    }
 
    expandDay = (e) => {
@@ -44,13 +48,18 @@ class Day extends React.Component {
       // console.log(`You clicked Day # ${e.currentTarget.getAttribute('number')}`)
       let clickedDay = e.currentTarget.getAttribute('number')
       this.props.expandDay(clickedDay)
-      this.applyStyle()
    }
 
-   applyStyle = () => {
-      // if (this.props.expandedDay === this.props.number){
+   componentDidUpdate(prevProps) {
+      if (parseInt(this.props.expandedDay, 10) === this.props.number){
+         console.log(`Day # ${this.props.number} should expand or deflate`)
          console.log('Day props:', this.props)
-         // this.setState({ style: this.state.expandedStyle })
+      }
+
+
+      // if (this.props.expandedDay === this.props.number){
+      //    console.log('Day props:', this.props)
+      //    // this.setState({ style: this.state.expandedStyle })
       // }
    }
 
@@ -64,9 +73,9 @@ class Day extends React.Component {
       const icon = weatherData.daily.data[this.props.number].icon
 
       return (
-         <div className="day" number={this.props.number} onClick={this.expandDay}>
+         <div className="day" number={this.props.number} onClick={this.expandDay} >
             
-            <div className="cardIndex">{ this.props.number + 1 }</div>
+            <div className="cardIndex">{ this.props.number }</div>
 
             <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
             <h2 className="date">{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
