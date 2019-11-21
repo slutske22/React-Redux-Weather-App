@@ -1,19 +1,24 @@
 import React from 'react';
 import Day from './Day'
-import LocationList from './LocationList'
 
 class Week extends React.Component {
    constructor(props){
       super(props)
       this.state = {
          class: '',
-         locationIndex: 0
+         locationIndex: 0,
+         expandedDay: null
       }
       this.openLocationList = this.openLocationList.bind(this)
    }
 
    openLocationList() {
       this.props.openLocationList()
+   }
+
+   expandDay = (clickedDay) => {
+      this.setState({expandedDay: clickedDay})
+      // console.log(this.state)
    }
    
    componentDidMount(){
@@ -22,26 +27,20 @@ class Week extends React.Component {
       console.log('<Week> mounted')
    }
 
-   // componentDidUpdate(prevProps) {
-   //    // Typical usage (don't forget to compare props):
-   //    if (this.props.weatherData !== prevProps.weatherData) {
-   //      console.log('<Week> updated');
-
-   //      this.setState( {class: ''} )
-   //      console.log(`Class 'visible' was removed`)
-
-   //      let delay = () => { this.setState({class: 'visible'}); console.log(`Class 'visible' was added`) };
-   //      setTimeout(delay, 5)
-   //    }
-   //  }
+   componentDidUpdate(prevProps) {
+      console.log(this.state)
+   }
 
    render (){
 
       let days = [];
       for (var i = 0; i < 7 ; i++) {
          days.push(
-            <Day number={i} key={i} locationData={this.props.locationData}
-            weatherData={this.props.weatherData} units="F" />
+            <Day number={i} key={i} 
+               locationData={this.props.locationData}
+               weatherData={this.props.weatherData}
+               expandDay={this.expandDay}
+               expandedDay={this.state.expandedDay} units="F" />
          )
       }
 

@@ -26,10 +26,32 @@ const conditions = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind',
 
 
 class Day extends React.Component {
+   constructor(props){
+      super(props)
+      this.state = {
+         expandedStyle: {
+            backgroundColor: 'lightblue'
+         },
+         fadeAwayStyle: {
+            backgroundColor: 'lightgrey'
+         },
+         style: null
+      }
+   }
 
    expandDay = (e) => {
       e.stopPropagation()
-      console.log(`You clicked Day # ${e.currentTarget.getAttribute('number')}`)
+      // console.log(`You clicked Day # ${e.currentTarget.getAttribute('number')}`)
+      let clickedDay = e.currentTarget.getAttribute('number')
+      this.props.expandDay(clickedDay)
+      this.applyStyle()
+   }
+
+   applyStyle = () => {
+      // if (this.props.expandedDay === this.props.number){
+         console.log('Day props:', this.props)
+         // this.setState({ style: this.state.expandedStyle })
+      // }
    }
 
    render(){
