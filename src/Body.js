@@ -5,9 +5,6 @@ import Week from './Week'
 import LocationList from './LocationList';
 
 class Body extends React.Component{
-   constructor(props){
-      super(props)
-   }
 
    openLocationList = () => {
       this.props.openLocationList()
@@ -27,7 +24,7 @@ class Body extends React.Component{
       } else if (!this.props.dataReady && !this.props.showMoreLocations){
          return  <Error callerError={this.props.callerError}/>
       } else if (this.props.showMoreLocations){
-         return <LocationList locationData={this.props.locationData} changeLocation={this.props.changeLocation}/>
+         return <LocationList locationData={this.props.locationData} locationIndex={this.props.locationIndex} changeLocation={this.props.changeLocation}/>
       }
    }
 

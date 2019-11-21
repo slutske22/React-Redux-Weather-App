@@ -48,13 +48,15 @@ class Day extends React.Component {
       // console.log(`You clicked Day # ${e.currentTarget.getAttribute('number')}`)
       let clickedDay = e.currentTarget.getAttribute('number')
       this.props.expandDay(clickedDay)
+      console.log(e.currentTarget.getBoundingClientRect())
    }
 
    componentDidUpdate(prevProps) {
 
-      const clickedDay = parseInt(this.props.expandedDay, 10)
+      const clickedDay = this.props.expandedDay
 
-      if (prevProps.expandedDay !== this.props.expandedDay && clickedDay === this.props.number){
+
+      if (prevProps.expandedDay !== this.props.expandedDay && clickedDay == this.props.number){
          this.setState({
             style: 'expanded'
          })

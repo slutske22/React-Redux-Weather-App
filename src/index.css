@@ -88,11 +88,13 @@ p.summary{
    text-transform: capitalize;
 }
 
+
 .week{
    display: flex;
    justify-content: space-between;
    overflow: hidden;
-   margin-top: 30px
+   margin-top: 30px;
+   position: relative;
 }
 
 /*---------------------------------------------------
@@ -147,7 +149,6 @@ LOCATION LIST STYLES
 ---------------------------------------------------*/
 .location-list{
    width: 100%;
-   margin-top: 30px;
 }
 .location-result{
    padding: 10px;
@@ -160,6 +161,13 @@ LOCATION LIST STYLES
 .location-result:hover{
    background-color: rgb(200, 200, 200);
    text-decoration: underline;
+}
+.location-list h4{
+   margin-top: 0;
+}
+.location-list h5.current-selection{
+   margin: 0;
+   float: right;
 }
 
 /*---------------------------------------------------

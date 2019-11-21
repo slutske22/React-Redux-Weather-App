@@ -139,18 +139,18 @@ class App extends React.Component {
    makeSearchTerm = {
       domestic: {
          cityValue: function(cityName){
-            return `https://nominatim.openstreetmap.org/search?q=${cityName}&format=json`
+            return `https://nominatim.openstreetmap.org/search?q=${cityName}&limit=50&format=json`
          },
          zipValue: function(zipCode){
-            return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&format=json`
+            return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&limit=50&format=json`
          }
       },
       international: {
          cityValue: function(cityName){
-            return `https://nominatim.openstreetmap.org/search?city=${cityName}&format=json`
+            return `https://nominatim.openstreetmap.org/search?city=${cityName}&limit=50&format=json`
          },
          zipValue: function(zipCode){
-            return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&format=json`
+            return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&limit=50&format=json`
          }
       }
    }

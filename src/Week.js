@@ -6,7 +6,6 @@ class Week extends React.Component {
       super(props)
       this.state = {
          class: '',
-         locationIndex: 0,
          expandedDay: null
       }
       this.openLocationList = this.openLocationList.bind(this)
@@ -31,9 +30,9 @@ class Week extends React.Component {
       // console.log('<Week> mounted')
    }
 
-   componentDidUpdate(prevProps) {
-      console.log('<Week> state', this.state)
-   }
+   // componentDidUpdate(prevProps) {
+   //    console.log('<Week> state', this.state)
+   // }
 
    render (){
 
