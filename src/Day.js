@@ -51,16 +51,23 @@ class Day extends React.Component {
    }
 
    componentDidUpdate(prevProps) {
-      if (parseInt(this.props.expandedDay, 10) === this.props.number){
-         console.log(`Day # ${this.props.number} should expand or deflate`)
-         console.log('Day props:', this.props)
+
+      const clickedDay = parseInt(this.props.expandedDay, 10)
+
+      if (prevProps.expandedDay !== this.props.expandedDay && clickedDay === this.props.number){
+         this.setState({
+            style: 'expanded'
+         })
+      } else if (prevProps.expandedDay !== this.props.expandedDay && clickedDay && clickedDay !== this.props.number){
+         this.setState({
+            style: 'faded'
+         })
+      } else if (prevProps.expandedDay !== this.props.expandedDay && !clickedDay){
+         this.setState({
+            style: 'normal'
+         })
       }
 
-
-      // if (this.props.expandedDay === this.props.number){
-      //    console.log('Day props:', this.props)
-      //    // this.setState({ style: this.state.expandedStyle })
-      // }
    }
 
    render(){
@@ -73,7 +80,7 @@ class Day extends React.Component {
       const icon = weatherData.daily.data[this.props.number].icon
 
       return (
-         <div className="day" number={this.props.number} onClick={this.expandDay} >
+         <div className="day" number={this.props.number} onClick={this.expandDay} style={this.styles[this.state.style]}>
             
             <div className="cardIndex">{ this.props.number }</div>
 

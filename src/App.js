@@ -129,7 +129,7 @@ class App extends React.Component {
             weatherData: weatherData,
             showMoreLocations: false,
          })
-         console.log("<App /> State:", this.state);
+         // console.log("<App /> State:", this.state);
       })
       .catch( (error) => {
          console.log(error)

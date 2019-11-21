@@ -17,18 +17,22 @@ class Week extends React.Component {
    }
 
    expandDay = (clickedDay) => {
-      this.setState({expandedDay: clickedDay})
+      if (this.state.expandedDay){
+         this.setState({expandedDay: null})
+      } else {
+         this.setState({expandedDay: clickedDay})
+      }
       // console.log(this.state)
    }
    
    componentDidMount(){
       let delay = () => { this.setState({class: 'visible'}) };
       setTimeout(delay, 1)
-      console.log('<Week> mounted')
+      // console.log('<Week> mounted')
    }
 
    componentDidUpdate(prevProps) {
-      console.log(this.state)
+      console.log('<Week> state', this.state)
    }
 
    render (){
