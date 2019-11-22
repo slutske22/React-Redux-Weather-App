@@ -116,8 +116,7 @@ DAY CARD STYLES
    cursor: pointer;
 
    opacity: 1;
-   transition: width 500ms;
-   /* transition: opacity; */
+   transition: width 500ms, opacity 500ms 500ms;
 }
 
 

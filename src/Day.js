@@ -33,45 +33,19 @@ class Day extends React.Component {
       }
    }
 
-   // styles = {
-   //    expanded: {
-   //       backgroundColor: 'lightblue',
-   //       left: '0%',
-   //       right: '0%',
-   //       transition: 'right, left, opacity 500ms'
-   //
-   //       // position: 'relative',
-   //       // left: '0px',
-   //       // zIndex: '5',
-   //       // width: '100%'
-   //    },
-   //    faded: {
-   //       backgroundColor: 'lightgrey',
-   //       opacity: '0',
-   //       // position: 'absolute',
-   //       // width: '0px',
-   //       // overflow: 'hidden',
-   //       transition: 'right, left, opacity 500ms'
-   //    },
-   //    normal: {
-   //       left: `calc(1/7 * 100% * ${this.props.number})`,
-   //       right: `calc( 2/7 * 100% * ${this.props.number}) )`,
-   //       transition: 'right, left, opacity 500ms'
-   //       // width: 'calc(1/8 * 100%)'
-   //    }
-   // }
-
    styles = {
       expanded: {
          backgroundColor: 'lightblue',
-         width: '100%'
+         width: '100%',
+         transition: 'width 500ms'
       },
       faded: {
          backgroundColor: 'lightgrey',
          width: '0%',
+         border: '0px solid black',
          overflow: 'hidden',
          opacity: '0',
-         transition: 'opacity 500ms 500ms'
+         transition: 'opacity 500ms'
       },
       normal: null
    }
