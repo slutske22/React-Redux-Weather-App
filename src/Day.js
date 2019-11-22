@@ -35,12 +35,28 @@ class Day extends React.Component {
 
    styles = {
       expanded: {
-         backgroundColor: 'lightblue'
+         backgroundColor: 'lightblue',
+         left: `calc(1/7 * 100% * ${this.props.number})`,
+
+         // position: 'relative',
+         // left: '0px',
+         // zIndex: '5',
+         // width: '100%'
       },
       faded: {
-         backgroundColor: 'lightgrey'
+         backgroundColor: 'lightgrey',
+         // opacity: 0,
+         // position: 'absolute',
+         // width: '0px',
+         // overflow: 'hidden',
+         left: `calc(1/7 * 100% * ${this.props.number})`,
+         // transition: 'opacity 800ms'
       },
-      normal: null
+      normal: {
+         left: `calc(1/7 * 100% * ${this.props.number})`,
+         top: '0px',
+         width: 'calc(1/8 * 100%)'
+      }
    }
 
    expandDay = (e) => {
@@ -83,7 +99,7 @@ class Day extends React.Component {
 
       return (
          <div className="day" number={this.props.number} onClick={this.expandDay} style={this.styles[this.state.style]}>
-            
+
             <div className="cardIndex">{ this.props.number }</div>
 
             <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
