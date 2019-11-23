@@ -119,6 +119,21 @@ DAY CARD STYLES
    transition: width 500ms, opacity 500ms 500ms;
 }
 
+.day.expanded{
+   background-color: lightblue;
+   width: 100%;
+   transition: width 500ms;
+}
+
+.day.faded{
+   background-color: lightgrey;
+   width: 0%;
+   border: 0px solid black;
+   overflow: hidden;
+   opacity: 0;
+   transition: opacity 500ms;
+}
+
 
 .cardIndex{
    width: 100%;

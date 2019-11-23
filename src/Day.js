@@ -33,22 +33,6 @@ class Day extends React.Component {
       }
    }
 
-   styles = {
-      expanded: {
-         backgroundColor: 'lightblue',
-         width: '100%',
-         transition: 'width 500ms'
-      },
-      faded: {
-         backgroundColor: 'lightgrey',
-         width: '0%',
-         border: '0px solid black',
-         overflow: 'hidden',
-         opacity: '0',
-         transition: 'opacity 500ms'
-      },
-      normal: null
-   }
 
    expandDay = (e) => {
       e.stopPropagation()
@@ -89,7 +73,7 @@ class Day extends React.Component {
       const icon = weatherData.daily.data[this.props.number].icon
 
       return (
-         <div className="day" number={this.props.number} onClick={this.expandDay} style={this.styles[this.state.style]}>
+         <div className={`day ${this.state.style}`} number={this.props.number} onClick={this.expandDay} >
 
             <div className="cardIndex">{ this.props.number }</div>
 
