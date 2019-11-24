@@ -90,7 +90,7 @@ class App extends React.Component {
          this.setState({
             dataReady: false,
             locationData
-         }) 
+         })
 
          //  If no results returned, array length is 0.  Return error.
          if (locationData.length === 0) {
@@ -129,7 +129,7 @@ class App extends React.Component {
             weatherData: weatherData,
             showMoreLocations: false,
          })
-         // console.log("<App /> State:", this.state);
+         console.log("<App /> State:", this.state);
       })
       .catch( (error) => {
          console.log(error)

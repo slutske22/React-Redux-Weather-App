@@ -75,15 +75,23 @@ class Day extends React.Component {
       return (
          <div className={`day ${this.state.style}`} number={this.props.number} onClick={this.expandDay} >
 
-            <div className="cardIndex">{ this.props.number }</div>
+            <div className={`summaryDay`}>
+               <div className="cardIndex">{ this.props.number }</div>
 
-            <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
-            <h2 className="date">{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
-            <img className="weatherIcon" style={{width: '100px'}}
-               src={`icons/${icon}.png`} alt={summary} title={summary} />
-            {/*<p className="summary">{summary}</p>*/}
-            <p className="maxTemp">{tempHi} °F</p>
-            <p className="minTemp">{tempLow} °F</p>
+               <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
+               <h2 className="date">{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
+               <img className="weatherIcon" style={{width: '100px'}}
+                  src={`icons/${icon}.png`} alt={summary} title={summary} />
+               {/*<p className="summary">{summary}</p>*/}
+               <p className="maxTemp">{tempHi} °F</p>
+               <p className="minTemp">{tempLow} °F</p>
+            </div>
+
+
+            <div className="expandedDay">
+               <h1>Testing header</h1>
+               <p>Testing text for animation purposes</p>
+            </div>
 
          </div>
       )
