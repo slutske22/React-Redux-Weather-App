@@ -10,8 +10,10 @@ function modulus(i, n){
    return (i % n + n) % n;
 }
 
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+const daysFull = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const monthsFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const daysInAMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
 const date = new Date();
 
@@ -39,7 +41,6 @@ class Day extends React.Component {
       // console.log(`You clicked Day # ${e.currentTarget.getAttribute('number')}`)
       let clickedDay = e.currentTarget.getAttribute('number')
       this.props.expandDay(clickedDay)
-      console.log(e.currentTarget.getBoundingClientRect())
    }
 
    componentDidUpdate(prevProps) {
@@ -89,8 +90,8 @@ class Day extends React.Component {
 
 
             <div className="expandedDay">
-               <h1>Testing header</h1>
-               <p>Testing text for animation purposes</p>
+               <h2>{ daysFull[ modulus(date.getDay() + this.props.number, 7) ] }, { monthsFull[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
+               <p>{summary}</p>
             </div>
 
          </div>
@@ -99,3 +100,50 @@ class Day extends React.Component {
 }
 
 export default Day;
+
+
+
+
+
+
+// weatherData.data[number]:
+// {
+//   "time": 1574496000,
+//   "summary": "Clear throughout the day.",
+//   "icon": "clear-day",
+//   "sunriseTime": 1574519280,
+//   "sunsetTime": 1574556360,
+//   "moonPhase": 0.91,
+//   "precipIntensity": 0,
+//   "precipIntensityMax": 0.0005,
+//   "precipIntensityMaxTime": 1574579160,
+//   "precipProbability": 0.04,
+//   "temperatureHigh": 71.14,
+//   "temperatureHighTime": 1574546160,
+//   "temperatureLow": 51.79,
+//   "temperatureLowTime": 1574605200,
+//   "apparentTemperatureHigh": 70.64,
+//   "apparentTemperatureHighTime": 1574546160,
+//   "apparentTemperatureLow": 52.28,
+//   "apparentTemperatureLowTime": 1574605200,
+//   "dewPoint": 45.7,
+//   "humidity": 0.57,
+//   "pressure": 1018.4,
+//   "windSpeed": 2.47,
+//   "windGust": 9.47,
+//   "windGustTime": 1574550120,
+//   "windBearing": 314,
+//   "cloudCover": 0.09,
+//   "uvIndex": 4,
+//   "uvIndexTime": 1574538300,
+//   "visibility": 8.409,
+//   "ozone": 282.2,
+//   "temperatureMin": 53.82,
+//   "temperatureMinTime": 1574520060,
+//   "temperatureMax": 71.14,
+//   "temperatureMaxTime": 1574546160,
+//   "apparentTemperatureMin": 54.31,
+//   "apparentTemperatureMinTime": 1574520060,
+//   "apparentTemperatureMax": 70.64,
+//   "apparentTemperatureMaxTime": 1574546160
+// }

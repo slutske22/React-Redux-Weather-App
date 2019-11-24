@@ -13,9 +13,9 @@ class LocationList extends React.Component {
       this.props.changeLocation(clickedLocationIndex)
    }
 
-   componentDidUpdate(){
-      console.log(this.props.locationIndex)
-   }
+   // componentDidUpdate(){
+   //    console.log(this.props.locationIndex)
+   // }
 
    render(){
 
@@ -29,7 +29,7 @@ class LocationList extends React.Component {
 
       return(
          <div className="location-list">
-            {this.props.locationData.length > 15 && 
+            {this.props.locationData.length > 15 &&
                <h4>Your search returned quite a few results.  Consider making your search term more specific</h4>}
             {locations}
          </div>

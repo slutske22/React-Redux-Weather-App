@@ -102,7 +102,7 @@ p.summary{
 DAY CARD STYLES
 ---------------------------------------------------*/
 
-/* Parent Container Styles */
+/* ---------- Parent Container Styles ---------- */
 
 .day{
    width: calc(1/8 * 100%);
@@ -127,7 +127,9 @@ DAY CARD STYLES
    transition: opacity 500ms;
 }
 
-/* Summary Styles */
+
+
+/* ---------- Summary Styles ---------- */
 
 .day.expanded .summaryDay{
    display: none;
@@ -148,29 +150,32 @@ DAY CARD STYLES
    left: 0px;
 }
 
-h2{
+.summaryDay h2{
    text-align: center;
 }
-h2.date{
+.summaryDay h2.date{
    margin: 0px;
 }
 
-.weatherIcon{
+.summaryDay .weatherIcon{
    text-align: center;
 }
 
-.maxTemp{
+.summaryDay .maxTemp{
    padding: 0px;
    margin: 0px;
    font-size: 1.4em;
 }
 
-/* Full Forecast Day Styles */
+
+
+
+/* ---------- Full Forecast Day Styles ---------- */
 
 .expandedDay{
    background-color: yellow;
    opacity: 0;
-   transition: opacity 500ms;
+   transition: opacity 0ms;
 }
 
 .day.expanded .expandedDay{
@@ -182,8 +187,12 @@ h2.date{
    transition: opacity 500ms;
 }
 
-.day.expanded .expandedDay h1{
+.day.expanded .expandedDay h2{
    margin: 0px;
+}
+
+.day.expanded .expandedDay {
+
 }
 
 
