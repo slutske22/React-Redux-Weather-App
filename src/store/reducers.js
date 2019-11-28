@@ -1,6 +1,6 @@
 import { SEARCH_ZIP, SEARCH_PLACENAME } from './actions'
 
-const initialState = {
+export const initialState = {
    zipValue: '',
    cityValue: '',
    callerError: false,
@@ -13,7 +13,7 @@ const initialState = {
    locationIndex: 0
 }
 
-function rootReducer(state = initialState, action) {
+export function searchReducer(state = initialState, action) {
    switch(action.type){
 
       case SEARCH_PLACENAME:
