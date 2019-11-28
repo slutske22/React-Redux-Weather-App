@@ -1,5 +1,6 @@
 export const SEARCH_ZIP = "SEARCH_ZIP";
 export const SEARCH_PLACENAME = "SEARCH_PLACENAME";
+export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
 
 
 export function fetchLocationByZip(zip) {
@@ -24,5 +25,12 @@ export function searchPlacename(placename){
    return {
       type: SEARCH_PLACENAME,
       placename: placename
+   }
+}
+
+export function viewLocationlist(){
+   return {
+      type: VIEW_LOCATIONLIST,
+      payload: true
    }
 }
