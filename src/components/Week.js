@@ -39,7 +39,7 @@ class Week extends React.Component {
       let days = [];
       for (var i = 0; i < 7 ; i++) {
          days.push(
-            <Day number={i} key={i} 
+            <Day number={i} key={i}
                locationData={this.props.locationData}
                weatherData={this.props.weatherData}
                expandDay={this.expandDay}

@@ -2,6 +2,13 @@ import React from 'react';
 import Body from './Body';
 
 
+import store from '../store/store'
+import { viewLocationlist } from '../store/actions'
+
+window.store = store
+
+
+
 //----------------------------------------------------------------//
 //    Generic Use functions and terms
 //----------------------------------------------------------------//
@@ -15,51 +22,14 @@ function kelvinToCelcius(degreeKelvin){
    return (degreeKelvin - 273.15);
 }
 
-
-
-//----------------------------------------------------------------//
-//    API callers
-//----------------------------------------------------------------//
-// Outdated but leaving for reference.
-//  This whole function can be replaced with:
-// fetch(url)
-//    .then( response => response.json() )
-
-// function apiCaller(url){
-//   return new Promise( (resolve, reject) => {
-//      var request = new XMLHttpRequest()
-//      request.open('GET', url);
-//      request.onload = function(){
-//         if (request.status === 200) {
-//           resolve(request.response)
-//         } else {
-//           reject(request.statusText)
-//         }
-//      } // .onload
-//      request.send()
-//   })
-// }
-
-// -------------  NOMATIM URL MAKERS ---------------------- //
-
-function makeOpenSearchUrl(searchTerm){
-   return `https://nominatim.openstreetmap.org/search?q=${searchTerm}&format=json`
-}
-
-function makeCityURL(cityName, stateName=''){
-   return `https://nominatim.openstreetmap.org/search?city=${cityName}&state=${stateName}&format=json`
-}
-
-function makeZipURL(zipCode){
-   return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&format=json`
-}
-
-
-var dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
+const dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
 
 // -------------------------------------------------------- //
 
-
+store.subscribe( () => {
+   console.log('you did something in the store')
+   }
+)
 
 
 class App extends React.Component {
@@ -129,7 +99,7 @@ class App extends React.Component {
             weatherData: weatherData,
             showMoreLocations: false,
          })
-         console.log("<App /> State:", this.state);
+         // console.log("<App /> State:", this.state);
       })
       .catch( (error) => {
          console.log(error)
@@ -168,6 +138,7 @@ class App extends React.Component {
 
 
    openLocationList = () => {
+      store.dispatch( viewLocationlist() )
       this.setState({showMoreLocations: true})
    }
 

@@ -31,6 +31,6 @@ export function searchPlacename(placename){
 export function viewLocationlist(){
    return {
       type: VIEW_LOCATIONLIST,
-      payload: true
+      status: true
    }
 }

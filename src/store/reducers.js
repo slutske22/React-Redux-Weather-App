@@ -26,7 +26,7 @@ export function rootReducer(state = initialState, action) {
       case VIEW_LOCATIONLIST:
          return {
             ...state,
-            state.showMoreLocations: action.payload
+            showMoreLocations: action.status
          }
 
    }
