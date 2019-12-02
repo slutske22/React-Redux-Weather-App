@@ -23,6 +23,11 @@ export function rootReducer(state = initialState, action) {
             ...state,
          }
 
+      case SEARCH_ZIP:
+         return {
+            ...state,
+         }
+
       case VIEW_LOCATIONLIST:
          return {
             ...state,
