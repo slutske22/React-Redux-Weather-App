@@ -12,7 +12,7 @@ class SearchBar extends React.Component{
    render(){
       return (
          <form className={`locator ${this.props.readyClass}`}>
-            <h2>{`Choose your Location (from <Search />)`}</h2>
+            <h2>{`Choose your Location`}</h2>
 
             <input name="cityValue" type="text"
             placeholder="Search by City Name" value={this.props.cityValue} onChange={this.props.placenameHandler} onKeyDown={this.props.placenameHandler} />
@@ -28,7 +28,8 @@ class SearchBar extends React.Component{
 const mapStateToProps = state => {
    return {
       cityValue: state.cityValue,
-      zipValue: state.zipValue
+      zipValue: state.zipValue,
+      readyClass: state.class
    }
 }
 

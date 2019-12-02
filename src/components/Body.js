@@ -27,7 +27,11 @@ class Body extends React.Component{
 
 const mapStateToProps = (state) => {
    return {
-      showMoreLocations: state.showMoreLocations
+      dataReady: state.dataReady,
+      weatherData: state.weatherData,
+      locationData: state.locationData,
+      showMoreLocations: state.showMoreLocations,
+      locationIndex: state.locationIndex
    }
 }
 

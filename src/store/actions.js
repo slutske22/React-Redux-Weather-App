@@ -2,6 +2,8 @@ export const TYPE_IN_CITYNAME_FIELD = "TYPE_IN_CITYNAME_FIELD"
 export const TYPE_IN_ZIP_FIELD = "TYPE_IN_ZIP_FIELD"
 export const SEARCH_LOCATION = "SEARCH_LOCATION";
 export const RECIEVE_LOCATION_DATA = "RECIEVE_LOCATION_DATA";
+export const RECIEVE_WEATHER_DATA = "RECIEVE_WEATHER_DATA";
+export const THROW_CALLER_ERROR = "THROW_CALLER_ERROR";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
 export const CHANGE_LOCATION = "CHANGE_LOCATION";
 
@@ -30,7 +32,7 @@ const makeSearchTerm = {
 export function typeZip(e){
    if (e.keyCode === 13 && e.target.value.trim().length > 0){
       let searchTerm = encodeURIComponent(e.target.value)
-      searchLocation('zipValue', searchTerm)
+      searchLocation('zipValue', searchTerm)()
    }
    return {
       type: TYPE_IN_ZIP_FIELD,
@@ -41,7 +43,7 @@ export function typeZip(e){
 export function typePlacename(e){
    if (e.keyCode === 13 && e.target.value.trim().length > 0){
       let searchTerm = encodeURIComponent(e.target.value)
-      searchLocation('cityValue', searchTerm)
+      searchLocation('cityValue', searchTerm)()
    }
    return {
       type: TYPE_IN_CITYNAME_FIELD,
@@ -52,21 +54,67 @@ export function typePlacename(e){
 export function searchLocation(name, searchTerm) {
    const url = makeSearchTerm.domestic[name](searchTerm)
    console.log(url)
-   return function(dispatch) {
+   return function() {
       return fetch(url)
-         .then( (response) => {
-            console.log('inside the then')
-            dispatch(receiveLocationData(response.data))
+         .then( response => response.json() )
+         .then ( locationData => {
+            // console.log( locationData )
+            if (locationData.length > 1){
+               store.dispatch( receiveLocationData( locationData ) )
+               getWeather(locationData, store.getState().locationIndex)()
+            } else if (locationData.length > 2){
+               store.dispatch( receiveLocationData( locationData ) )
+               getWeather(locationData, store.getState().locationIndex)() 
+
+            } else {
+               store.dispatch(throwCallerError("No results returned.") )
+            }
          })
          .catch( error => { throw(error) } )
    }
 }
 
-
-export function receiveLocationData(data){
+export function receiveLocationData(locationData){
    return {
       type: RECIEVE_LOCATION_DATA,
+      data: locationData
+   }
+}
+
+export function getWeather(locationData, locationIndex) {
+   const dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
+
+   let lat = locationData[locationIndex].lat
+   let lon = locationData[locationIndex].lon
+   let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
+
+   console.log(url)
+
+   //  Feed the lat lng into the weather caller
+   return function () {
+      return fetch(url)
+         .then( results => results.json() )
+         .then( weatherData => {
+            // Put weather data into state object to be used in componnts
+            store.dispatch( receiveWeatherData(weatherData) )
+         })
+         .catch( (error) => {
+            console.log(error)
+         })
+   }
+}
+
+export function receiveWeatherData(data){
+   return {
+      type: RECIEVE_WEATHER_DATA,
       data: data
+   }
+}
+
+export function throwCallerError(error){
+   return {
+      type: THROW_CALLER_ERROR,
+      error: true
    }
 }
 
@@ -80,6 +128,7 @@ export function viewLocationlist(){
 }
 
 export function changeLocation(e){
+   getWeather(store.getState().locationData, e.target.getAttribute('number'))() 
    return {
       type: CHANGE_LOCATION,
       showMoreLocations: false,

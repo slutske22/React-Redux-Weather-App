@@ -1,5 +1,5 @@
-import { TYPE_IN_CITYNAME_FIELD, TYPE_IN_ZIP_FIELD } from './actions'
-import { RECIEVE_LOCATION_DATA } from './actions'
+import { TYPE_IN_CITYNAME_FIELD, TYPE_IN_ZIP_FIELD, THROW_CALLER_ERROR } from './actions'
+import { RECIEVE_LOCATION_DATA, RECIEVE_WEATHER_DATA } from './actions'
 import { VIEW_LOCATIONLIST, CHANGE_LOCATION } from './actions'
 
 
@@ -22,19 +22,44 @@ export function rootReducer(state = initialState, action) {
       case TYPE_IN_CITYNAME_FIELD:
          return{
             ...state,
-            cityValue: action.cityValue
+            cityValue: action.cityValue,
          }
 
       case TYPE_IN_ZIP_FIELD:
          return {
             ...state,
-            zipValue: action.zipValue
+            zipValue: action.zipValue,
          }
 
       case RECIEVE_LOCATION_DATA:
          return {
             ...state,
-            locationData: action.data
+            dataReady: false,
+            locationData: action.data,
+            locationIndex: 0,
+            callerError: false,
+            class: 'data-ready'
+         }
+      
+      case RECIEVE_WEATHER_DATA:
+         return {
+            ...state,
+            weatherData: action.data,
+            dataReady: true,
+            callerError: false
+         }
+
+      case THROW_CALLER_ERROR:
+         return {
+            ...state,
+            callerError: action.error,
+            dataReady: false,
+            locationData: '',
+            weatherData: '',
+            class: '',
+            multipleLocationResults: false,
+            showMoreLocations: false,
+            locationIndex: 0
          }
 
       case VIEW_LOCATIONLIST:
