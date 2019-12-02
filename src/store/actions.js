@@ -28,6 +28,10 @@ const makeSearchTerm = {
 }
 
 export function typeZip(e){
+   if (e.keyCode === 13 && e.target.value.trim().length > 0){
+      let searchTerm = encodeURIComponent(e.target.value)
+      searchLocation('zipValue', searchTerm)
+   }
    return {
       type: TYPE_IN_ZIP_FIELD,
       zipValue: e.target.value
@@ -36,7 +40,8 @@ export function typeZip(e){
 
 export function typePlacename(e){
    if (e.keyCode === 13 && e.target.value.trim().length > 0){
-      searchLocation('cityValue')
+      let searchTerm = encodeURIComponent(e.target.value)
+      searchLocation('cityValue', searchTerm)
    }
    return {
       type: TYPE_IN_CITYNAME_FIELD,
@@ -44,12 +49,15 @@ export function typePlacename(e){
    }
 }
 
-export function searchLocation(name) {
-   console.log('you called the searchLocation function')
-   return (dispatch, getState) => {
-      const url = makeSearchTerm.domestic[name](name)
-      fetch(url)
-         .then( response => {dispatch(receiveLocationData(response.data))})
+export function searchLocation(name, searchTerm) {
+   const url = makeSearchTerm.domestic[name](searchTerm)
+   console.log(url)
+   return function(dispatch) {
+      return fetch(url)
+         .then( (response) => {
+            console.log('inside the then')
+            dispatch(receiveLocationData(response.data))
+         })
          .catch( error => { throw(error) } )
    }
 }
