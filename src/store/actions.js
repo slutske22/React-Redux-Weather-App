@@ -35,9 +35,10 @@ export function typeZip(e){
 }
 
 export function typePlacename(e){
+   console.log(e.target.value)
    return {
       type: TYPE_IN_CITYNAME_FIELD,
-      nameValue: e.target.value
+      cityValue: e.target.value
    }
 }
 
