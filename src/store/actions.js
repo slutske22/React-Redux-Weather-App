@@ -10,19 +10,19 @@ export const CHANGE_LOCATION = "CHANGE_LOCATION";
 
 const makeSearchTerm = {
    domestic: {
-      cityValue: function(cityName){
-         return `https://nominatim.openstreetmap.org/search?q=${cityName}&limit=50&format=json`
+      cityValue: function(cityValue){
+         return `https://nominatim.openstreetmap.org/search?q=${cityValue}&limit=50&format=json`
       },
-      zipValue: function(zipCode){
-         return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&limit=50&format=json`
+      zipValue: function(zipValue){
+         return `https://nominatim.openstreetmap.org/search?postalcode=${zipValue}&country=US&limit=50&format=json`
       }
    },
    international: {
-      cityValue: function(cityName){
-         return `https://nominatim.openstreetmap.org/search?city=${cityName}&limit=50&format=json`
+      cityValue: function(cityValue){
+         return `https://nominatim.openstreetmap.org/search?city=${cityValue}&limit=50&format=json`
       },
-      zipValue: function(zipCode){
-         return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&limit=50&format=json`
+      zipValue: function(zipValue){
+         return `https://nominatim.openstreetmap.org/search?postalcode=${zipValue}&limit=50&format=json`
       }
    }
 }
@@ -35,7 +35,9 @@ export function typeZip(e){
 }
 
 export function typePlacename(e){
-   console.log(e.target.value)
+   if (e.keyCode === 13 && e.target.value.trim().length > 0){
+      searchLocation('cityValue')
+   }
    return {
       type: TYPE_IN_CITYNAME_FIELD,
       cityValue: e.target.value
@@ -43,8 +45,9 @@ export function typePlacename(e){
 }
 
 export function searchLocation(name) {
+   console.log('you called the searchLocation function')
    return (dispatch, getState) => {
-      const url = makeSearchTerm.domestic[name](this.state[name])
+      const url = makeSearchTerm.domestic[name](name)
       fetch(url)
          .then( response => {dispatch(receiveLocationData(response.data))})
          .catch( error => { throw(error) } )
