@@ -1,4 +1,5 @@
-import { SEARCH_ZIP, SEARCH_PLACENAME } from './actions'
+import { TYPE_IN_CITYNAME_FIELD, TYPE_IN_ZIP_FIELD } from './actions'
+import { RECIEVE_LOCATION_DATA } from './actions'
 import { VIEW_LOCATIONLIST, CHANGE_LOCATION } from './actions'
 
 
@@ -18,14 +19,22 @@ export const initialState = {
 export function rootReducer(state = initialState, action) {
    switch(action.type){
 
-      case SEARCH_PLACENAME:
-         return {
+      case TYPE_IN_CITYNAME_FIELD:
+         return{
             ...state,
+            cityValue: action.cityValue
          }
 
-      case SEARCH_ZIP:
+      case TYPE_IN_ZIP_FIELD:
          return {
             ...state,
+            zipValue: action.zipValue
+         }
+
+      case RECIEVE_LOCATION_DATA:
+         return {
+            ...state,
+            locationData: action.data
          }
 
       case VIEW_LOCATIONLIST:

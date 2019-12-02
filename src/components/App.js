@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchBar from './Search'
 import Body from './Body';
 
 
@@ -133,10 +134,6 @@ class App extends React.Component {
    }
 
 
-   openLocationList = () => {
-      this.setState({showMoreLocations: true})
-   }
-
    changeLocation = (clickedLocationIndex) => {
       // clickedLocationIndex is passed up from LocationList
       this.setState({locationIndex: clickedLocationIndex})
@@ -147,7 +144,7 @@ class App extends React.Component {
       return (
          <div className="App">
 
-         <h1>Seth's React Weather App</h1>
+         <h1>Seth's React Redux Weather App</h1>
 
          <form className={`locator ${this.state.readyClass}`}>
          <h2>Choose your Location</h2>
@@ -157,6 +154,8 @@ class App extends React.Component {
          placeholder="Search by Zip" value={this.state.zipValue} onChange={this.searchHandler}
          onKeyDown={this.searchHandler} />
          </form>
+
+         <SearchBar />
 
          <Body dataReady={this.state.dataReady}
          locationIndex={this.state.locationIndex}

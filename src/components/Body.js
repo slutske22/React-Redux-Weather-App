@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import store from '../store/store'
 
 
 import Empty from './Empty'
@@ -9,14 +8,6 @@ import Week from './Week'
 import LocationList from './LocationList';
 
 class Body extends React.Component{
-
-   openLocationList = () => {
-      this.props.openLocationList()
-   }
-
-   changeLocation = (clickedLocationIndex) => {
-      this.props.changeLocation(clickedLocationIndex)
-   }
 
    render(){
       if (this.props.dataReady && !this.props.showMoreLocations){

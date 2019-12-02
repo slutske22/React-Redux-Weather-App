@@ -1,34 +1,64 @@
-export const SEARCH_ZIP = "SEARCH_ZIP";
-export const SEARCH_PLACENAME = "SEARCH_PLACENAME";
+export const TYPE_IN_CITYNAME_FIELD = "TYPE_IN_CITYNAME_FIELD"
+export const TYPE_IN_ZIP_FIELD = "TYPE_IN_ZIP_FIELD"
+export const SEARCH_LOCATION = "SEARCH_LOCATION";
+export const RECIEVE_LOCATION_DATA = "RECIEVE_LOCATION_DATA";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
 export const CHANGE_LOCATION = "CHANGE_LOCATION";
 
 
 
-export function fetchLocationByZip(zip) {
 
-   return function(dispatch) {
-      return fetch(`https://nominatim.openstreetmap.org/search?postalcode=${zip}&country=US&limit=50&format=json`)
-      .then( results => results.json() )
-      .then( locationData => console.log(locationData) )
+const makeSearchTerm = {
+   domestic: {
+      cityValue: function(cityName){
+         return `https://nominatim.openstreetmap.org/search?q=${cityName}&limit=50&format=json`
+      },
+      zipValue: function(zipCode){
+         return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&limit=50&format=json`
+      }
+   },
+   international: {
+      cityValue: function(cityName){
+         return `https://nominatim.openstreetmap.org/search?city=${cityName}&limit=50&format=json`
+      },
+      zipValue: function(zipCode){
+         return `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&limit=50&format=json`
+      }
    }
 }
 
-
-
-export function searchZip(zipcode){
+export function typeZip(e){
    return {
-      type: SEARCH_ZIP,
-      zipcode: zipcode
+      type: TYPE_IN_ZIP_FIELD,
+      zipValue: e.target.value
    }
 }
 
-export function searchPlacename(placename){
+export function typePlacename(e){
    return {
-      type: SEARCH_PLACENAME,
-      placename: placename
+      type: TYPE_IN_CITYNAME_FIELD,
+      nameValue: e.target.value
    }
 }
+
+export function searchLocation(name) {
+   return (dispatch, getState) => {
+      const url = makeSearchTerm.domestic[name](this.state[name])
+      fetch(url)
+         .then( response => {dispatch(receiveLocationData(response.data))})
+         .catch( error => { throw(error) } )
+   }
+}
+
+
+export function receiveLocationData(data){
+   return {
+      type: RECIEVE_LOCATION_DATA,
+      data: data
+   }
+}
+
+
 
 export function viewLocationlist(){
    return {
