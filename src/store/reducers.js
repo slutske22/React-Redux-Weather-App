@@ -1,5 +1,5 @@
 import { SEARCH_ZIP, SEARCH_PLACENAME } from './actions'
-import { VIEW_LOCATIONLIST, CLOSE_LOCATIONLIST } from './actions'
+import { VIEW_LOCATIONLIST, CHANGE_LOCATION } from './actions'
 
 
 export const initialState = {
@@ -26,13 +26,14 @@ export function rootReducer(state = initialState, action) {
       case VIEW_LOCATIONLIST:
          return {
             ...state,
-            showMoreLocations: action.status
+            showMoreLocations: action.showMoreLocations
          }
 
-      case CLOSE_LOCATIONLIST:
+      case CHANGE_LOCATION:
          return {
             ...state,
-            showMoreLocations: action.status
+            showMoreLocations: action.showMoreLocations,
+            locationIndex: action.chosenIndex
          }
 
       default:

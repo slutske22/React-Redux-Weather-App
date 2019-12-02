@@ -159,7 +159,7 @@ class App extends React.Component {
          </form>
 
          <Body dataReady={this.state.dataReady}
-         locationIndex={this.state.locationIndex} locationData={this.state.locationData}
+         locationIndex={this.state.locationIndex}
          weatherData={this.state.weatherData}
          callerError={this.state.callerError}
          showMoreLocations={this.state.showMoreLocations}

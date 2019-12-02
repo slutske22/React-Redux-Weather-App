@@ -1,7 +1,7 @@
 export const SEARCH_ZIP = "SEARCH_ZIP";
 export const SEARCH_PLACENAME = "SEARCH_PLACENAME";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
-export const CLOSE_LOCATIONLIST = "CLOSE_LOCATIONLIST";
+export const CHANGE_LOCATION = "CHANGE_LOCATION";
 
 
 
@@ -33,13 +33,14 @@ export function searchPlacename(placename){
 export function viewLocationlist(){
    return {
       type: VIEW_LOCATIONLIST,
-      status: true
+      showMoreLocations: true
    }
 }
 
-export function closeLocationList(){
+export function changeLocation(e){
    return {
-      type: CLOSE_LOCATIONLIST,
-      status: false
+      type: CHANGE_LOCATION,
+      showMoreLocations: false,
+      chosenIndex: e.target.getAttribute('number')
    }
 }

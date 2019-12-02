@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import store from '../store/store'
+
+
 import Empty from './Empty'
 import Error from './Error'
 import Week from './Week'
@@ -30,4 +34,11 @@ class Body extends React.Component{
 
 }
 
-export default Body
+const mapStateToProps = (state) => {
+   return {
+      showMoreLocations: state.showMoreLocations
+   }
+}
+
+
+export default connect(mapStateToProps)(Body)

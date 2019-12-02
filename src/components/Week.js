@@ -1,4 +1,8 @@
 import React from 'react';
+import store from '../store/store'
+import { connect } from 'react-redux'
+import { viewLocationlist } from '../store/actions'
+
 import Day from './Day'
 
 class Week extends React.Component {
@@ -8,12 +12,8 @@ class Week extends React.Component {
          class: '',
          expandedDay: null
       }
-      this.openLocationList = this.openLocationList.bind(this)
    }
 
-   openLocationList() {
-      this.props.openLocationList()
-   }
 
    expandDay = (clickedDay) => {
       if (this.state.expandedDay){
@@ -27,12 +27,8 @@ class Week extends React.Component {
    componentDidMount(){
       let delay = () => { this.setState({class: 'visible'}) };
       setTimeout(delay, 1)
-      // console.log('<Week> mounted')
+      console.log('<Week> mounted')
    }
-
-   // componentDidUpdate(prevProps) {
-   //    console.log('<Week> state', this.state)
-   // }
 
    render (){
 
@@ -51,7 +47,7 @@ class Week extends React.Component {
          <div id="forecast" className={this.state.class}>
             <h3>Weather for {this.props.locationData[this.props.locationIndex].display_name}</h3>
             {this.props.locationData.length > 1 &&
-            <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={this.openLocationList}>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
+            <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={ this.props.viewLocationlist }>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
             }
             <div className="week">
                {days}
@@ -62,4 +58,16 @@ class Week extends React.Component {
    }
 }
 
-export default Week;
+// const mapStateToProps = (state) => {
+//    return {
+//       locationData: state.locationData,
+//    }
+// }
+
+const mapDispatchToProps = (dispatch) => {
+   return {
+      viewLocationlist: () => {store.dispatch( viewLocationlist() )}
+   }
+}
+
+export default connect(mapDispatchToProps)(Week);
