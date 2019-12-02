@@ -1,5 +1,5 @@
 import { SEARCH_ZIP, SEARCH_PLACENAME } from './actions'
-import { VIEW_LOCATIONLIST } from './actions'
+import { VIEW_LOCATIONLIST, CLOSE_LOCATIONLIST } from './actions'
 
 
 export const initialState = {
@@ -28,6 +28,15 @@ export function rootReducer(state = initialState, action) {
             ...state,
             showMoreLocations: action.status
          }
+
+      case CLOSE_LOCATIONLIST:
+         return {
+            ...state,
+            showMoreLocations: action.status
+         }
+
+      default:
+         return state
 
    }
 }

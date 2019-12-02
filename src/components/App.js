@@ -26,10 +26,6 @@ const dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
 
 // -------------------------------------------------------- //
 
-store.subscribe( () => {
-   console.log('you did something in the store')
-   }
-)
 
 
 class App extends React.Component {
@@ -138,7 +134,6 @@ class App extends React.Component {
 
 
    openLocationList = () => {
-      store.dispatch( viewLocationlist() )
       this.setState({showMoreLocations: true})
    }
 

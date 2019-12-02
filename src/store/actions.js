@@ -1,6 +1,8 @@
 export const SEARCH_ZIP = "SEARCH_ZIP";
 export const SEARCH_PLACENAME = "SEARCH_PLACENAME";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
+export const CLOSE_LOCATIONLIST = "CLOSE_LOCATIONLIST";
+
 
 
 export function fetchLocationByZip(zip) {
@@ -32,5 +34,12 @@ export function viewLocationlist(){
    return {
       type: VIEW_LOCATIONLIST,
       status: true
+   }
+}
+
+export function closeLocationList(){
+   return {
+      type: CLOSE_LOCATIONLIST,
+      status: false
    }
 }
