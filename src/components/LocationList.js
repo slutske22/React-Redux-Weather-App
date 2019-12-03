@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import store from '../store/store'
 import { changeLocation } from '../store/actions'
 
+window.store = store
+
 class LocationList extends React.Component {
    constructor(props){
       super(props)
@@ -10,11 +12,6 @@ class LocationList extends React.Component {
          listItemStyle: ''
       }
    }
-
-   // changeLocation = (e) => {
-   //    let clickedLocationIndex = e.target.getAttribute('number')
-   //    this.props.changeLocation(clickedLocationIndex)
-   // }
 
 
    render(){
@@ -53,10 +50,5 @@ const mapDispatchToProps = (e) => {
    }
 }
 
-window.store = store
-
-store.subscribe( () => {
-   console.log( store.getState() )
-})
 
 export default connect(mapStateToProps, mapDispatchToProps)(LocationList);

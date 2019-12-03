@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-
 import Empty from './Empty'
 import Error from './Error'
 import WeatherSpinner from './WeatherSpinner'

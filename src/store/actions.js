@@ -81,7 +81,10 @@ export function searchLocation(name, searchTerm) {
                store.dispatch(throwCallerError("No results returned.") )
             }
          })
-         .catch( error => { throw(error) } )
+         .catch( error => { 
+            store.dispatch(throwCallerError(error)) 
+            throw(error)
+         } )
    }
 }
 
@@ -113,7 +116,7 @@ export function getWeather(locationData, locationIndex) {
             store.dispatch( receiveWeatherData(weatherData) )
          })
          .catch( (error) => {
-            console.log(error)
+            store.dispatch(throwCallerError(error)) 
          })
    }
 }
