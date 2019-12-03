@@ -1,3 +1,5 @@
+import store from './store'
+
 export const TYPE_IN_CITYNAME_FIELD = "TYPE_IN_CITYNAME_FIELD"
 export const TYPE_IN_ZIP_FIELD = "TYPE_IN_ZIP_FIELD"
 export const SEARCH_LOCATION = "SEARCH_LOCATION";
@@ -64,7 +66,7 @@ export function searchLocation(name, searchTerm) {
                getWeather(locationData, store.getState().locationIndex)()
             } else if (locationData.length > 2){
                store.dispatch( receiveLocationData( locationData ) )
-               getWeather(locationData, store.getState().locationIndex)() 
+               getWeather(locationData, store.getState().locationIndex)()
 
             } else {
                store.dispatch(throwCallerError("No results returned.") )
@@ -128,7 +130,7 @@ export function viewLocationlist(){
 }
 
 export function changeLocation(e){
-   getWeather(store.getState().locationData, e.target.getAttribute('number'))() 
+   getWeather(store.getState().locationData, e.target.getAttribute('number'))()
    return {
       type: CHANGE_LOCATION,
       showMoreLocations: false,
