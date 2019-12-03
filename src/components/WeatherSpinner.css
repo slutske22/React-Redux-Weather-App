@@ -30,7 +30,7 @@ font-size: small;
 }
 p { margin: 1.375rem 0; } */
 :root{
-   --outline-color: grey;
+   --outline-color: #636363;
    --background-color: white;
 }
 
