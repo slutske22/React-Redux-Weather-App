@@ -59,7 +59,7 @@ export function searchLocation(name, searchTerm) {
          .then( response => response.json() )
          .then ( locationData => {
             // console.log( locationData )
-            if (locationData.length > 1){
+            if (locationData.length >= 1){
                store.dispatch( receiveLocationData( locationData ) )
                getWeather(locationData, store.getState().locationIndex)()
             } else if (locationData.length > 2){
