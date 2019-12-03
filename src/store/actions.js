@@ -47,7 +47,6 @@ export function typePlacename(e){
    if (e.keyCode === 13 && e.target.value.trim().length > 0){
       let searchTerm = encodeURIComponent(e.target.value)
       searchLocation('cityValue', searchTerm)()
-      store.dispatch( showSpinner() )
    }
    return {
       type: TYPE_IN_CITYNAME_FIELD,
@@ -55,14 +54,17 @@ export function typePlacename(e){
    }
 }
 
-export function showSpinner(){
+export function showSpinner(message){
    return {
       type: SHOW_SPINNER,
-      weatherSpinnerOpen: true
+      weatherSpinnerOpen: message
    }
 }
 
 export function searchLocation(name, searchTerm) {
+
+   store.dispatch( showSpinner('Loading Weather...') )
+
    const url = makeSearchTerm.domestic[name](searchTerm)
    console.log(url)
    return function() {
@@ -97,22 +99,24 @@ export function receiveLocationData(locationData){
 
 export function getWeather(locationData, locationIndex) {
 
-   store.dispatch( showSpinner() )
+   // If weatherspinner is already open from location search, don't open it again
+   if (!store.getState().weatherSpinnerOpen){
+      store.dispatch( showSpinner('Loading Weather...') )
+   }
 
    const dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
 
+   //  Feed the lat lng into the weather caller
    let lat = locationData[locationIndex].lat
    let lon = locationData[locationIndex].lon
    let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
 
    console.log(url)
 
-   //  Feed the lat lng into the weather caller
    return function () {
       return fetch(url)
          .then( results => results.json() )
          .then( weatherData => {
-            // Put weather data into state object to be used in componnts
             store.dispatch( receiveWeatherData(weatherData) )
          })
          .catch( (error) => {

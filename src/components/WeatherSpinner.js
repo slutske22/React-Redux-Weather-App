@@ -1,6 +1,7 @@
 // from https://codemyui.com/animated-weather-icons-in-css/
 
 import React from 'react'
+import { connect } from 'react-redux'
 import './WeatherSpinner.css'
 
 const Spinner1 = () => {
@@ -80,17 +81,32 @@ const allSpinners = [
 
 class WeatherSpinner extends React.Component {
 
+   componentDidMount = () => {
+      console.log('Spinner Mounted')
+   }
+
+   componentDidUpdate = () => {
+      console.log("Spinner updated")
+   }
+
    render () {
 
       const index = Math.floor( Math.random() * allSpinners.length )
 
       return(
          <div className="WeatherSpinner">
-            <h2 className="loading">Loading Weather...</h2>
+            <h2 className="loading">{this.props.loadingMessage}</h2>
             {allSpinners[index]}
          </div>
       )
    }
 }
 
-export default WeatherSpinner;
+
+const mapStateToProps = (state) => {
+   return {
+      loadingMessage: state.weatherSpinnerOpen
+   }
+}
+
+export default connect(mapStateToProps)(WeatherSpinner);

@@ -67,15 +67,10 @@ export function rootReducer(state = initialState, action) {
 
       case THROW_CALLER_ERROR:
          return {
-            ...state,
+            ...initialState,
             callerError: action.error,
-            dataReady: false,
-            locationData: '',
-            weatherData: '',
-            class: '',
-            multipleLocationResults: false,
-            showMoreLocations: false,
-            locationIndex: 0
+            zipValue: action.zipValue,
+            cityValue: action.cityValue
          }
 
       case VIEW_LOCATIONLIST:
