@@ -93,6 +93,9 @@ export function receiveLocationData(locationData){
 }
 
 export function getWeather(locationData, locationIndex) {
+
+   store.dispatch( showSpinner() )
+
    const dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
 
    let lat = locationData[locationIndex].lat
