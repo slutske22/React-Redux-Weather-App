@@ -1,9 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
 class Error extends React.Component{
-   constructor(props){
-      super(props)
-   }
 
    render(){
       return(
@@ -12,4 +10,10 @@ class Error extends React.Component{
    }
 }
 
-export default Error;
+const mapStateToProps = (state) => {
+   return {
+      callerError: state.callerError
+   }
+}
+
+export default connect(mapStateToProps)(Error);

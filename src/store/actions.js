@@ -78,7 +78,7 @@ export function searchLocation(name, searchTerm) {
                getWeather(locationData, store.getState().locationIndex)()
 
             } else {
-               store.dispatch(throwCallerError("No results returned.") )
+               store.dispatch(throwCallerError("No results returned.  Try another search term.") )
             }
          })
          .catch( error => { 
@@ -116,7 +116,7 @@ export function getWeather(locationData, locationIndex) {
             store.dispatch( receiveWeatherData(weatherData) )
          })
          .catch( (error) => {
-            store.dispatch(throwCallerError(error)) 
+            store.dispatch(throwCallerError(error.message)) 
          })
    }
 }

@@ -10,7 +10,7 @@ import LocationList from './LocationList';
 class Body extends React.Component{
 
    render(){
-      if (this.props.weatherSpinnerOpen){
+      if (this.props.weatherSpinnerOpen && !this.props.callerError){
          return <WeatherSpinner />
       } else if (this.props.dataReady && !this.props.showMoreLocations){
          return <Week locationIndex={this.props.locationIndex}
@@ -19,7 +19,7 @@ class Body extends React.Component{
       } else if (this.props.dataReady === '' && !this.props.showMoreLocations) {
          return <Empty />
       } else if (!this.props.dataReady && !this.props.showMoreLocations){
-         return  <Error callerError={this.props.callerError}/>
+         return  <Error />
       } else if (this.props.showMoreLocations){
          return <LocationList locationData={this.props.locationData} locationIndex={this.props.locationIndex} changeLocation={this.props.changeLocation}/>
       }

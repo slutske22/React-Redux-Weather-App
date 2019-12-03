@@ -42,7 +42,8 @@ export function rootReducer(state = initialState, action) {
       case SHOW_SPINNER:
       return {
          ...state,
-         weatherSpinnerOpen: action.weatherSpinnerOpen
+         weatherSpinnerOpen: action.weatherSpinnerOpen,
+         class: 'data-ready'
       }
 
       case RECIEVE_LOCATION_DATA:
