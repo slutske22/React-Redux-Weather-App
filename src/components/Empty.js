@@ -4,7 +4,6 @@ import WeatherSpinner from './WeatherSpinner'
 function Empty() {
    return (
       <div className = "empty" >
-         <WeatherSpinner />
       </div>
    )
 }

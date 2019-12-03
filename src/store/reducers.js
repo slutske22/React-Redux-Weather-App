@@ -1,6 +1,13 @@
-import { TYPE_IN_CITYNAME_FIELD, TYPE_IN_ZIP_FIELD, THROW_CALLER_ERROR } from './actions'
-import { RECIEVE_LOCATION_DATA, RECIEVE_WEATHER_DATA } from './actions'
-import { VIEW_LOCATIONLIST, CHANGE_LOCATION } from './actions'
+import {
+   TYPE_IN_CITYNAME_FIELD,
+   TYPE_IN_ZIP_FIELD,
+   SHOW_SPINNER,
+   THROW_CALLER_ERROR,
+   RECIEVE_LOCATION_DATA,
+   RECIEVE_WEATHER_DATA,
+   VIEW_LOCATIONLIST,
+   CHANGE_LOCATION
+ } from './actions'
 
 
 export const initialState = {
@@ -13,7 +20,8 @@ export const initialState = {
    class: '',
    multipleLocationResults: false,
    showMoreLocations: false,
-   locationIndex: 0
+   locationIndex: 0,
+   weatherSpinnerOpen: false
 }
 
 export function rootReducer(state = initialState, action) {
@@ -31,6 +39,12 @@ export function rootReducer(state = initialState, action) {
             zipValue: action.zipValue,
          }
 
+      case SHOW_SPINNER:
+      return {
+         ...state,
+         weatherSpinnerOpen: action.weatherSpinnerOpen
+      }
+
       case RECIEVE_LOCATION_DATA:
          return {
             ...state,
@@ -40,13 +54,14 @@ export function rootReducer(state = initialState, action) {
             callerError: false,
             class: 'data-ready'
          }
-      
+
       case RECIEVE_WEATHER_DATA:
          return {
             ...state,
             weatherData: action.data,
             dataReady: true,
-            callerError: false
+            callerError: false,
+            weatherSpinnerOpen: false
          }
 
       case THROW_CALLER_ERROR:

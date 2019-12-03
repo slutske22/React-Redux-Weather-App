@@ -4,13 +4,16 @@ import { connect } from 'react-redux'
 
 import Empty from './Empty'
 import Error from './Error'
+import WeatherSpinner from './WeatherSpinner'
 import Week from './Week'
 import LocationList from './LocationList';
 
 class Body extends React.Component{
 
    render(){
-      if (this.props.dataReady && !this.props.showMoreLocations){
+      if (this.props.weatherSpinnerOpen){
+         return <WeatherSpinner />
+      } else if (this.props.dataReady && !this.props.showMoreLocations){
          return <Week locationIndex={this.props.locationIndex}
          locationData={this.props.locationData} weatherData={this.props.weatherData} showMoreLocations={this.props.showMoreLocations} openLocationList={this.openLocationList}
          />
@@ -31,7 +34,9 @@ const mapStateToProps = (state) => {
       weatherData: state.weatherData,
       locationData: state.locationData,
       showMoreLocations: state.showMoreLocations,
-      locationIndex: state.locationIndex
+      locationIndex: state.locationIndex,
+      callerError: state.callerError,
+      weatherSpinnerOpen: state.weatherSpinnerOpen
    }
 }
 

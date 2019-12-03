@@ -8,12 +8,12 @@ class WeatherSpinner extends React.Component {
       return(
          <div className="WeatherSpinner">
             <h2>Loading Weather...</h2>
-            <div class="icon sun-shower">
-               <div class="cloud"></div>
-               <div class="sun">
-                  <div class="rays"></div>
+            <div className="icon sun-shower">
+               <div className="cloud"></div>
+               <div className="sun">
+                  <div className="rays"></div>
                </div>
-               <div class="rain"></div>
+               <div className="rain"></div>
             </div>
          </div>
       )

@@ -3,6 +3,7 @@ import store from './store'
 export const TYPE_IN_CITYNAME_FIELD = "TYPE_IN_CITYNAME_FIELD"
 export const TYPE_IN_ZIP_FIELD = "TYPE_IN_ZIP_FIELD"
 export const SEARCH_LOCATION = "SEARCH_LOCATION";
+export const SHOW_SPINNER = "SHOW_SPINNER";
 export const RECIEVE_LOCATION_DATA = "RECIEVE_LOCATION_DATA";
 export const RECIEVE_WEATHER_DATA = "RECIEVE_WEATHER_DATA";
 export const THROW_CALLER_ERROR = "THROW_CALLER_ERROR";
@@ -46,10 +47,18 @@ export function typePlacename(e){
    if (e.keyCode === 13 && e.target.value.trim().length > 0){
       let searchTerm = encodeURIComponent(e.target.value)
       searchLocation('cityValue', searchTerm)()
+      store.dispatch( showSpinner() )
    }
    return {
       type: TYPE_IN_CITYNAME_FIELD,
       cityValue: e.target.value
+   }
+}
+
+export function showSpinner(){
+   return {
+      type: SHOW_SPINNER,
+      weatherSpinnerOpen: true
    }
 }
 
@@ -109,14 +118,15 @@ export function getWeather(locationData, locationIndex) {
 export function receiveWeatherData(data){
    return {
       type: RECIEVE_WEATHER_DATA,
-      data: data
+      data: data,
+      weatherSpinnerOpen: false
    }
 }
 
 export function throwCallerError(error){
    return {
       type: THROW_CALLER_ERROR,
-      error: true
+      error: error
    }
 }
 
