@@ -4,7 +4,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import './WeatherSpinner.css'
 
-const Spinner1 = () => {
+export const Spinner1 = () => {
    return(
       <div className="icon sun-shower">
          <div className="cloud"></div>
@@ -16,7 +16,7 @@ const Spinner1 = () => {
    )
 }
 
-const Spinner2 = () => {
+export const Spinner2 = () => {
    return (
       <div className="icon thunder-storm">
          <div className="cloud"></div>
@@ -28,7 +28,7 @@ const Spinner2 = () => {
    )
 }
 
-const Spinner3 = () => {
+export const Spinner3 = () => {
    return (
       <div className="icon cloudy">
          <div className="cloud"></div>
@@ -37,7 +37,7 @@ const Spinner3 = () => {
    )
 }
 
-const Spinner4 = () => {
+export const Spinner4 = () => {
    return (
       <div className="icon flurries">
          <div className="cloud"></div>
@@ -49,7 +49,7 @@ const Spinner4 = () => {
    )
 }
 
-const Spinner5 = () => {
+export const Spinner5 = () => {
    return (
       <div className="icon sunny">
          <div className="sun">
@@ -59,7 +59,7 @@ const Spinner5 = () => {
    )
 }
 
-const Spinner6 = () => {
+export const Spinner6 = () => {
    return (
       <div className="icon rainy">
          <div className="cloud"></div>

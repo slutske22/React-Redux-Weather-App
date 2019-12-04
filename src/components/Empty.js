@@ -1,9 +1,10 @@
 import React from 'react';
-import WeatherSpinner from './WeatherSpinner'
+import LogoHeader from './LogoHeader'
 
 function Empty() {
    return (
       <div className = "empty" >
+         <LogoHeader />
       </div>
    )
 }
