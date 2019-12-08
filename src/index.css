@@ -37,7 +37,40 @@ HEADER STYLES
 ---------------------------------------------------*/
 .LogoHeader{
    display: flex;
-   flex-direction: row;
+   justify-content: space-around;
+}
+
+.LogoHeader * {
+   width: 100px;
+}
+
+.LogoHeader .icon {
+   margin-right: 30px
+}
+
+.slowSpin {
+	animation: rotationClockwise 20s infinite linear;
+}
+.slowSpin:last-of-type{
+   animation: rotationCounterClockwise 20s infinite linear;
+}
+
+@keyframes rotationCounterClockwise {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(-359deg);
+	}
+}
+
+@keyframes rotationClockwise {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(359deg);
+	}
 }
 
 

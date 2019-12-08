@@ -5,9 +5,9 @@ class LogoHeader extends React.Component {
    render () {
       return(
          <div className="LogoHeader">
-            <img src="/icons/react-logo.svg" />
+            <img className="slowSpin" src="/icons/react-logo.svg" />
             <Spinner1 />
-            <img src="/icons/redux-logo.svg" />
+            <img className="slowSpin" src="/icons/redux-logo.svg" />
          </div>
 
       )
