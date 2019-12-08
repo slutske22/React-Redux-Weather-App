@@ -39,7 +39,7 @@ h2.loading{
 }
 
 .icon {
-   background-color: var(--background-color);
+   /* background-color: var(--background-color); */
    position: relative;
    display: inline-block;
    width: 12em;

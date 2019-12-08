@@ -11,15 +11,23 @@ class Body extends React.Component{
 
    render(){
       if (this.props.weatherSpinnerOpen && !this.props.callerError){
+
          return <WeatherSpinner />
+
       } else if (this.props.dataReady && !this.props.showMoreLocations){
+
          return <Week locationIndex={this.props.locationIndex}
          locationData={this.props.locationData} weatherData={this.props.weatherData} showMoreLocations={this.props.showMoreLocations} openLocationList={this.openLocationList}
          />
+
       } else if (this.props.dataReady === '' && !this.props.showMoreLocations) {
+
          return <Empty />
-      } else if (!this.props.dataReady && !this.props.showMoreLocations){
+
+      } else if (this.props.callerError){
+
          return  <Error />
+
       } else if (this.props.showMoreLocations){
          return <LocationList locationData={this.props.locationData} locationIndex={this.props.locationIndex} changeLocation={this.props.changeLocation}/>
       }

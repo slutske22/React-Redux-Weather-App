@@ -11,7 +11,7 @@ class SearchBar extends React.Component{
 
    render(){
       return (
-         <form className={`locator ${this.props.readyClass}`}>
+         <form className={`locator`}>
             <h2>{`Choose your Location`}</h2>
 
             <input name="cityValue" type="text"
