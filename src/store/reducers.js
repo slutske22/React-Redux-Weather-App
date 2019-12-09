@@ -71,7 +71,8 @@ export function rootReducer(state = initialState, action) {
             ...initialState,
             callerError: action.error,
             zipValue: action.zipValue,
-            cityValue: action.cityValue
+            cityValue: action.cityValue,
+            class: 'data-ready'
          }
 
       case VIEW_LOCATIONLIST:

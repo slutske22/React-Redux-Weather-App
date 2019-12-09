@@ -20,7 +20,7 @@ class Body extends React.Component{
          locationData={this.props.locationData} weatherData={this.props.weatherData} showMoreLocations={this.props.showMoreLocations} openLocationList={this.openLocationList}
          />
 
-      } else if (this.props.dataReady === '' && !this.props.showMoreLocations) {
+   } else if (this.props.dataReady === '' && !this.props.showMoreLocations && !this.props.callerError) {
 
          return <Empty />
 
@@ -29,7 +29,9 @@ class Body extends React.Component{
          return  <Error />
 
       } else if (this.props.showMoreLocations){
+
          return <LocationList locationData={this.props.locationData} locationIndex={this.props.locationIndex} changeLocation={this.props.changeLocation}/>
+
       }
    }
 
