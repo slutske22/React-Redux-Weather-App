@@ -10,6 +10,9 @@ export const THROW_CALLER_ERROR = "THROW_CALLER_ERROR";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
 export const CHANGE_LOCATION = "CHANGE_LOCATION";
 
+export const LIGHTEN_THEME = "LIGHTEN_THEME";
+export const DARKEN_THEME = "DARKEN_THEME";
+
 
 
 
@@ -83,8 +86,8 @@ export function searchLocation(name, searchTerm) {
                store.dispatch(throwCallerError("No results returned.  Try another search term.") )
             }
          })
-         .catch( error => { 
-            store.dispatch(throwCallerError(error)) 
+         .catch( error => {
+            store.dispatch(throwCallerError(error))
             throw(error)
          } )
    }
@@ -120,7 +123,7 @@ export function getWeather(locationData, locationIndex) {
             store.dispatch( receiveWeatherData(weatherData) )
          })
          .catch( (error) => {
-            store.dispatch(throwCallerError(error.message)) 
+            store.dispatch(throwCallerError(error.message))
          })
    }
 }
@@ -155,5 +158,20 @@ export function changeLocation(e){
       type: CHANGE_LOCATION,
       showMoreLocations: false,
       chosenIndex: e.target.getAttribute('number')
+   }
+}
+
+
+export function lightenTheme(){
+   return{
+      type: LIGHTEN_THEME,
+      theme: 'light'
+   }
+}
+
+export function darkenTheme(){
+   return{
+      type: DARKEN_THEME,
+      theme: 'dark'
    }
 }
