@@ -25,7 +25,8 @@ export const initialState = {
    showMoreLocations: false,
    locationIndex: 0,
    weatherSpinnerOpen: false,
-   theme: lightTheme
+   theme: lightTheme,
+   userPosition: undefined
 }
 
 export function rootReducer(state = initialState, action) {

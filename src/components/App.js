@@ -5,8 +5,14 @@ import ThemeChanger from './ThemeChanger'
 import LogoHeader from './LogoHeader'
 import Body from './Body';
 
+import { geolocateUser } from '../store/actions'
+
 
 class App extends React.Component {
+
+   componentDidMount(){
+      geolocateUser()
+   }
 
    render(){
       return (
