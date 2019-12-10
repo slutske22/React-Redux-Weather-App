@@ -1,6 +1,6 @@
 import React from 'react'
 import store from '../store/store'
-import { changeTheme } from '../store/actions'
+import { setTheme } from '../store/actions'
 import { connect } from 'react-redux'
 
 export const darkTheme = {
@@ -33,8 +33,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = () => {
    return {
-      activateDarkTheme: () => store.dispatch( changeTheme(darkTheme) ),
-      activateLightTheme: () => store.dispatch( changeTheme(lightTheme) )
+      activateDarkTheme: () => store.dispatch( setTheme(darkTheme) ),
+      activateLightTheme: () => store.dispatch( setTheme(lightTheme) )
    }
 }
 

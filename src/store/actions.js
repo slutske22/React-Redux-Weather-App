@@ -26,6 +26,18 @@ export function geolocateUser(){
 
    const success = (userLocation) => {
 
+      const darkTheme = {
+         name: 'nighttime',
+         foregroundColor: "white",
+         backgroundColor: "black"
+      }
+
+      const lightTheme = {
+         name: 'daytime',
+         foregroundColor: "black",
+         backgroundColor: "white"
+      }
+
       // Get user's location and time of day
       console.log('userLocation', userLocation)
       const userCurrentTime = userLocation.timestamp
@@ -46,8 +58,8 @@ export function geolocateUser(){
             console.log('userSunriseTime', userSunriseTime, 'userSunsetTime', userSunsetTime, 'userCurrentTime', userCurrentTime);
 
             const timeofDay = userSunriseTime < userCurrentTime < userSunsetTime
-               ? 'It is daytime'
-               : 'It is nighttime'
+               ? store.dispatch( setTheme(lightTheme) )
+               : store.dispatch( setTheme(darkTheme) )
 
             console.log(timeofDay);
 
@@ -61,6 +73,20 @@ export function geolocateUser(){
    navigator.geolocation.getCurrentPosition(success, error, options)
 
 }
+
+
+export function setTheme(theme){
+   document
+      .documentElement.style.setProperty("--foreground-color", theme.foregroundColor);
+   document
+      .documentElement.style.setProperty("--background-color", theme.backgroundColor);
+   return{
+      type: CHANGE_THEME,
+      payload: theme
+   }
+}
+
+
 
 
 export function typeZip(e){

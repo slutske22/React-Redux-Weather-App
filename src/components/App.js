@@ -1,11 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import store from '../store/store';
 
-import SearchBar from './Search'
-import ThemeChanger from './ThemeChanger'
-import LogoHeader from './LogoHeader'
+import SearchBar from './Search';
+import ThemeChanger from './ThemeChanger';
+import LogoHeader from './LogoHeader';
 import Body from './Body';
 
-import { geolocateUser } from '../store/actions'
+import { geolocateUser } from '../store/actions';
 
 
 class App extends React.Component {
