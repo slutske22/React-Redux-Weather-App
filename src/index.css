@@ -125,6 +125,9 @@ input{
    margin-bottom: 20px;
    padding: 0.5em;
    font-size: 1.2em;
+   border: 1px solid var(--foreground-color);
+   background-color: var(--background-color);
+   color: var(--foreground-color);
 }
 input:last-of-type{
    width: 35%;
@@ -182,7 +185,7 @@ DAY CARD STYLES
 
 .day{
    width: calc(1/8 * 100%);
-   border: 1px solid black;
+   border: 1px solid var(--foreground-color);
    margin: 0px;
    cursor: pointer;
    opacity: 1;
