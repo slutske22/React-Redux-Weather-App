@@ -6,7 +6,9 @@ import {
    RECIEVE_LOCATION_DATA,
    RECIEVE_WEATHER_DATA,
    VIEW_LOCATIONLIST,
-   CHANGE_LOCATION
+   CHANGE_LOCATION,
+   LIGHTEN_THEME,
+   DARKEN_THEME
  } from './actions'
 
 
@@ -21,7 +23,8 @@ export const initialState = {
    multipleLocationResults: false,
    showMoreLocations: false,
    locationIndex: 0,
-   weatherSpinnerOpen: false
+   weatherSpinnerOpen: false,
+   theme: 'light'
 }
 
 export function rootReducer(state = initialState, action) {
@@ -86,6 +89,18 @@ export function rootReducer(state = initialState, action) {
             ...state,
             showMoreLocations: action.showMoreLocations,
             locationIndex: action.chosenIndex
+         }
+
+      case LIGHTEN_THEME:
+         return {
+            ...state,
+            theme: action.theme
+         }
+
+      case DARKEN_THEME:
+         return {
+            ...state,
+            theme: action.theme
          }
 
       default:

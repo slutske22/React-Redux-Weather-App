@@ -1,6 +1,17 @@
 import React from 'react'
 import store from '../store/store'
+import { lightenTheme, darkenTheme } from '../store/actions'
 import { connect } from 'react-redux'
+
+const darkTheme = {
+   "--foreground-color": "white",
+   "--background-color": "black"
+}
+
+const lightTheme = {
+   "--foreground-color": "black",
+   "--background-color": "white"
+}
 
 class ThemeChanger extends React.Component {
    render () {
@@ -14,11 +25,17 @@ class ThemeChanger extends React.Component {
    }
 }
 
-const mapDispatchToProps = () => {
+const mapStateToProps = state => {
    return {
-      activateDarkTheme: 'function',
-      activateLightTheme: 'function'
+      state
    }
 }
 
-export default connect(null, mapDispatchToProps)(ThemeChanger);
+const mapDispatchToProps = () => {
+   return {
+      activateDarkTheme: () => store.dispatch( darkenTheme() ),
+      activateLightTheme: () => store.dispatch( lightenTheme() )
+   }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeChanger);

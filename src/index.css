@@ -4,7 +4,7 @@
 html {
    box-sizing: border-box;
    font-family: 'Roboto', sans-serif;
-   color: var(--outline-color);
+   color: var(--foreground-color);
 }
 *, *:before, *:after {
    box-sizing: inherit;
@@ -33,7 +33,7 @@ a, a:visited{
 
 }
 a:hover{
-   border-bottom: 1px solid var(--outline-color)
+   border-bottom: 1px solid var(--foreground-color)
 }
 
 /*---------------------------------------------------
@@ -50,7 +50,7 @@ THEME STYLES
 }
 
 .ThemeChanger h5:hover{
-   border-bottom: 1px solid var(--outline-color);
+   border-bottom: 1px solid var(--foreground-color);
    cursor: pointer;
 }
 

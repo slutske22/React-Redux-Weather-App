@@ -20,7 +20,7 @@ background-color: var(--background-color);
 
 h1 {
 margin-bottom: 1.375em;
-color: var(--outline-color);
+color: var(--foreground-color);
 font-weight: 100;
 font-size: 2em;
 text-transform: uppercase;
@@ -34,7 +34,7 @@ p { margin: 1.375rem 0; } */
 
 
 h2.loading{
-   color: var(--outline-color)
+   color: var(--foreground-color)
 }
 
 .icon {
@@ -59,9 +59,9 @@ h2.loading{
    box-shadow:
    -2.1875em 0.6875em 0 -0.6875em var(--background-color),
    2.0625em 0.9375em 0 -0.9375em var(--background-color),
-   0 0 0 0.375em var(--outline-color),
-   -2.1875em 0.6875em 0 -0.3125em var(--outline-color),
-   2.0625em 0.9375em 0 -0.5625em var(--outline-color);
+   0 0 0 0.375em var(--foreground-color),
+   -2.1875em 0.6875em 0 -0.3125em var(--foreground-color),
+   2.0625em 0.9375em 0 -0.5625em var(--foreground-color);
 }
 .cloud:after {
    content: '';
@@ -72,7 +72,7 @@ h2.loading{
    width: 4.5625em;
    height: 1em;
    background-color: var(--background-color);
-   box-shadow: 0 0.4375em 0 -0.0625em var(--outline-color);
+   box-shadow: 0 0.4375em 0 -0.0625em var(--foreground-color);
 }
 .cloud:nth-child(2) {
    z-index: 0;
@@ -80,9 +80,9 @@ h2.loading{
    box-shadow:
    -2.1875em 0.6875em 0 -0.6875em var(--background-color),
    2.0625em 0.9375em 0 -0.9375em var(--background-color),
-   0 0 0 0.375em var(--outline-color),
-   -2.1875em 0.6875em 0 -0.3125em var(--outline-color),
-   2.0625em 0.9375em 0 -0.5625em var(--outline-color);
+   0 0 0 0.375em var(--foreground-color),
+   -2.1875em 0.6875em 0 -0.3125em var(--foreground-color),
+   2.0625em 0.9375em 0 -0.5625em var(--foreground-color);
    opacity: 0.3;
    transform: scale(0.5) translate(6em, -3em);
    animation: cloud 4s linear infinite;
@@ -98,7 +98,7 @@ h2.loading{
    margin: -1.25em;
    background: rgb(255, 193, 33);
    border-radius: 50%;
-   box-shadow: 0 0 0 0.375em var(--outline-color);
+   box-shadow: 0 0 0 0.375em var(--foreground-color);
    animation: spin 12s infinite linear;
 }
 .rays {
@@ -109,9 +109,9 @@ h2.loading{
    width: 0.375em;
    height: 1.125em;
    margin-left: -0.1875em;
-   background: var(--outline-color);
+   background: var(--foreground-color);
    border-radius: 0.25em;
-   box-shadow: 0 5.375em var(--outline-color);
+   box-shadow: 0 5.375em var(--foreground-color);
 }
 .rays:before,
 .rays:after {
@@ -124,9 +124,9 @@ h2.loading{
    height: 1.125em;
    transform: rotate(60deg);
    transform-origin: 50% 3.25em;
-   background: var(--outline-color);
+   background: var(--foreground-color);
    border-radius: 0.25em;
-   box-shadow: 0 5.375em var(--outline-color);
+   box-shadow: 0 5.375em var(--foreground-color);
 }
 .rays:before {
    transform: rotate(120deg);
@@ -172,7 +172,7 @@ h2.loading{
    top: 50%;
    left: 50%;
    margin: -0.25em 0 0 -0.125em;
-   color: var(--outline-color);
+   color: var(--foreground-color);
    opacity: 0.3;
    animation: lightning 2s linear infinite;
 }
@@ -228,7 +228,7 @@ h2.loading{
    top: 50%;
    left: 50%;
    margin: -1.025em 0 0 -1.0125em;
-   color: var(--outline-color);
+   color: var(--foreground-color);
    list-height: 1em;
    opacity: 0.2;
    animation: spin 8s linear infinite reverse;
@@ -299,8 +299,8 @@ h2.loading{
 
 @keyframes lightning {
    45% {
-      color: var(--outline-color);
-      background: var(--outline-color);
+      color: var(--foreground-color);
+      background: var(--foreground-color);
       opacity: 0.2;
    }
    50% {
@@ -309,8 +309,8 @@ h2.loading{
       opacity: 1;
    }
    55% {
-      color: var(--outline-color);
-      background: var(--outline-color);
+      color: var(--foreground-color);
+      background: var(--foreground-color);
       opacity: 0.2;
    }
 }
