@@ -12,6 +12,7 @@ export const CHANGE_LOCATION = "CHANGE_LOCATION";
 
 export const LIGHTEN_THEME = "LIGHTEN_THEME";
 export const DARKEN_THEME = "DARKEN_THEME";
+export const CHANGE_THEME = "CHANGE_THEME";
 
 
 
@@ -161,17 +162,13 @@ export function changeLocation(e){
    }
 }
 
-
-export function lightenTheme(){
+export function changeTheme(theme){
+   document
+      .documentElement.style.setProperty("--foreground-color", theme.foregroundColor);
+   document
+      .documentElement.style.setProperty("--background-color", theme.backgroundColor);
    return{
-      type: LIGHTEN_THEME,
-      theme: 'light'
-   }
-}
-
-export function darkenTheme(){
-   return{
-      type: DARKEN_THEME,
-      theme: 'dark'
+      type: CHANGE_THEME,
+      payload: theme
    }
 }

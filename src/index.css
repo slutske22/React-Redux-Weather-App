@@ -5,6 +5,7 @@ html {
    box-sizing: border-box;
    font-family: 'Roboto', sans-serif;
    color: var(--foreground-color);
+   background-color: var(--background-color)
 }
 *, *:before, *:after {
    box-sizing: inherit;
