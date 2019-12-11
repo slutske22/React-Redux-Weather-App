@@ -57,7 +57,15 @@ export function geolocateUser(){
 
             console.log('userSunriseTime', userSunriseTime, 'userSunsetTime', userSunsetTime, 'userCurrentTime', userCurrentTime);
 
-            const timeofDay = userSunriseTime < userCurrentTime < userSunsetTime
+            if (userSunriseTime < userCurrentTime && userCurrentTime < userSunsetTime){
+               console.log('it is daytime');
+            } else {
+               console.log('it is nighttime')
+            }
+
+
+
+            const timeofDay = userSunriseTime < userCurrentTime && userCurrentTime < userSunsetTime
                ? store.dispatch( setTheme(lightTheme) )
                : store.dispatch( setTheme(darkTheme) )
 
