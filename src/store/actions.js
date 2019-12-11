@@ -1,4 +1,6 @@
 import store from './store'
+import { lightTheme, darkTheme } from '../components/ThemeChanger'
+
 
 export const GEOLOCATE_USER = "GEOLOCATE_USER";
 
@@ -13,6 +15,7 @@ export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
 export const CHANGE_LOCATION = "CHANGE_LOCATION";
 export const CHANGE_THEME = "CHANGE_THEME";
 
+
 const dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
 
 
@@ -25,18 +28,6 @@ export function geolocateUser(){
    }
 
    const success = (userLocation) => {
-
-      const darkTheme = {
-         name: 'nighttime',
-         foregroundColor: "white",
-         backgroundColor: "black"
-      }
-
-      const lightTheme = {
-         name: 'daytime',
-         foregroundColor: "black",
-         backgroundColor: "white"
-      }
 
       // Get user's location and time of day
       console.log('userLocation', userLocation)
