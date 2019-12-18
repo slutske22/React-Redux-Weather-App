@@ -1,14 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-class Error extends React.Component{
+const Error = props => (
+      <h3 className="error">{props.callerError}</h3>
+   )
 
-   render(){
-      return(
-         <h3 className="error">{this.props.callerError}</h3>
-      )
-   }
-}
 
 const mapStateToProps = (state) => {
    return {
