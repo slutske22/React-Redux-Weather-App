@@ -82,11 +82,11 @@ const allSpinners = [
 class WeatherSpinner extends React.Component {
 
    componentDidMount = () => {
-      console.log('Spinner Mounted')
+      // console.log('Spinner Mounted')
    }
 
    componentDidUpdate = () => {
-      console.log("Spinner updated")
+      // console.log("Spinner updated")
    }
 
    render () {

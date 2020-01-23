@@ -27,7 +27,7 @@ class Week extends React.Component {
    componentDidMount(){
       let delay = () => { this.setState({class: 'visible'}) };
       setTimeout(delay, 1)
-      console.log('<Week> mounted')
+      // console.log('<Week> mounted')
    }
 
    render (){

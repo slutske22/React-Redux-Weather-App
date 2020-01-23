@@ -17,7 +17,7 @@ export const CHANGE_THEME = "CHANGE_THEME";
 
 
 const dsAPIKey = '8bc745aa5c2da5e2367d048fdb76ca8a'
-
+const meteoStatKey = 'ISjQKF2F'
 
 
 export function geolocateUser(){
@@ -30,7 +30,7 @@ export function geolocateUser(){
    const success = (userLocation) => {
 
       // Get user's location and time of day
-      console.log('userLocation', userLocation)
+      // console.log('userLocation', userLocation)
       const userCurrentTime = userLocation.timestamp
 
       const lat = userLocation.coords.latitude
@@ -42,25 +42,27 @@ export function geolocateUser(){
       fetch(url)
          .then( results => results.json() )
          .then( userWeather => {
-            console.log('localWeather', userWeather)
+            // console.log('localWeather', userWeather)
             const userSunriseTime = userWeather.daily.data[0].sunriseTime*1000
             const userSunsetTime = userWeather.daily.data[0].sunsetTime*1000
 
-            console.log('userSunriseTime', userSunriseTime, 'userSunsetTime', userSunsetTime, 'userCurrentTime', userCurrentTime);
+            // console.log('userSunriseTime', userSunriseTime, 'userSunsetTime', userSunsetTime, 'userCurrentTime', userCurrentTime);
 
             if (userSunriseTime < userCurrentTime && userCurrentTime < userSunsetTime){
                console.log('it is daytime');
+               store.dispatch( setTheme(lightTheme) )
             } else {
                console.log('it is nighttime')
+               store.dispatch( setTheme(darkTheme) )
             }
 
 
 
-            const timeofDay = userSunriseTime < userCurrentTime && userCurrentTime < userSunsetTime
-               ? store.dispatch( setTheme(lightTheme) )
-               : store.dispatch( setTheme(darkTheme) )
+            // const timeofDay = userSunriseTime < userCurrentTime && userCurrentTime < userSunsetTime
+            //    ? store.dispatch( setTheme(lightTheme) )
+            //    : store.dispatch( setTheme(darkTheme) )
 
-            console.log(timeofDay);
+            // console.log(timeofDay);
 
          })
    }
@@ -141,7 +143,7 @@ export function searchLocation(name, searchTerm) {
    store.dispatch( showSpinner('Loading Weather...') )
 
    const url = makeSearchTerm.domestic[name](searchTerm)
-   console.log(url)
+   // console.log(url)
    return function() {
       return fetch(url)
          .then( response => response.json() )
@@ -184,10 +186,13 @@ export function getWeather(locationData, locationIndex) {
    let lon = locationData[locationIndex].lon
    let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
 
-   console.log(url)
+
+   let meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=1&key=${meteoStatKey}`
+
 
    return function () {
-      return fetch(url)
+
+      fetch(url)
          .then( results => results.json() )
          .then( weatherData => {
             store.dispatch( receiveWeatherData(weatherData) )
@@ -195,7 +200,24 @@ export function getWeather(locationData, locationIndex) {
          .catch( (error) => {
             store.dispatch(throwCallerError(error.message))
          })
+
+      fetch(meteostatSearchUrl)
+         .then( response => response.json() )
+         .then( historyData => {
+            console.log('meteostat weatherstations near search term', historyData)
+            getWeatherHistory(historyData.data[0].id)
+         })
    }
+}
+
+export function getWeatherHistory(weatherStationNumber){
+
+   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2009-01&end=2009-12&key=${meteoStatKey}`
+
+   fetch(meteostatHistoryURL)
+      .then( response => response.json() )
+      .then( data => console.log('meteostat history', data) )
+
 }
 
 export function receiveWeatherData(data){
