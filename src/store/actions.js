@@ -212,7 +212,7 @@ export function getWeather(locationData, locationIndex) {
 
 export function getWeatherHistory(weatherStationNumber){
 
-   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2009-01&end=2009-12&key=${meteoStatKey}`
+   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2009-01&end=2019-12&key=${meteoStatKey}`
 
    fetch(meteostatHistoryURL)
       .then( response => response.json() )
