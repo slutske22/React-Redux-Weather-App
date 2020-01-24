@@ -245,8 +245,12 @@ export const testDataProcessing = () => {
          month.averageHigh = averageTemps( allData.map( month => month.temperature_mean_max) )
          month.averageLow = averageTemps( allData.map( month => month.temperature_mean_min) )
          month.recordHigh = [
-            maxTemp( allData.map( month => month.temperature_max) ),
+            Math.max( ...allData.map( month => month.temperature_max) ),
             allData[indexOfMaxValue( allData.map( month => month.temperature_max) )].month 
+         ]
+         month.recordLow = [
+            Math.min( ...allData.map( month => month.temperature_min) ),
+            allData[indexOfMinValue( allData.map( month => month.temperature_min) )].month 
          ]
 
       } ) //forEach
