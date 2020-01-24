@@ -1,5 +1,6 @@
 import store from './store'
 import { lightTheme, darkTheme } from '../components/ThemeChanger'
+import { monthsFull } from '../constants.js'
 
 
 export const GEOLOCATE_USER = "GEOLOCATE_USER";
@@ -226,14 +227,46 @@ export function getWeatherHistory(weatherStationNumber){
 
 export const testDataProcessing = () => {
 
-   const filterByMonth = (data, month) => {
-      let filteredArray = data.filter( entry => entry.month.slice(entry.month.length-2, entry.month.length) === month )
-      console.log(filteredArray)
+
+
+   const dataByMonth = [];
+   for (var i = 0; i <= 11; i++) {
+      dataByMonth.push({})
    }
+
+   function processData(data){
+      dataByMonth.forEach( (month, index) => {
+         month.month = monthsFull[index]
+         month.allData = filterByMonth(data, index+1)
+         month.averageTemp = averageTemps( filterByMonth(data, index+1).map( month => month.temperature_mean) )
+         month.averageHigh = averageTemps( filterByMonth(data, index+1).map( month => month.temperature_mean_max) )
+         month.averageLow = averageTemps( filterByMonth(data, index+1).map( month => month.temperature_mean_min) )
+         month.recordHigh = [ maxTemp( filterByMonth(data, index+1).map( month => month.temperature_max) ),
+            indexOfMaxValue( filterByMonth(data, index+1).map( month => month.temperature_max) )]
+      } )
+   }
+
+   const filterByMonth = (data, month) => {
+      return data.filter( entry => Number(entry.month.slice(entry.month.length-2, entry.month.length)) === month )
+   }
+
+   const averageTemps = temps => temps.reduce( (a, b) => a + b, 0) / temps.length
+
+   // bitten from https://stackoverflow.com/questions/11301438/return-index-of-greatest-value-in-an-array/11301464
+   const indexOfMaxValue = a => a.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+   const indexOfMinValue = a => a.reduce((iMin, x, i, arr) => x < arr[iMin] ? i : iMin, 0);
+
+   const maxTemp = temps => Math.max(...temps)
+
+   console.log(dataByMonth)
+
+
+
+
 
    fetch('./sampleData.json')
       .then( response => response.json() )
-      .then( data => filterByMonth(data.data, "01") ) // average over all januaries
+      .then( data => processData(data.data) ) // average over all januaries
 }
 
 

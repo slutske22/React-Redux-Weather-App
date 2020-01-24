@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { days, daysFull, months, monthsFull, daysInAMonth, date } from '../constants.js'
 //----------------------------------------------------------------//
 //    Generic Use functions and terms
 //----------------------------------------------------------------//
@@ -10,12 +10,6 @@ function modulus(i, n){
    return (i % n + n) % n;
 }
 
-const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-const daysFull = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const monthsFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const daysInAMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
-const date = new Date();
 
 
 // from https://darksky.net/dev/docs#response-format
