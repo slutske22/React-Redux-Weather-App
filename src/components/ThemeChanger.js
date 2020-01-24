@@ -3,7 +3,7 @@ import store from '../store/store'
 import { setTheme } from '../store/actions'
 import { connect } from 'react-redux'
 
-const darkColor = '#010109'
+const darkColor = '#03031b'
 
 export const darkTheme = {
    name: 'nighttime',

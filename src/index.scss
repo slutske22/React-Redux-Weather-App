@@ -1,5 +1,6 @@
 @import './variables.css';
 
+// pretty good article on theming with react and sass: https://medium.com/@dmitriy.borodiy/easy-color-theming-with-scss-bc38fd5734d1
 
 html {
    box-sizing: border-box;
@@ -141,12 +142,13 @@ FORECAST STYLES
 
 #forecast{
    width: 100%;
+   height: 45%;
    opacity: 0;
    flex-grow: 5;
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
-   padding-bottom: 40px;
+   padding-bottom: 20px;
    transition: opacity 1ms, height 0.5s;
 }
 #forecast.visible{
@@ -271,10 +273,6 @@ DAY CARD STYLES
    margin: 0px;
 }
 
-.day.expanded .expandedDay {
-
-}
-
 
 /*---------------------------------------------------
 LOCATION LIST STYLES
@@ -288,10 +286,10 @@ LOCATION LIST STYLES
    cursor: pointer;
 }
 .location-result{
-   background-color: rgb(220, 220, 220);
+   background-color: lightblue;
 }
 .location-result:hover{
-   background-color: rgb(200, 200, 200);
+   background-color: lightblue;
    text-decoration: underline;
 }
 .location-list h4{
