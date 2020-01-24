@@ -201,14 +201,17 @@ export function getWeather(locationData, locationIndex) {
             store.dispatch(throwCallerError(error.message))
          })
 
-      fetch(meteostatSearchUrl)
-         .then( response => response.json() )
-         .then( historyData => {
-            console.log('meteostat weatherstations near search term', historyData)
-            getWeatherHistory(historyData.data[0].id)
-         })
+      // fetch(meteostatSearchUrl)
+      //    .then( response => response.json() )
+      //    .then( historyData => {
+      //       console.log('meteostat weatherstations near search term', historyData)
+      //       getWeatherHistory(historyData.data[0].id)
+      //    })
    }
 }
+
+
+
 
 export function getWeatherHistory(weatherStationNumber){
 
@@ -219,6 +222,26 @@ export function getWeatherHistory(weatherStationNumber){
       .then( data => console.log('meteostat history', data) )
 
 }
+
+
+export const testDataProcessing = () => {
+
+   const filterByMonth = (data, month) => {
+      let filteredArray = data.filter( entry => entry.month.slice(entry.month.length-2, entry.month.length) === month )
+      console.log(filteredArray)
+   }
+
+   fetch('./sampleData.json')
+      .then( response => response.json() )
+      .then( data => filterByMonth(data.data, "01") ) // average over all januaries
+}
+
+
+
+
+
+
+
 
 export function receiveWeatherData(data){
    return {
