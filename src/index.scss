@@ -256,17 +256,21 @@ DAY CARD STYLES
 
 .expandedDay{
    display: none;
-   opacity: 0;
-   transition: opacity 0ms;
 }
-
+.expandedDay * {
+   opacity: 0;
+   transition: opacity 500ms 20ms;
+}
 .day.expanded .expandedDay{
    display: grid;
    width: 100%;
    height: 100%;
    padding: 25px;
+
+}
+.day.expanded .expandedDay * {
    opacity: 1;
-   transition: opacity 500ms;
+   transition: opacity 500ms 20ms;
 }
 
 .day.expanded .expandedDay h2{

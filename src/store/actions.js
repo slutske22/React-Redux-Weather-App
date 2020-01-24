@@ -235,6 +235,9 @@ export const testDataProcessing = () => {
    }
 
    function processData(data){
+
+      // console.log('raw data', data)
+
       dataByMonth.forEach( (month, index) => {
 
          const allData = filterByMonth(data, index+1)
@@ -242,20 +245,35 @@ export const testDataProcessing = () => {
          month.month = monthsFull[index]
          month.allData = allData
          // month.averageTemp = averageTemps( allData.map( month => month.temperature_mean) ).toFixed(1)
-         month.averageTemp = round( average( extractValues( filterByMonth(data, index+1), 'temperature_mean') ), 1)
-         month.averageHigh = average( allData.map( month => month.temperature_mean_max) ).toFixed(1)
-         month.averageLow = average( allData.map( month => month.temperature_mean_min) ).toFixed(1)
+         month.averageTemp = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ), 1)
+         // month.averageHigh = average( allData.map( month => month.temperature_mean_max) ).toFixed(1)
+         month.averageHigh = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ), 1)
+         // month.averageLow = average( allData.map( month => month.temperature_mean_min) ).toFixed(1)
+         month.averageLow = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ), 1)
+
+         // month.recordHigh = [
+         //    Math.max( ...nullFilteredMaxArray(allData.map( month => month.temperature_max) )).toFixed(1),
+         //    allData[indexOfMaxValue( nullFilteredMaxArray(allData.map( month => month.temperature_max) ))].month 
+         // ]
          month.recordHigh = [
-            Math.max( ...nullFilteredMaxArray(allData.map( month => month.temperature_max) )).toFixed(1),
-            allData[indexOfMaxValue( nullFilteredMaxArray(allData.map( month => month.temperature_max) ))].month 
+            round( Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ),1),
+            allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
          ]
+         // month.recordLow = [
+         //    Math.min( ...nullFilteredMinArray(allData.map( month => month.temperature_min)) ).toFixed(1),
+         //    allData[indexOfMinValue( nullFilteredMinArray(allData.map( month => month.temperature_min) ))].month 
+         // ]
          month.recordLow = [
-            Math.min( ...nullFilteredMinArray(allData.map( month => month.temperature_min)) ).toFixed(1),
-            allData[indexOfMinValue( nullFilteredMinArray(allData.map( month => month.temperature_min) ))].month 
+            round( Math.max( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),1),
+            allData[indexOfMinValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
          ]
 
       } ) //forEach
    } // processData
+
+
+   //  The following functions need to be piped
+   //  How to pipe: https://www.freecodecamp.org/news/10-ways-to-write-pipe-compose-in-javascript-f6d54c575616/
 
    const filterByMonth = (data, month) => data.filter( entry => Number(entry.month.slice(entry.month.length-2, entry.month.length)) === month )
    
@@ -263,7 +281,7 @@ export const testDataProcessing = () => {
 
    const average = values => values.reduce( (a, b) => a + b, 0) / values.length
 
-   const round = (value, n) => value.toFixed(n)
+   const round = (value, n) => Number(value.toFixed(n))
 
    // Get index of max value(s) in an array
    // bitten from https://stackoverflow.com/questions/11301438/return-index-of-greatest-value-in-an-array/11301464
@@ -278,7 +296,8 @@ export const testDataProcessing = () => {
    const nullFilteredMaxArray = array => array.map( item => item == null ? -Infinity : item )
    const nullFilteredMinArray = array =>  array.map( item => item == null ? Infinity : item )
 
-   const maxTemp = temps => Math.max(...temps)
+
+
 
    console.log(dataByMonth)
 
