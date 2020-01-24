@@ -236,15 +236,21 @@ export const testDataProcessing = () => {
 
    function processData(data){
       dataByMonth.forEach( (month, index) => {
+
+         const allData = filterByMonth(data, index+1)
+
          month.month = monthsFull[index]
-         month.allData = filterByMonth(data, index+1)
-         month.averageTemp = averageTemps( filterByMonth(data, index+1).map( month => month.temperature_mean) )
-         month.averageHigh = averageTemps( filterByMonth(data, index+1).map( month => month.temperature_mean_max) )
-         month.averageLow = averageTemps( filterByMonth(data, index+1).map( month => month.temperature_mean_min) )
-         month.recordHigh = [ maxTemp( filterByMonth(data, index+1).map( month => month.temperature_max) ),
-            indexOfMaxValue( filterByMonth(data, index+1).map( month => month.temperature_max) )]
-      } )
-   }
+         month.allData = allData
+         month.averageTemp = averageTemps( allData.map( month => month.temperature_mean) )
+         month.averageHigh = averageTemps( allData.map( month => month.temperature_mean_max) )
+         month.averageLow = averageTemps( allData.map( month => month.temperature_mean_min) )
+         month.recordHigh = [
+            maxTemp( allData.map( month => month.temperature_max) ),
+            allData[indexOfMaxValue( allData.map( month => month.temperature_max) )].month 
+         ]
+
+      } ) //forEach
+   } // processData
 
    const filterByMonth = (data, month) => {
       return data.filter( entry => Number(entry.month.slice(entry.month.length-2, entry.month.length)) === month )
