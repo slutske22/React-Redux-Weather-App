@@ -241,16 +241,16 @@ export const testDataProcessing = () => {
 
          month.month = monthsFull[index]
          month.allData = allData
-         month.averageTemp = averageTemps( allData.map( month => month.temperature_mean) )
-         month.averageHigh = averageTemps( allData.map( month => month.temperature_mean_max) )
-         month.averageLow = averageTemps( allData.map( month => month.temperature_mean_min) )
+         month.averageTemp = averageTemps( allData.map( month => month.temperature_mean) ).toFixed(1)
+         month.averageHigh = averageTemps( allData.map( month => month.temperature_mean_max) ).toFixed(1)
+         month.averageLow = averageTemps( allData.map( month => month.temperature_mean_min) ).toFixed(1)
          month.recordHigh = [
-            Math.max( ...allData.map( month => month.temperature_max) ),
-            allData[indexOfMaxValue( allData.map( month => month.temperature_max) )].month 
+            Math.max( ...nullFilteredMaxArray(allData.map( month => month.temperature_max) )).toFixed(1),
+            allData[indexOfMaxValue( nullFilteredMaxArray(allData.map( month => month.temperature_max) ))].month 
          ]
          month.recordLow = [
-            Math.min( ...allData.map( month => month.temperature_min) ),
-            allData[indexOfMinValue( allData.map( month => month.temperature_min) )].month 
+            Math.min( ...nullFilteredMinArray(allData.map( month => month.temperature_min)) ).toFixed(1),
+            allData[indexOfMinValue( nullFilteredMinArray(allData.map( month => month.temperature_min) ))].month 
          ]
 
       } ) //forEach
@@ -262,9 +262,18 @@ export const testDataProcessing = () => {
 
    const averageTemps = temps => temps.reduce( (a, b) => a + b, 0) / temps.length
 
+   // Get index of max value(s) in an array
    // bitten from https://stackoverflow.com/questions/11301438/return-index-of-greatest-value-in-an-array/11301464
    const indexOfMaxValue = a => a.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
    const indexOfMinValue = a => a.reduce((iMin, x, i, arr) => x < arr[iMin] ? i : iMin, 0);
+
+   // Filter out null values of an array
+   const filterArrayByNull = array => array.filter( item => item )
+
+   // To find min and max, and indexes thereof, need to turn null into infinity (when looking for min) and turn null into -infinity (when looking for max)
+   // bitten from https://stackoverflow.com/questions/11817861/math-min-apply-returns-0-for-null
+   const nullFilteredMaxArray = array => array.map( item => item == null ? -Infinity : item )
+   const nullFilteredMinArray = array =>  array.map( item => item == null ? Infinity : item )
 
    const maxTemp = temps => Math.max(...temps)
 
