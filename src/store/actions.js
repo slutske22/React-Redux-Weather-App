@@ -241,9 +241,10 @@ export const testDataProcessing = () => {
 
          month.month = monthsFull[index]
          month.allData = allData
-         month.averageTemp = averageTemps( allData.map( month => month.temperature_mean) ).toFixed(1)
-         month.averageHigh = averageTemps( allData.map( month => month.temperature_mean_max) ).toFixed(1)
-         month.averageLow = averageTemps( allData.map( month => month.temperature_mean_min) ).toFixed(1)
+         // month.averageTemp = averageTemps( allData.map( month => month.temperature_mean) ).toFixed(1)
+         month.averageTemp = round( average( extractValues( filterByMonth(data, index+1), 'temperature_mean') ), 1)
+         month.averageHigh = average( allData.map( month => month.temperature_mean_max) ).toFixed(1)
+         month.averageLow = average( allData.map( month => month.temperature_mean_min) ).toFixed(1)
          month.recordHigh = [
             Math.max( ...nullFilteredMaxArray(allData.map( month => month.temperature_max) )).toFixed(1),
             allData[indexOfMaxValue( nullFilteredMaxArray(allData.map( month => month.temperature_max) ))].month 
@@ -256,11 +257,13 @@ export const testDataProcessing = () => {
       } ) //forEach
    } // processData
 
-   const filterByMonth = (data, month) => {
-      return data.filter( entry => Number(entry.month.slice(entry.month.length-2, entry.month.length)) === month )
-   }
+   const filterByMonth = (data, month) => data.filter( entry => Number(entry.month.slice(entry.month.length-2, entry.month.length)) === month )
+   
+   const extractValues = (array, subvalue) => array.map( value => value[subvalue])
 
-   const averageTemps = temps => temps.reduce( (a, b) => a + b, 0) / temps.length
+   const average = values => values.reduce( (a, b) => a + b, 0) / values.length
+
+   const round = (value, n) => value.toFixed(n)
 
    // Get index of max value(s) in an array
    // bitten from https://stackoverflow.com/questions/11301438/return-index-of-greatest-value-in-an-array/11301464
