@@ -256,26 +256,39 @@ DAY CARD STYLES
 
 .expandedDay{
    display: none;
+
+   * {
+      opacity: 0;
+      transition: opacity 500ms 20ms;
+   }
+
 }
-.expandedDay * {
-   opacity: 0;
-   transition: opacity 500ms 20ms;
-}
+
 .day.expanded .expandedDay{
-   display: grid;
+   display: block;
+   position: relative;
    width: 100%;
    height: 100%;
    padding: 25px;
 
-}
-.day.expanded .expandedDay * {
-   opacity: 1;
-   transition: opacity 500ms 20ms;
+   * {
+      opacity: 1;
+      transition: opacity 500ms 20ms;
+   }
+
+   h2{
+      margin: 0px;
+   }
+
+   .weatherIcon {
+      width: 150px;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+   }
+
 }
 
-.day.expanded .expandedDay h2{
-   margin: 0px;
-}
 
 
 /*---------------------------------------------------
