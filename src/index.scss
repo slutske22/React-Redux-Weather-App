@@ -287,6 +287,20 @@ DAY CARD STYLES
       right: 0px;
    }
 
+   .temp{
+      font-size: 1.6em;
+   }
+   
+   .sunrise-sunset{
+      position: absolute;
+      right: 20px;
+      bottom: 10px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto;
+      align-items: center;
+   }
+
 }
 
 
@@ -334,3 +348,6 @@ ERROR STYLES
 .error span{
    text-transform: lowercase;
 }
+
+
+

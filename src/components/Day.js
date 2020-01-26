@@ -1,5 +1,7 @@
 import React from 'react';
 import { days, daysFull, months, monthsFull } from '../constants.js'
+
+import { cloudyIcon } from './svgIcons/Icons.js'
 //----------------------------------------------------------------//
 //    Generic Use functions and terms
 //----------------------------------------------------------------//
@@ -69,8 +71,6 @@ class Day extends React.Component {
 
    render(){
 
-      console.log(this.props.weatherData)
-
       const thisDay = new Date( currentTimeStamp + 86400000 * this.props.number )
 
       const { weatherData } = this.props
@@ -88,6 +88,8 @@ class Day extends React.Component {
       return (
          <div className={`day ${this.state.style}`} number={this.props.number} onClick={this.expandDay} >
 
+            {cloudyIcon}
+
             <div className={`summaryDay`}>
                <div className="cardIndex">{ this.props.number }</div>
 
@@ -97,8 +99,7 @@ class Day extends React.Component {
                <h2 className="date">
                   { months[thisDay.getMonth()] } { thisDay.getDate() }
                </h2>
-               <img className="weatherIcon" style={{width: '100px'}}
-                  src={`icons/${icon}.png`} alt={summary} title={summary} />
+               <img className="weatherIcon" style={{width: '100px'}} src={`icons/${icon}.png`} alt={summary} title={summary} />
                <p className="maxTemp">{temperatureHigh.toFixed(0)} °F</p>
                <p className="minTemp">{temperatureLow.toFixed(0)} °F</p>
             </div>
@@ -109,9 +110,16 @@ class Day extends React.Component {
                   src={`icons/${icon}.png`} alt={summary} title={summary} />
                <h2>{ daysFull[ thisDay.getDay() ] }, { monthsFull[ thisDay.getMonth() ] } { thisDay.getDate() }</h2>
                <p>{summary}</p>
-               <p>{Math.round(temperatureHigh)}°F High at {convertTimeStamp(temperatureMaxTime)}</p>
-               <p>{Math.round(temperatureLow)}°F Low at {convertTimeStamp(temperatureMinTime)}</p>
+               <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime)}</p>
+               <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime)}</p>
                <p>Humidity: {humidity * 100}%</p>
+               <div className="sunrise-sunset">
+                  <img className="sunriseIcon" style={{width: '64px'}} src={`icons/sunrise.png`} alt="sunrise" title="sunrise icon" />
+                  <p>Sunrise: {convertTimeStamp(sunriseTime)}</p>
+                  <img className="sunriseIcon" style={{width: '64px'}} src={`icons/sunrise.png`} alt="sunrise" title="sunrise icon" />
+                  <p>Sunset: {convertTimeStamp(sunsetTime)}</p>
+
+               </div>
             </div>
 
          </div>
