@@ -1,5 +1,5 @@
 import React from 'react';
-import { days, daysFull, months, monthsFull, daysInAMonth, date } from '../constants.js'
+import { days, daysFull, months, monthsFull } from '../constants.js'
 //----------------------------------------------------------------//
 //    Generic Use functions and terms
 //----------------------------------------------------------------//
@@ -9,6 +9,8 @@ import { days, daysFull, months, monthsFull, daysInAMonth, date } from '../const
 function modulus(i, n){
    return (i % n + n) % n;
 }
+
+const currentTimeStamp = new Date().getTime()
 
 function convertTimeStamp(timestamp){
    let date = new Date(timestamp * 1000)
@@ -69,13 +71,17 @@ class Day extends React.Component {
 
       console.log(this.props.weatherData)
 
+      const thisDay = new Date( currentTimeStamp + 86400000 * this.props.number )
+
       const { weatherData } = this.props
       const { temperatureHigh, 
          temperatureLow, 
          temperatureMaxTime,
          temperatureMinTime,
+         humidity, 
          sunriseTime,
          sunsetTime,
+         moonPhase,
          summary, 
          icon } = weatherData.daily.data[this.props.number]
 
@@ -85,11 +91,14 @@ class Day extends React.Component {
             <div className={`summaryDay`}>
                <div className="cardIndex">{ this.props.number }</div>
 
-               <h2>{ days[ modulus(date.getDay() + this.props.number, 7) ] }</h2>
-               <h2 className="date">{ months[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
+               <h2>
+                  { days[ thisDay.getDay() ] }
+               </h2>
+               <h2 className="date">
+                  { months[thisDay.getMonth()] } { thisDay.getDate() }
+               </h2>
                <img className="weatherIcon" style={{width: '100px'}}
                   src={`icons/${icon}.png`} alt={summary} title={summary} />
-               {/*<p className="summary">{summary}</p>*/}
                <p className="maxTemp">{temperatureHigh.toFixed(0)} °F</p>
                <p className="minTemp">{temperatureLow.toFixed(0)} °F</p>
             </div>
@@ -98,10 +107,11 @@ class Day extends React.Component {
             <div className="expandedDay">
                <img className="weatherIcon"
                   src={`icons/${icon}.png`} alt={summary} title={summary} />
-               <h2>{ daysFull[ modulus(date.getDay() + this.props.number, 7) ] }, { monthsFull[date.getMonth()] } { modulus( date.getDate() + this.props.number, daysInAMonth[date.getMonth()] ) }</h2>
+               <h2>{ daysFull[ thisDay.getDay() ] }, { monthsFull[ thisDay.getMonth() ] } { thisDay.getDate() }</h2>
                <p>{summary}</p>
                <p>{Math.round(temperatureHigh)}°F High at {convertTimeStamp(temperatureMaxTime)}</p>
                <p>{Math.round(temperatureLow)}°F Low at {convertTimeStamp(temperatureMinTime)}</p>
+               <p>Humidity: {humidity * 100}%</p>
             </div>
 
          </div>

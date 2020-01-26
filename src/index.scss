@@ -303,16 +303,23 @@ LOCATION LIST STYLES
    cursor: pointer;
 }
 .location-result{
-   background-color: lightblue;
+   background-color: var(--background-color);
+   border: 1px solid var(--foreground-color);
+
 }
 .location-result:hover{
-   background-color: lightblue;
+   border: 1px solid #00aedd;
    text-decoration: underline;
 }
 .location-list h4{
    margin-top: 0;
 }
+
+.location-result.current-selection{
+   border: 1px solid #00aedd;
+}
 .location-list h5.current-selection{
+   color: #00aedd;
    margin: 0;
    float: right;
 }
