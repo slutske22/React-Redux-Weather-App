@@ -1,7 +1,7 @@
 import React from 'react';
 import { days, daysFull, months, monthsFull } from '../constants.js'
 
-import { cloudyIcon } from './svgIcons/Icons.js'
+
 //----------------------------------------------------------------//
 //    Generic Use functions and terms
 //----------------------------------------------------------------//
@@ -87,8 +87,6 @@ class Day extends React.Component {
 
       return (
          <div className={`day ${this.state.style}`} number={this.props.number} onClick={this.expandDay} >
-
-            {cloudyIcon}
 
             <div className={`summaryDay`}>
                <div className="cardIndex">{ this.props.number }</div>
