@@ -15,26 +15,26 @@ import { LightningIcon } from './LightningIcon'
 import { TornadoIcon } from './TornadoIcon'
 
 
-const Icons = {
+const Icons = props => ({
    // commonly used darksky icon names
-   "clear-day": <ClearDayIcon />,
-   "clear-night": <ClearNightIcon />,
-   "rain": <RainMediumIcon />,
-   "snow": <SnowIcon />,
-   "sleet": <RainHeavyIcon />,
-   "wind": <WindyDayIcon />,
-   "fog": <FogIcon />,
-   "cloudy": <CloudyIcon />,
-   "partly-cloudy-day": <PartlyCloudyDayIcon />,
-   "partly-cloudy-night": <PartlyCloudyNightIcon />,
+   "clear-day": <ClearDayIcon {...props} />,
+   "clear-night": <ClearNightIcon {...props} />,
+   "rain": <RainMediumIcon {...props} />,
+   "snow": <SnowIcon {...props} />,
+   "sleet": <RainHeavyIcon {...props} />,
+   "wind": <WindyDayIcon{...props} />,
+   "fog": <FogIcon {...props} />,
+   "cloudy": <CloudyIcon {...props} />,
+   "partly-cloudy-day": <PartlyCloudyDayIcon {...props} />,
+   "partly-cloudy-night": <PartlyCloudyNightIcon {...props} />,
    // potential future icon names
-   "hail": <HailIcon />,
-   "thunderstorm": <LightningIcon />,
-   "tornado": <TornadoIcon />
+   "hail": <HailIcon {...props} />,
+   "thunderstorm": <LightningIcon {...props} />,
+   "tornado": <TornadoIcon {...props} />
    // other good icons
-}
+})
 
-const WeatherIcon = props => Icons[ props.icon ]
+const WeatherIcon = props => Icons(props)[ props.icon ]
 
 
 export default WeatherIcon

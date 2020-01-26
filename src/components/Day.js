@@ -1,5 +1,6 @@
 import React from 'react';
 import { days, daysFull, months, monthsFull } from '../constants.js'
+import WeatherIcon from './svgIcons'
 
 
 //----------------------------------------------------------------//
@@ -97,15 +98,17 @@ class Day extends React.Component {
                <h2 className="date">
                   { months[thisDay.getMonth()] } { thisDay.getDate() }
                </h2>
-               <img className="weatherIcon" style={{width: '100px'}} src={`icons/${icon}.png`} alt={summary} title={summary} />
+               {/* <img className="weatherIcon" style={{width: '100px'}} src={`icons/${icon}.png`} alt={summary} title={summary} /> */}
+               <WeatherIcon icon={icon} className="weatherIcon" style={{width: '100px'}} />
                <p className="maxTemp">{temperatureHigh.toFixed(0)} °F</p>
                <p className="minTemp">{temperatureLow.toFixed(0)} °F</p>
             </div>
 
 
             <div className="expandedDay">
-               <img className="weatherIcon"
-                  src={`icons/${icon}.png`} alt={summary} title={summary} />
+               {/* <img className="weatherIcon" src={`icons/${icon}.png`} alt={summary} title={summary} /> */}
+               <WeatherIcon icon={icon} className="weatherIcon" />
+
                <h2>{ daysFull[ thisDay.getDay() ] }, { monthsFull[ thisDay.getMonth() ] } { thisDay.getDate() }</h2>
                <p>{summary}</p>
                <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime)}</p>
