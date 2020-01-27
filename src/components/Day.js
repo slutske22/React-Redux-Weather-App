@@ -18,7 +18,7 @@ const currentTimeStamp = new Date().getTime()
 function convertTimeStamp(timestamp){
    let date = new Date(timestamp * 1000)
    var hours = date.getHours() > 12 ? date.getHours() % 12 : date.getHours();
-   var ampm = date.getHours() > 12 ? ' PM' : ' AM';
+   var ampm = date.getHours() >= 12 ? ' PM' : ' AM';
    var minutes = "0" + date.getMinutes();
    return hours + ':' + minutes.substr(-2) + ampm;
 }
