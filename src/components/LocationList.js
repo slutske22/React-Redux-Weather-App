@@ -40,7 +40,7 @@ class LocationList extends React.Component {
 
 const mapStateToProps = (state) => {
    return {
-      listOfLocations: state.locationData
+      listOfLocations: state.data.locations
    }
 }
 

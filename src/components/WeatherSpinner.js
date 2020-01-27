@@ -105,7 +105,7 @@ class WeatherSpinner extends React.Component {
 
 const mapStateToProps = (state) => {
    return {
-      loadingMessage: state.weatherSpinnerOpen
+      loadingMessage: state.show.weatherSpinner
    }
 }
 

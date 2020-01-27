@@ -8,7 +8,7 @@ const Error = props => (
 
 const mapStateToProps = (state) => {
    return {
-      callerError: state.callerError
+      callerError: state.data.callerError
    }
 }
 
