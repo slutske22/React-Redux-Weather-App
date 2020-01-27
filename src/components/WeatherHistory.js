@@ -7,7 +7,7 @@ class WeatherHistory extends React.Component {
    render() {
       return (
          <div className="WeatherHistory">
-
+            This is the weather history section
          </div>
       )
    }

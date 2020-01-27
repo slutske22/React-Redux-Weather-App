@@ -112,9 +112,11 @@ class Day extends React.Component {
                <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime)}</p>
                <p>Humidity: {humidity * 100}%</p>
                <div className="sunrise-sunset">
-                  <img className="sunriseIcon" style={{width: '64px'}} src={`icons/sunrise.png`} alt="sunrise" title="sunrise icon" />
+                  {/* <img className="sunriseIcon" style={{width: '64px'}} src={`icons/sunrise.png`} alt="sunrise" title="sunrise icon" /> */}
+                  <WeatherIcon icon={'sunrise'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunrise: {convertTimeStamp(sunriseTime)}</p>
-                  <img className="sunsetIcon" style={{width: '64px'}} src={`icons/sunset.png`} alt="sunset" title="sunset icon" />
+                  {/* <img className="sunsetIcon" style={{width: '64px'}} src={`icons/sunset.png`} alt="sunset" title="sunset icon" /> */}
+                  <WeatherIcon icon={'sunset'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunset: {convertTimeStamp(sunsetTime)}</p>
 
                </div>

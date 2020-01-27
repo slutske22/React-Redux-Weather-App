@@ -13,6 +13,8 @@ import { PartlyCloudyNightIcon } from './PartlyCloudyNightIcon'
 import { HailIcon } from './HailIcon'
 import { LightningIcon } from './LightningIcon'
 import { TornadoIcon } from './TornadoIcon'
+import { SunriseIcon } from './SunriseIcon'
+import { SunsetIcon } from './SunsetIcon'
 
 
 const Icons = props => ({
@@ -22,11 +24,13 @@ const Icons = props => ({
    "rain": <RainMediumIcon {...props} />,
    "snow": <SnowIcon {...props} />,
    "sleet": <RainHeavyIcon {...props} />,
-   "wind": <WindyDayIcon{...props} />,
+   "wind": <WindyDayIcon {...props} />,
    "fog": <FogIcon {...props} />,
    "cloudy": <CloudyIcon {...props} />,
    "partly-cloudy-day": <PartlyCloudyDayIcon {...props} />,
    "partly-cloudy-night": <PartlyCloudyNightIcon {...props} />,
+   "sunrise": <SunriseIcon {...props} />,
+   "sunset": <SunsetIcon {...props} />,
    // potential future icon names
    "hail": <HailIcon {...props} />,
    "thunderstorm": <LightningIcon {...props} />,

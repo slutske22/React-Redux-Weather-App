@@ -4,17 +4,21 @@ import { setTheme } from '../store/actions'
 import { connect } from 'react-redux'
 
 const darkColor = '#03031b'
+const lightSun = '#f8b62d'
+const darkSun = '#b40000'
 
 export const darkTheme = {
    name: 'nighttime',
    foregroundColor: "white",
-   backgroundColor: darkColor
+   backgroundColor: darkColor,
+   sunColor: darkSun
 }
 
 export const lightTheme = {
    name: 'daytime',
    foregroundColor: darkColor,
-   backgroundColor: "white"
+   backgroundColor: "white",
+   sunColor: lightSun
 }
 
 class ThemeChanger extends React.Component {

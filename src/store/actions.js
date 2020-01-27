@@ -58,14 +58,6 @@ export function geolocateUser(){
                store.dispatch( setTheme(darkTheme) )
             }
 
-
-
-            // const timeofDay = userSunriseTime < userCurrentTime && userCurrentTime < userSunsetTime
-            //    ? store.dispatch( setTheme(lightTheme) )
-            //    : store.dispatch( setTheme(darkTheme) )
-
-            // console.log(timeofDay);
-
          })
    }
 
@@ -77,20 +69,16 @@ export function geolocateUser(){
 
 }
 
-
 export function setTheme(theme){
-   document
-      .documentElement.style.setProperty("--foreground-color", theme.foregroundColor);
-   document
-      .documentElement.style.setProperty("--background-color", theme.backgroundColor);
+   document.documentElement.style.setProperty("--foreground-color", theme.foregroundColor);
+   document.documentElement.style.setProperty("--background-color", theme.backgroundColor);
+   document.documentElement.style.setProperty("--sun-color", theme.sunColor);
+
    return{
       type: CHANGE_THEME,
       payload: theme
    }
 }
-
-
-
 
 export function typeZip(e){
    if (e.keyCode === 13 && e.target.value.trim().length > 0){
@@ -358,16 +346,5 @@ export function changeLocation(e){
       type: CHANGE_LOCATION,
       showMoreLocations: false,
       chosenIndex: e.target.getAttribute('number')
-   }
-}
-
-export function changeTheme(theme){
-   document
-      .documentElement.style.setProperty("--foreground-color", theme.foregroundColor);
-   document
-      .documentElement.style.setProperty("--background-color", theme.backgroundColor);
-   return{
-      type: CHANGE_THEME,
-      payload: theme
    }
 }
