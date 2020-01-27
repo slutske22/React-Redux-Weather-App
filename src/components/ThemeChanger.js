@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 const darkColor = '#03031b'
 const lightSun = '#f8b62d'
-const darkSun = '#b40000'
+const darkSun = '#f8b62d'
 
 export const darkTheme = {
    name: 'nighttime',

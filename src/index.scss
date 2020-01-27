@@ -25,7 +25,19 @@ html, body, #root, #app{
    flex-direction: column;
    align-items: center;
    justify-content: flex-start;
-   padding: 30px 125px;
+   padding: 30px 200px;
+}
+
+@media (max-width: 1186px) {
+   .App{
+      padding: 30px 125px;
+   }
+}
+
+@media (max-width: 968px) {
+   .App{
+      padding: 30px 80px;
+   }
 }
 
 a, a:visited{
