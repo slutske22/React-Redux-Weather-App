@@ -46,24 +46,6 @@ export const initialState = {
       }
    },
 
-
-
-
-   // Original Structure
-   zipValue: '',
-   cityValue: '',
-   callerError: false,
-   dataReady: '',
-   locationData: '',
-   weatherData: '',
-   class: '',
-   multipleLocationResults: false,
-   showMoreLocations: false,
-   showWeatherHistory: false,
-   locationIndex: 0,
-   weatherSpinnerOpen: false,
-   theme: lightTheme,
-   userPosition: undefined
 }
 
 
@@ -120,6 +102,7 @@ export function rootReducer(state = initialState, action) {
       case RECIEVE_WEATHER_DATA:
          return {
             ...state,
+            currentRoute: '/forecast',
             data: {
                ...state.data,
                callerError: false,
@@ -138,6 +121,7 @@ export function rootReducer(state = initialState, action) {
       case THROW_CALLER_ERROR:
          return {
             ...initialState,
+            currentRoute: '/err',
             class: 'data-ready',
             data: {
                ...state.data,
@@ -148,6 +132,7 @@ export function rootReducer(state = initialState, action) {
       case VIEW_LOCATIONLIST:
          return {
             ...state,
+            currentRoute: '/locationlist',
             show: {
                ...state.show,
                moreLocations: action.showMoreLocations
@@ -161,6 +146,7 @@ export function rootReducer(state = initialState, action) {
       case VIEW_WEATHER_HISTORY:
          return {
             ...state,
+            currentRoute: '/history',
             show: {
                ...state.show,
                weatherHistory: action.showWeatherHistory
