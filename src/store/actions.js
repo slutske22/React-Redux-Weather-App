@@ -106,6 +106,7 @@ export function showSpinner(message){
    return {
       type: SHOW_SPINNER,
       weatherSpinnerOpen: message,
+      showMoreLocations: false,
       showWeatherHistory: false
    }
 }
@@ -142,10 +143,10 @@ export function searchLocation(name, searchTerm) {
             // console.log( locationData )
             if (locationData.length >= 1){
                store.dispatch( receiveLocationData( locationData ) )
-               getWeather(locationData, store.getState().locationIndex)()
+               getWeather(locationData, store.getState().data.locations.index)()
             } else if (locationData.length > 2){
                store.dispatch( receiveLocationData( locationData ) )
-               getWeather(locationData, store.getState().locationIndex)()
+               getWeather(locationData, store.getState().data.locations.index)()
 
             } else {
                store.dispatch(throwCallerError("No results returned.  Try another search term.") )
@@ -169,7 +170,7 @@ export function receiveLocationData(locationData){
 export function getWeather(locationData, locationIndex) {
 
    // If weatherspinner is already open from location search, don't open it again
-   if (!store.getState().weatherSpinnerOpen){
+   if (!store.getState().show.weatherSpinner){
       store.dispatch( showSpinner('Loading Weather...') )
    }
 
@@ -341,7 +342,7 @@ export function viewWeatherHistory(){
 }
 
 export function changeLocation(e){
-   getWeather(store.getState().locationData, e.target.getAttribute('number'))()
+   getWeather(store.getState().data.locations.data, e.target.getAttribute('number'))()
    return {
       type: CHANGE_LOCATION,
       showMoreLocations: false,

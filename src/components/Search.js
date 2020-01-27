@@ -27,8 +27,8 @@ class SearchBar extends React.Component{
 
 const mapStateToProps = state => {
    return {
-      cityValue: state.cityValue,
-      zipValue: state.zipValue,
+      cityValue: state.userInput.cityValue,
+      zipValue: state.userInput.zipValue,
       readyClass: state.class
    }
 }

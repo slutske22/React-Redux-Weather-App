@@ -15,29 +15,17 @@ import { darkTheme, lightTheme } from '../components/ThemeChanger'
 
 
 export const initialState = {
-   zipValue: '',
-   cityValue: '',
-   callerError: false,
-   dataReady: '',
-   locationData: '',
-   weatherData: '',
-   class: '',
-   multipleLocationResults: false,
-   showMoreLocations: false,
-   showWeatherHistory: false,
-   locationIndex: 0,
-   weatherSpinnerOpen: false,
-   theme: lightTheme,
-   userPosition: undefined
-}
 
-// Revised state tree - makes more sense
-// Testing codesandbox to new branch
-const betterState = {
+   // Revised state tree - makes more sense
    currentRoute: '/',
+   show: { // for now, until I implement router
+      moreLocations: false,
+      weatherHistory: false,
+      weatherSpinner: false,
+   },
    class: '',
    theme: lightTheme,
-   userInputs: {
+   userInput: {
       zipValue: '',
       cityValue: ''
    },
@@ -56,8 +44,28 @@ const betterState = {
          ready: false,
          data: ''
       }
-   }
+   },
+
+
+
+
+   // Original Structure
+   zipValue: '',
+   cityValue: '',
+   callerError: false,
+   dataReady: '',
+   locationData: '',
+   weatherData: '',
+   class: '',
+   multipleLocationResults: false,
+   showMoreLocations: false,
+   showWeatherHistory: false,
+   locationIndex: 0,
+   weatherSpinnerOpen: false,
+   theme: lightTheme,
+   userPosition: undefined
 }
+
 
 export function rootReducer(state = initialState, action) {
    switch(action.type){
@@ -65,67 +73,123 @@ export function rootReducer(state = initialState, action) {
       case TYPE_IN_CITYNAME_FIELD:
          return{
             ...state,
-            cityValue: action.cityValue,
+            userInput: {
+               ...state.userInputs,
+               cityValue: action.cityValue
+            }
          }
 
       case TYPE_IN_ZIP_FIELD:
          return {
             ...state,
-            zipValue: action.zipValue,
+            userInput: {
+               ...state.userInputs,
+               zipValue: action.zipValue
+            }
          }
 
       case SHOW_SPINNER:
       return {
          ...state,
-         weatherSpinnerOpen: action.weatherSpinnerOpen,
          class: 'data-ready',
-         showMoreLocations: action.showMoreLocations,
-         showWeatherHistory: action.showWeatherHistory
+         data: {
+            ...state.data,
+            callerError: null
+         },
+         show: {
+            moreLocations: action.showMoreLocations,
+            weatherHistory: action.showWeatherHistory,
+            weatherSpinner: action.weatherSpinnerOpen,
+         },
       }
 
       case RECIEVE_LOCATION_DATA:
          return {
             ...state,
-            dataReady: false,
-            locationData: action.data,
-            locationIndex: 0,
-            callerError: false,
-            class: 'data-ready'
+            class: 'data-ready',
+            data: {
+               ...state.data,
+               callerError: false,
+               locations: {
+                  data: action.data,
+                  index: 0
+               }
+            },
          }
 
       case RECIEVE_WEATHER_DATA:
          return {
             ...state,
-            weatherData: action.data,
-            dataReady: true,
-            callerError: false,
-            weatherSpinnerOpen: false
+            data: {
+               ...state.data,
+               callerError: false,
+               forecast: {
+                  ready: true,
+                  data: action.data
+               }
+            },
+            show: {
+               ...state.data.show,
+               weatherSpinner: false,
+               moreLocations: false
+            },
          }
 
       case THROW_CALLER_ERROR:
          return {
             ...initialState,
-            callerError: action.error,
-            zipValue: action.zipValue,
-            cityValue: action.cityValue,
-            class: 'data-ready'
+            class: 'data-ready',
+            data: {
+               ...state.data,
+               callerError: action.error,
+            },
          }
 
       case VIEW_LOCATIONLIST:
          return {
             ...state,
+            show: {
+               ...state.show,
+               moreLocations: action.showMoreLocations
+            },
+
+
+
             showMoreLocations: action.showMoreLocations
          }
 
       case VIEW_WEATHER_HISTORY:
          return {
             ...state,
+            show: {
+               ...state.show,
+               weatherHistory: action.showWeatherHistory
+            },
+
+
             showWeatherHistory: action.showWeatherHistory
          }
 
       case CHANGE_LOCATION:
          return {
             ...state,
+            data: {
+               ...state.data,
+               locations: {
+                  ...state.data.locations,
+                  index: action.chosenIndex
+               },
+               forecast: {
+                  ...state.data.forecast,
+                  ready: false
+               }
+            },
+            show: {
+               ...state.show,
+               moreLocations: false
+            },
+
+
             showMoreLocations: action.showMoreLocations,
             locationIndex: action.chosenIndex
          }

@@ -19,15 +19,15 @@ class Body extends React.Component{
 
       return (
          <Router>
-            {weatherSpinnerOpen && !callerError && <WeatherSpinner />}
-            {dataReady && !showMoreLocations && !showWeatherHistory && 
+            {weatherSpinnerOpen && <WeatherSpinner />}
+            {dataReady && !callerError && !weatherSpinnerOpen && !showMoreLocations && !showWeatherHistory && 
                <Week locationIndex={locationIndex}
                locationData={locationData} weatherData={weatherData} showMoreLocations={showMoreLocations} openLocationList={this.openLocationList}
                />}
             {showWeatherHistory && <WeatherHistory />}
-            {dataReady === '' && !showMoreLocations && !callerError && <Error />}
+            {callerError && <Error />}
             {showMoreLocations &&  
-               <LocationList locationData={locationData} locationIndex={locationIndex} changeLocation={this.props.changeLocation}/>}
+               <LocationList locationData={locationData} locationIndex={locationIndex} />}
 
             <Switch>
                <Route exact path="/" component={Empty} />
@@ -38,49 +38,20 @@ class Body extends React.Component{
          </Router>
       )
 
-      // if (weatherSpinnerOpen && !callerError){
-
-      //    return <WeatherSpinner />
-
-      // } else if (dataReady && !showMoreLocations && !showWeatherHistory){
-
-         // return <Week locationIndex={locationIndex}
-         // locationData={locationData} weatherData={weatherData} showMoreLocations={showMoreLocations} openLocationList={this.openLocationList}
-         // >
-
-      // } else if (showWeatherHistory) {
-
-      //    return <WeatherHistory />
-
-      // } else if (dataReady === '' && !showMoreLocations && !callerError) {
-
-      //    return <Empty />
-
-      // } else if (callerError){
-
-      //    return  <Error />
-
-      // } else if (showMoreLocations){
-
-      //    return <LocationList locationData={locationData} locationIndex={locationIndex} changeLocation={this.props.changeLocation}/>
-
-      // }
-
-
    }
 
 }
 
 const mapStateToProps = (state) => {
    return {
-      dataReady: state.dataReady,
-      weatherData: state.weatherData,
-      locationData: state.locationData,
-      showMoreLocations: state.showMoreLocations,
-      showWeatherHistory: state.showWeatherHistory,
-      locationIndex: state.locationIndex,
-      callerError: state.callerError,
-      weatherSpinnerOpen: state.weatherSpinnerOpen
+      dataReady: state.data.forecast.ready,
+      weatherData: state.data.forecast.data,
+      locationData: state.data.locations.data,
+      showMoreLocations: state.show.moreLocations,
+      showWeatherHistory: state.show.weatherHistory,
+      locationIndex: state.data.locations.index,
+      callerError: state.data.callerError,
+      weatherSpinnerOpen: state.show.weatherSpinner
    }
 }
 
