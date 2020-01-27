@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import './WeatherSpinner.scss'
+import '../css/WeatherSpinner.scss'
 
 export const Spinner1 = () => {
    return(

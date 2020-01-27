@@ -11,6 +11,7 @@ export const SEARCH_LOCATION = "SEARCH_LOCATION";
 export const SHOW_SPINNER = "SHOW_SPINNER";
 export const RECIEVE_LOCATION_DATA = "RECIEVE_LOCATION_DATA";
 export const RECIEVE_WEATHER_DATA = "RECIEVE_WEATHER_DATA";
+export const RECIEVE_WEATHER_HISTORY = "RECIEVE_WEATHER_HISTORY";
 export const THROW_CALLER_ERROR = "THROW_CALLER_ERROR";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
 export const VIEW_WEATHER_HISTORY = "VIEW_WEATHER_HISTORY";
@@ -180,9 +181,6 @@ export function getWeather(locationData, locationIndex) {
    let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
 
 
-   let meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=1&key=${meteoStatKey}`
-
-
    return function () {
 
       fetch(url)
@@ -194,32 +192,93 @@ export function getWeather(locationData, locationIndex) {
             store.dispatch(throwCallerError(error.message))
          })
 
-      // fetch(meteostatSearchUrl)
-      //    .then( response => response.json() )
-      //    .then( historyData => {
-      //       console.log('meteostat weatherstations near search term', historyData)
-      //       getWeatherHistory(historyData.data[0].id)
-      //    })
+
+   }
+}
+
+export function receiveWeatherData(data){
+   return {
+      type: RECIEVE_WEATHER_DATA,
+      data: data,
+      weatherSpinnerOpen: false
    }
 }
 
 
 
 
-export function getWeatherHistory(weatherStationNumber){
+export function getWeatherHistory() {
 
-   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2009-01&end=2019-12&key=${meteoStatKey}`
+   // First show the loading spinner:
+   store.dispatch( showSpinner('Loading Weather History...') )
 
-   fetch(meteostatHistoryURL)
+   const locationData = store.getState().data.locations.data
+   const locationIndex = store.getState().data.locations.index
+
+   // Craft url from lat and lng from the location
+   let lat = locationData[locationIndex].lat
+   let lon = locationData[locationIndex].lon
+   let meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=1&key=${meteoStatKey}`
+
+   // Fetch that URL, ask for only 1 result (the nearest weatherstation), get the number, make another call:
+   return function(){
+      fetch(meteostatSearchUrl)
       .then( response => response.json() )
-      .then( data => console.log('meteostat history', data) )
+      .then( historyData => {
+         console.log('meteostat weatherstations near search term', historyData)
+         getHistoryFromWeatherStation(historyData.data[0].id, historyData.data[0].name)()
+      })
+      .catch( (error) => {
+         store.dispatch(throwCallerError(error.message))
+      })
+   }
+
 
 }
 
 
-export const testDataProcessing = () => {
+
+// Fetch URL that gets weather history from weather station number.  Currently the time period is static
+export const getHistoryFromWeatherStation = (weatherStationNumber, placeName) => {
+
+   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2009-01&end=2019-12&key=${meteoStatKey}`
+
+   return function(){
+      fetch(meteostatHistoryURL)
+      .then( response => response.json() )
+      .then( data => {
+         console.log('meteostat history', data)
+         const processedData = processWeatherHistoryData(data)
+         store.dispatch( receiveWeatherHistory(processedData, placeName) )
+      })
+      .catch( (error) => {
+         store.dispatch(throwCallerError(error.message))
+      })
+   }
 
 
+}
+
+
+export const receiveWeatherHistory = (data, placeName) => ({
+   type: RECIEVE_WEATHER_HISTORY,
+   data,
+   placeName
+})
+
+
+// export function getWeatherHistory(weatherStationNumber){
+
+//    let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2009-01&end=2019-12&key=${meteoStatKey}`
+
+//    fetch(meteostatHistoryURL)
+//       .then( response => response.json() )
+//       .then( data => console.log('meteostat history', data) )
+
+// }
+
+
+export const processWeatherHistoryData = () => {
 
    const dataByMonth = [];
    for (var i = 0; i <= 11; i++) {
@@ -288,18 +347,15 @@ export const testDataProcessing = () => {
    const nullFilteredMaxArray = array => array.map( item => item == null ? -Infinity : item )
    const nullFilteredMinArray = array =>  array.map( item => item == null ? Infinity : item )
 
-
-
-
    console.log(dataByMonth)
-
-
-
 
 
    fetch('./sampleData.json')
       .then( response => response.json() )
       .then( data => processData(data.data) ) // average over all januaries
+
+   return dataByMonth
+
 }
 
 
@@ -309,13 +365,6 @@ export const testDataProcessing = () => {
 
 
 
-export function receiveWeatherData(data){
-   return {
-      type: RECIEVE_WEATHER_DATA,
-      data: data,
-      weatherSpinnerOpen: false
-   }
-}
 
 export function throwCallerError(error){
    return {

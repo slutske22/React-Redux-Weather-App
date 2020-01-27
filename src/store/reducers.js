@@ -5,6 +5,7 @@ import {
    THROW_CALLER_ERROR,
    RECIEVE_LOCATION_DATA,
    RECIEVE_WEATHER_DATA,
+   RECIEVE_WEATHER_HISTORY,
    VIEW_LOCATIONLIST,
    CHANGE_LOCATION,
    CHANGE_THEME,
@@ -12,7 +13,7 @@ import {
  } from './actions'
 
 import { darkTheme, lightTheme } from '../components/ThemeChanger'
-
+import { sampleData } from '../constants'
 
 export const initialState = {
 
@@ -42,7 +43,8 @@ export const initialState = {
       },
       history: {
          ready: false,
-         data: ''
+         data: '',
+         station: ''
       }
    },
 
@@ -116,6 +118,26 @@ export function rootReducer(state = initialState, action) {
                weatherSpinner: false,
                moreLocations: false
             },
+         }
+
+      case RECIEVE_WEATHER_HISTORY:
+         return {
+            ...state,
+            currentRoute: '/history',
+            data: {
+               ...state.data,
+               callerError:false,
+               history: {
+                  ready: true,
+                  data: action.data,
+                  station: action.placeName
+               }
+            },
+            show: {
+               ...state.show,
+               weatherHistory: true,
+               weatherSpinner: false
+            }
          }
 
       case THROW_CALLER_ERROR:

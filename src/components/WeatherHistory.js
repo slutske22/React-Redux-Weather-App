@@ -2,12 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux'
 import store from '../store/store'
 
+import '../css/WeatherHistory.scss'
+
 class WeatherHistory extends React.Component {
 
    render() {
       return (
          <div className="WeatherHistory">
-            This is the weather history section
+            <h3>Weather Trends for {this.props.locationData[this.props.locationIndex].display_name}</h3>
+            <section className="content">
+
+            </section>
          </div>
       )
    }
@@ -16,7 +21,8 @@ class WeatherHistory extends React.Component {
 }
 
 const mapStateToProps = state => ({
-
+   locationData: state.data.locations.data,
+   locationIndex: state.data.locations.index,
 })
 
 const mapDispatchToProps = dispatch => ({

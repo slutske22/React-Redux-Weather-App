@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import store from '../store/store'
 import { connect } from 'react-redux'
-import { viewLocationlist, viewWeatherHistory } from '../store/actions'
+import { viewLocationlist, viewWeatherHistory, getWeatherHistory } from '../store/actions'
 
 import Day from './Day'
 
@@ -50,7 +50,7 @@ class Week extends React.Component {
             {this.props.locationData.length > 1 &&
             <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={ this.props.viewLocationlist }>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
             }
-            <h5><a href="#" onClick={this.props.viewWeatherHistory}>View Weather History and Trends</a></h5>
+            <h5><a href="#" onClick={this.props.getWeatherHistory}>View Weather History and Trends</a></h5>
             {/* <Link onClick={this.props.viewWeatherHistory} to={'/weatherhistory'}><h5>View Weather History and Trends</h5></Link> */}
 
             <div className="week">
@@ -66,7 +66,8 @@ class Week extends React.Component {
 const mapDispatchToProps = dispatch => {
    return {
       viewLocationlist: () => { store.dispatch( viewLocationlist() ) },
-      viewWeatherHistory: () => { store.dispatch( viewWeatherHistory() ) }
+      viewWeatherHistory: () => { store.dispatch( viewWeatherHistory() ) },
+      getWeatherHistory: () => { store.dispatch( getWeatherHistory() ) }
    }
 }
 
