@@ -117,7 +117,8 @@ export function typePlacename(e){
 export function showSpinner(message){
    return {
       type: SHOW_SPINNER,
-      weatherSpinnerOpen: message
+      weatherSpinnerOpen: message,
+      showWeatherHistory: false
    }
 }
 
@@ -172,7 +173,8 @@ export function searchLocation(name, searchTerm) {
 export function receiveLocationData(locationData){
    return {
       type: RECIEVE_LOCATION_DATA,
-      data: locationData
+      data: locationData,
+      showWeatherHistory: false
    }
 }
 
