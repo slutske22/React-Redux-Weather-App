@@ -1,4 +1,6 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 import { connect } from 'react-redux'
 
 import Empty from './Empty'
@@ -14,33 +16,57 @@ class Body extends React.Component{
 
       const { dataReady, weatherData, locationData, showMoreLocations, showWeatherHistory, locationIndex, callerError, weatherSpinnerOpen } = this.props   
 
-      if (weatherSpinnerOpen && !callerError){
 
-         return <WeatherSpinner />
+      return (
+         <Router>
+            {weatherSpinnerOpen && !callerError && <WeatherSpinner />}
+            {dataReady && !showMoreLocations && !showWeatherHistory && 
+               <Week locationIndex={locationIndex}
+               locationData={locationData} weatherData={weatherData} showMoreLocations={showMoreLocations} openLocationList={this.openLocationList}
+               />}
+            {showWeatherHistory && <WeatherHistory />}
+            {dataReady === '' && !showMoreLocations && !callerError && <Error />}
+            {showMoreLocations &&  
+               <LocationList locationData={locationData} locationIndex={locationIndex} changeLocation={this.props.changeLocation}/>}
 
-      } else if (dataReady && !showMoreLocations && !showWeatherHistory){
+            <Switch>
+               <Route exact path="/" component={Empty} />
+               <Route path="/forecast" component={Week} />
+               <Route path="/locationlist" component={LocationList} />
+               <Route path="/weatherhistory" component={WeatherHistory} />
+            </Switch>
+         </Router>
+      )
 
-         return <Week locationIndex={locationIndex}
-         locationData={locationData} weatherData={weatherData} showMoreLocations={showMoreLocations} openLocationList={this.openLocationList}
-         />
+      // if (weatherSpinnerOpen && !callerError){
 
-      } else if (showWeatherHistory) {
+      //    return <WeatherSpinner />
 
-         return <WeatherHistory />
+      // } else if (dataReady && !showMoreLocations && !showWeatherHistory){
 
-      } else if (dataReady === '' && !showMoreLocations && !callerError) {
+         // return <Week locationIndex={locationIndex}
+         // locationData={locationData} weatherData={weatherData} showMoreLocations={showMoreLocations} openLocationList={this.openLocationList}
+         // >
 
-         return <Empty />
+      // } else if (showWeatherHistory) {
 
-      } else if (callerError){
+      //    return <WeatherHistory />
 
-         return  <Error />
+      // } else if (dataReady === '' && !showMoreLocations && !callerError) {
 
-      } else if (showMoreLocations){
+      //    return <Empty />
 
-         return <LocationList locationData={locationData} locationIndex={locationIndex} changeLocation={this.props.changeLocation}/>
+      // } else if (callerError){
 
-      }
+      //    return  <Error />
+
+      // } else if (showMoreLocations){
+
+      //    return <LocationList locationData={locationData} locationIndex={locationIndex} changeLocation={this.props.changeLocation}/>
+
+      // }
+
+
    }
 
 }

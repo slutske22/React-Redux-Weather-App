@@ -31,6 +31,33 @@ export const initialState = {
    userPosition: undefined
 }
 
+// Revised state tree - makes more sense
+const betterState = {
+   currentRoute: '/',
+   class: '',
+   theme: lightTheme,
+   userInputs: {
+      zipValue: '',
+      cityValue: ''
+   },
+   data: {
+      callerError: false,
+      userPosition: undefined,
+      locations: {
+         data: '',
+         index: 0
+      },
+      forecast: {
+         ready: false,
+         data: ''
+      },
+      history: {
+         ready: false,
+         data: ''
+      }
+   }
+}
+
 export function rootReducer(state = initialState, action) {
    switch(action.type){
 

@@ -1,7 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import store from '../store/store';
 
+import Empty from './Empty'
 import SearchBar from './Search';
 import ThemeChanger from './ThemeChanger';
 import LogoHeader from './LogoHeader';
@@ -22,16 +21,17 @@ class App extends React.Component {
          <div className="App">
 
             <h1>Seth's React Redux Weather App</h1>
-
             <ThemeChanger />
-
             <LogoHeader />
-
             <SearchBar />
-
             <Body />
 
+
          </div>
+
+
+         
+
       );
    }
 
