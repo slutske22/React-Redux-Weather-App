@@ -13,6 +13,7 @@ export const RECIEVE_LOCATION_DATA = "RECIEVE_LOCATION_DATA";
 export const RECIEVE_WEATHER_DATA = "RECIEVE_WEATHER_DATA";
 export const THROW_CALLER_ERROR = "THROW_CALLER_ERROR";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
+export const VIEW_WEATHER_HISTORY = "VIEW_WEATHER_HISTORY";
 export const CHANGE_LOCATION = "CHANGE_LOCATION";
 export const CHANGE_THEME = "CHANGE_THEME";
 
@@ -338,6 +339,14 @@ export function viewLocationlist(){
    return {
       type: VIEW_LOCATIONLIST,
       showMoreLocations: true
+   }
+}
+
+export function viewWeatherHistory(){
+   console.log('view weather history')
+   return {
+      type: VIEW_WEATHER_HISTORY,
+      showWeatherHistory: true
    }
 }
 

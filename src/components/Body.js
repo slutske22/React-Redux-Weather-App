@@ -6,31 +6,39 @@ import Error from './Error'
 import WeatherSpinner from './WeatherSpinner'
 import Week from './Week'
 import LocationList from './LocationList';
+import WeatherHistory from './WeatherHistory'
 
 class Body extends React.Component{
 
    render(){
-      if (this.props.weatherSpinnerOpen && !this.props.callerError){
+
+      const { dataReady, weatherData, locationData, showMoreLocations, showWeatherHistory, locationIndex, callerError, weatherSpinnerOpen } = this.props   
+
+      if (weatherSpinnerOpen && !callerError){
 
          return <WeatherSpinner />
 
-      } else if (this.props.dataReady && !this.props.showMoreLocations){
+      } else if (dataReady && !showMoreLocations && !showWeatherHistory){
 
-         return <Week locationIndex={this.props.locationIndex}
-         locationData={this.props.locationData} weatherData={this.props.weatherData} showMoreLocations={this.props.showMoreLocations} openLocationList={this.openLocationList}
+         return <Week locationIndex={locationIndex}
+         locationData={locationData} weatherData={weatherData} showMoreLocations={showMoreLocations} openLocationList={this.openLocationList}
          />
 
-   } else if (this.props.dataReady === '' && !this.props.showMoreLocations && !this.props.callerError) {
+      } else if (showWeatherHistory) {
+
+         return <WeatherHistory />
+
+      } else if (dataReady === '' && !showMoreLocations && !callerError) {
 
          return <Empty />
 
-      } else if (this.props.callerError){
+      } else if (callerError){
 
          return  <Error />
 
-      } else if (this.props.showMoreLocations){
+      } else if (showMoreLocations){
 
-         return <LocationList locationData={this.props.locationData} locationIndex={this.props.locationIndex} changeLocation={this.props.changeLocation}/>
+         return <LocationList locationData={locationData} locationIndex={locationIndex} changeLocation={this.props.changeLocation}/>
 
       }
    }
@@ -43,6 +51,7 @@ const mapStateToProps = (state) => {
       weatherData: state.weatherData,
       locationData: state.locationData,
       showMoreLocations: state.showMoreLocations,
+      showWeatherHistory: state.showWeatherHistory,
       locationIndex: state.locationIndex,
       callerError: state.callerError,
       weatherSpinnerOpen: state.weatherSpinnerOpen
