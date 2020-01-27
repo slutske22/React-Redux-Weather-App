@@ -32,6 +32,7 @@ export const initialState = {
 }
 
 // Revised state tree - makes more sense
+// Testing codesandbox to new branch
 const betterState = {
    currentRoute: '/',
    class: '',
