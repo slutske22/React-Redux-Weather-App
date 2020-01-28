@@ -298,59 +298,86 @@ export const processWeatherHistoryData = () => {
 
          const allData = filterByMonth(data, index+1)
 
-         month.month = monthsFull[index]
-         month.allData = allData
-         // month.averageTemp = averageTemps( allData.map( month => month.temperature_mean) ).toFixed(1)
-         month["Average Temperature"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ), 1)
-         // month.averageHigh = average( allData.map( month => month.temperature_mean_max) ).toFixed(1)
-         month["Average High Temp"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_max') ) ), 1)
-         // month.averageLow = average( allData.map( month => month.temperature_mean_min) ).toFixed(1)
-         month["Average Low Temp"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ), 1)
+         month.name = monthsFull[index]
+         month.datum = {
+            "Average Temperature": round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ), 1),
+            "Average High Temp": round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_max') ) ), 1),
+            "Average Low Temp": round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ), 1),
+            "Record High": [
+               round( Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ),1), allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
+            ],
+            "Record Low": [
+               round( Math.max( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),1),
+               allData[indexOfMinValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
+            ]
+         }
 
-         // month.recordHigh = [
-         //    Math.max( ...nullFilteredMaxArray(allData.map( month => month.temperature_max) )).toFixed(1),
-         //    allData[indexOfMaxValue( nullFilteredMaxArray(allData.map( month => month.temperature_max) ))].month 
+         // month.allData = allData
+         // month["Average Temperature"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ), 1)
+         // month["Average High Temp"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_max') ) ), 1)
+         // month["Average Low Temp"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ), 1)
+         // month["Record High"] = [
+         //    round( Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ),1),
+         //    allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
          // ]
-         month["Record High"] = [
-            round( Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ),1),
-            allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
-         ]
-         // month.recordLow = [
-         //    Math.min( ...nullFilteredMinArray(allData.map( month => month.temperature_min)) ).toFixed(1),
-         //    allData[indexOfMinValue( nullFilteredMinArray(allData.map( month => month.temperature_min) ))].month 
+         // month["Record Low"] = [
+         //    round( Math.max( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),1),
+         //    allData[indexOfMinValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
          // ]
-         month["Record Low"] = [
-            round( Math.max( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),1),
-            allData[indexOfMinValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
-         ]
 
       } ) //forEach
 
    } // processData
 
    
-   const dataByType = [
-      {"Average Temperature": []},
-      {"Average High Temp": []},
-      {"Average Low Temp": []},
-      {"Record High": []},
-      {"Record Low": []},
-   ]
+   // const dataByType = [
+   //    {"Average Temperature": []},
+   //    {"Average High Temp": []},
+   //    {"Average Low Temp": []},
+   //    {"Record High": []},
+   //    {"Record Low": []},
+   // ]
 
    // Function to reorganize data by data type instead of by month.  Leverages the dataByMonth data array and just reorganizes it, rather than recalculating everything
+   // function processByType(){
+
+   //    dataByType.forEach( type => {
+   //       dataByMonth.forEach( month => {
+
+   //          const key = Object.keys(type)[0]
+
+   //          type[key].push({
+   //             [month.month]: month[key]
+   //          })
+
+   //       })
+   //    })
+
+   // }
+
+
+   const dataByType = []
+
    function processByType(){
 
-      dataByType.forEach( type => {
-         dataByMonth.forEach( month => {
+      const dataTypes = Object.keys(dataByMonth[0].datum)
+      console.log(dataTypes)
 
-            const key = Object.keys(type)[0]
 
-            type[key].push({
-               [month.month]: month[key]
-            })
-
+      dataTypes.forEach( type => {
+         dataByType.push({
+            name: type,
+            datum: {}
          })
       })
+
+      dataByMonth.forEach( month => {
+         dataByType.forEach( type => {
+            let thisMonth = month.name
+            type.datum[thisMonth] = (dataByMonth.filter( month => month.name === thisMonth))[0].datum[type.name]
+         })
+      })
+
 
    }
 
@@ -378,8 +405,8 @@ export const processWeatherHistoryData = () => {
    const nullFilteredMaxArray = array => array.map( item => item == null ? -Infinity : item )
    const nullFilteredMinArray = array =>  array.map( item => item == null ? Infinity : item )
 
-   // console.log(dataByMonth)
-   // console.log(dataByType)
+   console.log(dataByMonth)
+   console.log(dataByType)
 
    fetch('./sampleData.json')
       .then( response => response.json() )
