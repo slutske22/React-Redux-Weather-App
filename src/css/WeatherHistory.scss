@@ -2,10 +2,22 @@
 
    width: 100%;
 
-   section.content{
+   .content{
       border: 1px solid var(--foreground-color);
       padding: 20px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-gap: 20px;
+
+      * {
+         border: 1px solid blue;
+      }
       
+   }
+
+   figure{
+      padding: 0px;
+      margin: 0px;
    }
 
 

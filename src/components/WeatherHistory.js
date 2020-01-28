@@ -6,14 +6,28 @@ import '../css/WeatherHistory.scss'
 
 class WeatherHistory extends React.Component {
 
+   state = {
+      sort: "byMonth"
+   }
+
    render() {
       return (
-         <div className="WeatherHistory">
+         <main className="WeatherHistory">
             <h3>Weather Trends for {this.props.locationData[this.props.locationIndex].display_name}</h3>
-            <section className="content">
 
-            </section>
-         </div>
+            <article className="content">
+
+               <section className="menu">
+                  Menu stuff here
+               </section>
+
+               <figure>
+                  Figures here
+               </figure>
+
+            </article>
+
+         </main>
       )
    }
 
@@ -23,6 +37,7 @@ class WeatherHistory extends React.Component {
 const mapStateToProps = state => ({
    locationData: state.data.locations.data,
    locationIndex: state.data.locations.index,
+   data: state.data.history.data
 })
 
 const mapDispatchToProps = dispatch => ({
