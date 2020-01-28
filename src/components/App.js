@@ -6,14 +6,13 @@ import ThemeChanger from './ThemeChanger';
 import LogoHeader from './LogoHeader';
 import Body from './Body';
 
-import { geolocateUser, processWeatherHistoryData } from '../store/actions';
+import { geolocateUser } from '../store/actions';
 
 
 class App extends React.Component {
 
    componentDidMount(){
       geolocateUser()
-      processWeatherHistoryData()
    }
 
    render(){

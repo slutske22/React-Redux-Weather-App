@@ -225,7 +225,7 @@ export function getWeatherHistory() {
       fetch(meteostatSearchUrl)
       .then( response => response.json() )
       .then( historyData => {
-         console.log('meteostat weatherstations near search term', historyData)
+         // console.log('meteostat weatherstations near search term', historyData)
          getHistoryFromWeatherStation(historyData.data[0].id, historyData.data[0].name)()
       })
       .catch( (error) => {
@@ -247,7 +247,7 @@ export const getHistoryFromWeatherStation = (weatherStationNumber, placeName) =>
       fetch(meteostatHistoryURL)
       .then( response => response.json() )
       .then( data => {
-         console.log('meteostat history', data)
+         // console.log('meteostat history', data)
          const processedData = processWeatherHistoryData(data)
          store.dispatch( receiveWeatherHistory(processedData, placeName) )
       })
@@ -280,12 +280,17 @@ export const receiveWeatherHistory = (data, placeName) => ({
 
 export const processWeatherHistoryData = () => {
 
+   function processData(data) {
+      processByMonth(data)
+      processByType()
+   }
+
    const dataByMonth = [];
    for (var i = 0; i <= 11; i++) {
       dataByMonth.push({})
    }
 
-   function processData(data){
+   function processByMonth(data){
 
       // console.log('raw data', data)
 
@@ -296,17 +301,17 @@ export const processWeatherHistoryData = () => {
          month.month = monthsFull[index]
          month.allData = allData
          // month.averageTemp = averageTemps( allData.map( month => month.temperature_mean) ).toFixed(1)
-         month.averageTemp = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ), 1)
+         month["Average Temperature"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ), 1)
          // month.averageHigh = average( allData.map( month => month.temperature_mean_max) ).toFixed(1)
-         month.averageHigh = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ), 1)
+         month["Average High Temp"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_max') ) ), 1)
          // month.averageLow = average( allData.map( month => month.temperature_mean_min) ).toFixed(1)
-         month.averageLow = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ), 1)
+         month["Average Low Temp"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ), 1)
 
          // month.recordHigh = [
          //    Math.max( ...nullFilteredMaxArray(allData.map( month => month.temperature_max) )).toFixed(1),
          //    allData[indexOfMaxValue( nullFilteredMaxArray(allData.map( month => month.temperature_max) ))].month 
          // ]
-         month.recordHigh = [
+         month["Record High"] = [
             round( Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ),1),
             allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
          ]
@@ -314,16 +319,42 @@ export const processWeatherHistoryData = () => {
          //    Math.min( ...nullFilteredMinArray(allData.map( month => month.temperature_min)) ).toFixed(1),
          //    allData[indexOfMinValue( nullFilteredMinArray(allData.map( month => month.temperature_min) ))].month 
          // ]
-         month.recordLow = [
+         month["Record Low"] = [
             round( Math.max( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),1),
             allData[indexOfMinValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
          ]
 
       } ) //forEach
+
    } // processData
 
+   
+   const dataByType = [
+      {"Average Temperature": []},
+      {"Average High Temp": []},
+      {"Average Low Temp": []},
+      {"Record High": []},
+      {"Record Low": []},
+   ]
 
-   //  The following functions need to be piped
+   // Function to reorganize data by data type instead of by month.  Leverages the dataByMonth data array and just reorganizes it, rather than recalculating everything
+   function processByType(){
+
+      dataByType.forEach( type => {
+         dataByMonth.forEach( month => {
+
+            const key = Object.keys(type)[0]
+
+            type[key].push({
+               [month.month]: month[key]
+            })
+
+         })
+      })
+
+   }
+
+   //  The following functions can be piped
    //  How to pipe: https://www.freecodecamp.org/news/10-ways-to-write-pipe-compose-in-javascript-f6d54c575616/
 
    const filterByMonth = (data, month) => data.filter( entry => Number(entry.month.slice(entry.month.length-2, entry.month.length)) === month )
@@ -347,14 +378,17 @@ export const processWeatherHistoryData = () => {
    const nullFilteredMaxArray = array => array.map( item => item == null ? -Infinity : item )
    const nullFilteredMinArray = array =>  array.map( item => item == null ? Infinity : item )
 
-   console.log(dataByMonth)
-
+   // console.log(dataByMonth)
+   // console.log(dataByType)
 
    fetch('./sampleData.json')
       .then( response => response.json() )
       .then( data => processData(data.data) ) // average over all januaries
 
-   return dataByMonth
+   return {
+      byMonth: dataByMonth,
+      byType: dataByType
+   }
 
 }
 
