@@ -14,6 +14,7 @@ class WeatherHistory extends React.Component {
       return (
          <main className="WeatherHistory">
             <h3>Weather Trends for {this.props.locationData[this.props.locationIndex].display_name}</h3>
+            <h3>Sort by: <span>Month</span> <span>Weather Detail</span></h3>
 
             <article className="content">
 
