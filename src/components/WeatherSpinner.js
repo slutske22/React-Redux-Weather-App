@@ -1,4 +1,5 @@
-// from https://codemyui.com/animated-weather-icons-in-css/
+// Icons adapted from Dribble by Kylor: 
+//https://codemyui.com/animated-weather-icons-in-css/
 
 import React from 'react'
 import { connect } from 'react-redux'

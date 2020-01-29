@@ -13,7 +13,7 @@ class App extends React.Component {
 
    componentDidMount(){
       geolocateUser()
-      processWeatherHistoryData()
+      // processWeatherHistoryData()
    }
 
    render(){

@@ -1,5 +1,11 @@
 import React from 'react'
 
+// All Icons adapted from Sihan Liu's Icons at IconFinder:
+// https://www.iconfinder.com/iconsets/weather-color-2
+
+// Some other nice options:
+// https://www.iconfinder.com/iconsets/the-weather-is-nice-today
+
 import { ClearDayIcon } from './ClearDayIcon'
 import { ClearNightIcon } from './ClearNightIcon'
 import { CloudyIcon } from './CloudyIcon'

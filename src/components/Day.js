@@ -8,29 +8,12 @@ import WeatherIcon from '../svgIcons'
 //----------------------------------------------------------------//
 
 
-// Some definitions for the calendar
-function modulus(i, n){
-   return (i % n + n) % n;
-}
-
 const currentTimeStamp = new Date().getTime()
 
-function convertTimeStamp(timestamp){
+const  convertTimeStamp = (timestamp, timezone) => {
    let date = new Date(timestamp * 1000)
-   var hours = date.getHours() > 12 ? date.getHours() % 12 : date.getHours();
-   var ampm = date.getHours() >= 12 ? ' PM' : ' AM';
-   var minutes = "0" + date.getMinutes();
-   return hours + ':' + minutes.substr(-2) + ampm;
+   return date.toLocaleTimeString("en-US", { timeZone: timezone }).split(":00 ").join(" ")
 }
-
-
-// from https://darksky.net/dev/docs#response-format
-// 2 good icon collections:
-// https://www.iconfinder.com/iconsets/weather-color-2
-// https://www.iconfinder.com/iconsets/the-weather-is-nice-today
-const conditions = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night']
-
-
 
 
 class Day extends React.Component {
@@ -41,10 +24,8 @@ class Day extends React.Component {
       }
    }
 
-
    expandDay = (e) => {
       e.stopPropagation()
-      // console.log(`You clicked Day # ${e.currentTarget.getAttribute('number')}`)
       let clickedDay = e.currentTarget.getAttribute('number')
       this.props.expandDay(clickedDay)
    }
@@ -75,11 +56,12 @@ class Day extends React.Component {
       const thisDay = new Date( currentTimeStamp + 86400000 * this.props.number )
 
       const { weatherData } = this.props
+      const { timezone } = weatherData
       const { temperatureHigh, 
          temperatureLow, 
          temperatureMaxTime,
          temperatureMinTime,
-         humidity, 
+         humidity,
          sunriseTime,
          sunsetTime,
          moonPhase,
@@ -108,16 +90,14 @@ class Day extends React.Component {
                <WeatherIcon icon={icon} className="weatherIcon" />
                <h2>{ daysFull[ thisDay.getDay() ] }, { monthsFull[ thisDay.getMonth() ] } { thisDay.getDate() }</h2>
                <p>{summary}</p>
-               <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime)}</p>
-               <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime)}</p>
-               <p>Humidity: {humidity * 100}%</p>
+               <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime, timezone)}</p>
+               <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime, timezone)}</p>
+               <p>Humidity: {Number(humidity.toFixed(0)) * 100}%</p>
                <div className="sunrise-sunset">
-                  {/* <img className="sunriseIcon" style={{width: '64px'}} src={`icons/sunrise.png`} alt="sunrise" title="sunrise icon" /> */}
                   <WeatherIcon icon={'sunrise'} className="sunriseIcon" style={{width: '64px'}} />
-                  <p>Sunrise: {convertTimeStamp(sunriseTime)}</p>
-                  {/* <img className="sunsetIcon" style={{width: '64px'}} src={`icons/sunset.png`} alt="sunset" title="sunset icon" /> */}
+                  <p>Sunrise: {convertTimeStamp(sunriseTime, timezone)}</p>
                   <WeatherIcon icon={'sunset'} className="sunriseIcon" style={{width: '64px'}} />
-                  <p>Sunset: {convertTimeStamp(sunsetTime)}</p>
+                  <p>Sunset: {convertTimeStamp(sunsetTime, timezone)}</p>
 
                </div>
             </div>
@@ -131,7 +111,8 @@ export default Day;
 
 
 
-
+// from https://darksky.net/dev/docs#response-format
+// const conditions = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night']
 
 
 // weatherData.data[number]:

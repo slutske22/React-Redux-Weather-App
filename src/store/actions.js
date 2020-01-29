@@ -225,7 +225,7 @@ export function getWeatherHistory() {
       fetch(meteostatSearchUrl)
       .then( response => response.json() )
       .then( historyData => {
-         // console.log('meteostat weatherstations near search term', historyData)
+         console.log(historyData)
          getHistoryFromWeatherStation(historyData.data[0].id, historyData.data[0].name)()
       })
       .catch( (error) => {
@@ -241,19 +241,21 @@ export function getWeatherHistory() {
 // Fetch URL that gets weather history from weather station number.  Currently the time period is static
 export const getHistoryFromWeatherStation = (weatherStationNumber, placeName) => {
 
-   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2009-01&end=2019-12&key=${meteoStatKey}`
+   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2012-01&end=2017-12&key=${meteoStatKey}`
+
+   console.log(meteostatHistoryURL)
 
    return function(){
       fetch(meteostatHistoryURL)
       .then( response => response.json() )
       .then( data => {
          // console.log('meteostat history', data)
-         const processedData = processWeatherHistoryData(data)
+         const processedData = processWeatherHistoryData(data.data)
          store.dispatch( receiveWeatherHistory(processedData, placeName) )
       })
-      .catch( (error) => {
-         store.dispatch(throwCallerError(error.message))
-      })
+      // .catch( (error) => {
+      //    store.dispatch(throwCallerError(error.message))
+      // })
    }
 
 
@@ -278,7 +280,7 @@ export const receiveWeatherHistory = (data, placeName) => ({
 // }
 
 
-export const processWeatherHistoryData = () => {
+export const processWeatherHistoryData = (data) => {
 
    function processData(data) {
       processByMonth(data)
@@ -291,8 +293,6 @@ export const processWeatherHistoryData = () => {
    }
 
    function processByMonth(data){
-
-      // console.log('raw data', data)
 
       dataByMonth.forEach( (month, index) => {
 
@@ -312,57 +312,17 @@ export const processWeatherHistoryData = () => {
             ]
          }
 
-         // month.allData = allData
-         // month["Average Temperature"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ), 1)
-         // month["Average High Temp"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_max') ) ), 1)
-         // month["Average Low Temp"] = round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ), 1)
-         // month["Record High"] = [
-         //    round( Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ),1),
-         //    allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
-         // ]
-         // month["Record Low"] = [
-         //    round( Math.max( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),1),
-         //    allData[indexOfMinValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
-         // ]
 
       } ) //forEach
 
    } // processData
 
    
-   // const dataByType = [
-   //    {"Average Temperature": []},
-   //    {"Average High Temp": []},
-   //    {"Average Low Temp": []},
-   //    {"Record High": []},
-   //    {"Record Low": []},
-   // ]
-
-   // Function to reorganize data by data type instead of by month.  Leverages the dataByMonth data array and just reorganizes it, rather than recalculating everything
-   // function processByType(){
-
-   //    dataByType.forEach( type => {
-   //       dataByMonth.forEach( month => {
-
-   //          const key = Object.keys(type)[0]
-
-   //          type[key].push({
-   //             [month.month]: month[key]
-   //          })
-
-   //       })
-   //    })
-
-   // }
-
-
    const dataByType = []
 
    function processByType(){
 
       const dataTypes = Object.keys(dataByMonth[0].datum)
-      console.log(dataTypes)
-
 
       dataTypes.forEach( type => {
          dataByType.push({
@@ -405,17 +365,21 @@ export const processWeatherHistoryData = () => {
    const nullFilteredMaxArray = array => array.map( item => item == null ? -Infinity : item )
    const nullFilteredMinArray = array =>  array.map( item => item == null ? Infinity : item )
 
-   console.log(dataByMonth)
-   console.log(dataByType)
+   // console.log(dataByMonth)
+   // console.log(dataByType)
 
-   fetch('./sampleData.json')
-      .then( response => response.json() )
-      .then( data => processData(data.data) ) // average over all januaries
+   // fetch('./sampleData.json')
+   //    .then( response => response.json() )
+   //    .then( data => processData(data.data) ) // average over all januaries
+
+   processData(data)
 
    return {
       byMonth: dataByMonth,
       byType: dataByType
    }
+
+   
 
 }
 

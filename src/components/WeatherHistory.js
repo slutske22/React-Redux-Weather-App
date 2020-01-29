@@ -7,7 +7,12 @@ import '../css/WeatherHistory.scss'
 class WeatherHistory extends React.Component {
 
    state = {
-      sort: "byMonth"
+      sort: "byMonth",
+      view: "byType"
+   }
+
+   componentDidMount(){
+      console.log('from cdm', this.props.data)
    }
 
    render() {
@@ -19,7 +24,10 @@ class WeatherHistory extends React.Component {
             <article className="content">
 
                <section className="menu">
-                  Menu stuff here
+                  {
+                     this.props.data[this.state.sort].map( (dataPoint, index) =>
+                        <h4>{dataPoint.name}</h4> )
+                  }
                </section>
 
                <figure>
