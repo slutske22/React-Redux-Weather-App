@@ -11,6 +11,7 @@ export const SEARCH_LOCATION = "SEARCH_LOCATION";
 export const SHOW_SPINNER = "SHOW_SPINNER";
 export const RECIEVE_LOCATION_DATA = "RECIEVE_LOCATION_DATA";
 export const RECIEVE_WEATHER_DATA = "RECIEVE_WEATHER_DATA";
+export const CHECK_NEXT_WEATHER_STATION = "CHECK_NEXT_WEATHER_STATION";
 export const RECIEVE_WEATHER_HISTORY = "RECIEVE_WEATHER_HISTORY";
 export const THROW_CALLER_ERROR = "THROW_CALLER_ERROR";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
@@ -218,7 +219,7 @@ export function getWeatherHistory() {
    // Craft url from lat and lng from the location
    let lat = locationData[locationIndex].lat
    let lon = locationData[locationIndex].lon
-   let meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=5&key=${meteoStatKey}`
+   let meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=10&key=${meteoStatKey}`
 
    const { index } = store.getState().data.history.station
 
@@ -228,7 +229,8 @@ export function getWeatherHistory() {
       .then( response => response.json() )
       .then( historyData => {
          console.log(historyData)
-         getHistoryFromWeatherStation(historyData.data[index].id, historyData.data[index].id, historyData.data[index].name, historyData.data[index].distance)()
+         const { id, name, distance } = historyData.data[index]
+         getHistoryFromWeatherStation( id, name, distance )()
       })
       // .catch( (error) => {
       //    store.dispatch(throwCallerError(error.message))
@@ -241,9 +243,9 @@ export function getWeatherHistory() {
 
 
 // Fetch URL that gets weather history from weather station number.  Currently the time period is static
-export const getHistoryFromWeatherStation = (weatherStationNumber, id, name, distance) => {
+export const getHistoryFromWeatherStation = ( id, name, distance) => {
 
-   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2012-01&end=2017-12&key=${meteoStatKey}`
+   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${id}&start=2008-01&end=2018-12&key=${meteoStatKey}`
 
    console.log(meteostatHistoryURL)
 
@@ -251,17 +253,27 @@ export const getHistoryFromWeatherStation = (weatherStationNumber, id, name, dis
       fetch(meteostatHistoryURL)
       .then( response => response.json() )
       .then( data => {
-         // console.log('meteostat history', data)
-         const processedData = processWeatherHistoryData(data.data)
-         store.dispatch( receiveWeatherHistory(processedData, id, name, distance) )
+         console.log(data.data)
+         if (data.data.length > 0){
+            const processedData = processWeatherHistoryData(data.data)
+            store.dispatch( receiveWeatherHistory(processedData, id, name, distance) )
+         } else if (store.getState().data.history.station.index < 10){
+            store.dispatch( checkNextWeatherStation() )
+            store.dispatch( getWeatherHistory() )
+         } else {
+            store.dispatch(throwCallerError("No weather history found for this location"))
+         }
       })
       // .catch( (error) => {
       //    store.dispatch(throwCallerError(error.message))
       // })
    }
-
-
 }
+
+export const checkNextWeatherStation = () => ({
+   type: CHECK_NEXT_WEATHER_STATION,
+   index: store.getState().data.history.station.index + 1
+})
 
 
 export const receiveWeatherHistory = (data, id, name, distance) => {
@@ -270,7 +282,8 @@ export const receiveWeatherHistory = (data, id, name, distance) => {
       data,
       id,
       name, 
-      distance
+      distance,
+      index: 0
    }
 }
 
