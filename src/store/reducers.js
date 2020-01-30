@@ -5,6 +5,7 @@ import {
    THROW_CALLER_ERROR,
    RECIEVE_LOCATION_DATA,
    RECIEVE_WEATHER_DATA,
+   INCREMENT_WEATHER_STATION,
    RECIEVE_WEATHER_HISTORY,
    VIEW_LOCATIONLIST,
    CHANGE_LOCATION,
@@ -125,6 +126,23 @@ export function rootReducer(state = initialState, action) {
             },
          }
 
+      case INCREMENT_WEATHER_STATION:
+         return {
+            ...state,
+            data: {
+               ...state.data,
+               history: {
+                  ...state.data.history,
+                  station: {
+                     index: action.index,
+                     id: action.id,
+                     name: action.name,
+                     distance: action.distance
+                  }
+               }
+            }
+         }
+
       case RECIEVE_WEATHER_HISTORY:
          return {
             ...state,
@@ -136,7 +154,7 @@ export function rootReducer(state = initialState, action) {
                   ready: true,
                   data: action.data,
                   station: {
-                     ...state.data.history.station,
+                     index: 0, // reseting for next search - may need its own action
                      id: action.id,
                      name: action.name,
                      distance: action.distance

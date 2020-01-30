@@ -12,7 +12,7 @@ class WeatherHistory extends React.Component {
    }
 
    componentDidMount(){
-      console.log('from cdm', this.props.data)
+      // console.log('from cdm', this.props.data)
    }
 
    render() {
