@@ -22,6 +22,7 @@ import { TornadoIcon } from './TornadoIcon'
 import { SunriseIcon } from './SunriseIcon'
 import { SunsetIcon } from './SunsetIcon'
 import { WarningIcon } from './WarningIcon'
+import { GraphIcon } from  './GraphIcon'
 
 
 const Icons = props => ({
@@ -43,7 +44,8 @@ const Icons = props => ({
    "thunderstorm": <LightningIcon {...props} />,
    "tornado": <TornadoIcon {...props} />,
    // other good icons
-   "warning": <WarningIcon {...props} />
+   "warning": <WarningIcon {...props} />,
+   "graph": <GraphIcon {...props} />
 })
 
 const WeatherIcon = props => Icons(props)[ props.icon ]
