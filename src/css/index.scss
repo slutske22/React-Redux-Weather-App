@@ -354,12 +354,23 @@ LOCATION LIST STYLES
 ERROR STYLES
 ---------------------------------------------------*/
 
-.error{
+.Error {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+h3.error{
    font-weight: lighter;
 }
+
 .error span{
    text-transform: lowercase;
 }
 
-
+.warning-icon {
+   width: 150px;
+   height: 150px;
+   margin: 20px;
+}
 
