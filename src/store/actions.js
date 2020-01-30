@@ -230,8 +230,9 @@ export function getWeatherHistory() {
       .then( response => response.json() )
       .then( historyData => {
          console.log(historyData)
+         const totalstations = historyData.data.length
          const { id, name, distance } = historyData.data[index]
-         getHistoryFromWeatherStation(id, name, distance, stationlimit)()
+         getHistoryFromWeatherStation(id, name, distance, totalstations)()
       })
       // .catch( (error) => {
       //    store.dispatch(throwCallerError(error.message))
@@ -244,10 +245,12 @@ export function getWeatherHistory() {
 
 
 // Fetch URL that gets weather history from weather station number.  Currently the time period is static
-export const getHistoryFromWeatherStation = ( id, name, distance, stationlimit) => {
+export const getHistoryFromWeatherStation = ( id, name, distance, totalstations) => {
+
+   const { index } = store.getState().data.history.station
 
    const meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${id}&start=2012-01&end=2017-12&key=${meteoStatKey}`
-   const maxRadius = 25 //in miles
+   const maxRadius = 50 //in miles
    const maxRaiusKm = maxRadius * 1.60934
 
    return function(){
@@ -269,8 +272,12 @@ export const getHistoryFromWeatherStation = ( id, name, distance, stationlimit) 
             console.log("checking station index", store.getState().data.history.station.index)
             console.log('distance', distance)
 
-            store.dispatch( incrementWeatherStation(id, name, distance) )
-            store.dispatch( getWeatherHistory() )
+            if (index + 1 >= totalstations) {
+               store.dispatch(throwCallerError(`Sorry, weather history and trends not available for this location.  Try searching for a nearby location.`))
+            } else {
+               store.dispatch( incrementWeatherStation(id, name, distance) )
+               store.dispatch( getWeatherHistory() )
+            }
             
          }
          
