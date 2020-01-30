@@ -9,16 +9,27 @@ class SearchBar extends React.Component{
       super(props)
    }
 
+   state = {
+      cityValue: '',
+      zipValue: ''
+   }
+
+   changeHandler = e => {
+      this.setState({
+         [e.target.name]: e.target.value
+      })
+   }
+
    render(){
       return (
          <form className={`locator`}>
             <h2>{`Choose your Location`}</h2>
 
             <input name="cityValue" type="text"
-            placeholder="Search by City Name" value={this.props.cityValue} onChange={this.props.placenameHandler} onKeyDown={this.props.placenameHandler} />
+            placeholder="Search by City Name" value={this.state.cityValue} onChange={this.changeHandler} onKeyDown={this.props.placenameHandler} />
 
             <input name="zipValue" type="number"
-            placeholder="Search by Zip" value={this.props.zipValue} onChange={this.props.zipHandler}
+            placeholder="Search by Zip" value={this.state.zipValue} onChange={this.changeHandler}
             onKeyDown={this.props.zipHandler} />
          </form>
       )

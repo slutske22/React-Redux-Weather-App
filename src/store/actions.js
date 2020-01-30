@@ -218,7 +218,9 @@ export function getWeatherHistory() {
    // Craft url from lat and lng from the location
    let lat = locationData[locationIndex].lat
    let lon = locationData[locationIndex].lon
-   let meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=1&key=${meteoStatKey}`
+   let meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=5&key=${meteoStatKey}`
+
+   const { index } = store.getState().data.history.station
 
    // Fetch that URL, ask for only 1 result (the nearest weatherstation), get the number, make another call:
    return function(){
@@ -226,11 +228,11 @@ export function getWeatherHistory() {
       .then( response => response.json() )
       .then( historyData => {
          console.log(historyData)
-         getHistoryFromWeatherStation(historyData.data[0].id, historyData.data[0].name)()
+         getHistoryFromWeatherStation(historyData.data[index].id, historyData.data[index].id, historyData.data[index].name, historyData.data[index].distance)()
       })
-      .catch( (error) => {
-         store.dispatch(throwCallerError(error.message))
-      })
+      // .catch( (error) => {
+      //    store.dispatch(throwCallerError(error.message))
+      // })
    }
 
 
@@ -239,7 +241,7 @@ export function getWeatherHistory() {
 
 
 // Fetch URL that gets weather history from weather station number.  Currently the time period is static
-export const getHistoryFromWeatherStation = (weatherStationNumber, placeName) => {
+export const getHistoryFromWeatherStation = (weatherStationNumber, id, name, distance) => {
 
    let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${weatherStationNumber}&start=2012-01&end=2017-12&key=${meteoStatKey}`
 
@@ -251,7 +253,7 @@ export const getHistoryFromWeatherStation = (weatherStationNumber, placeName) =>
       .then( data => {
          // console.log('meteostat history', data)
          const processedData = processWeatherHistoryData(data.data)
-         store.dispatch( receiveWeatherHistory(processedData, placeName) )
+         store.dispatch( receiveWeatherHistory(processedData, id, name, distance) )
       })
       // .catch( (error) => {
       //    store.dispatch(throwCallerError(error.message))
@@ -262,11 +264,15 @@ export const getHistoryFromWeatherStation = (weatherStationNumber, placeName) =>
 }
 
 
-export const receiveWeatherHistory = (data, placeName) => ({
-   type: RECIEVE_WEATHER_HISTORY,
-   data,
-   placeName
-})
+export const receiveWeatherHistory = (data, id, name, distance) => {
+   return{
+      type: RECIEVE_WEATHER_HISTORY,
+      data,
+      id,
+      name, 
+      distance
+   }
+}
 
 
 // export function getWeatherHistory(weatherStationNumber){

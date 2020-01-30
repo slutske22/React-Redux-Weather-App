@@ -26,7 +26,7 @@ class WeatherHistory extends React.Component {
                <section className="menu">
                   {
                      this.props.data[this.state.sort].map( (dataPoint, index) =>
-                        <h4>{dataPoint.name}</h4> )
+                        <h4 key={dataPoint.name} name={dataPoint.name}>{dataPoint.name}</h4> )
                   }
                </section>
 

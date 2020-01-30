@@ -43,8 +43,13 @@ export const initialState = {
       },
       history: {
          ready: false,
-         data: '',
-         station: ''
+         station: {
+            index: 0,
+            id: '',
+            name: '',
+            distance: ''
+         },
+         data: ''
       }
    },
 
@@ -130,7 +135,12 @@ export function rootReducer(state = initialState, action) {
                history: {
                   ready: true,
                   data: action.data,
-                  station: action.placeName
+                  station: {
+                     ...state.data.history.station,
+                     id: action.id,
+                     name: action.name,
+                     distance: action.distance
+                  }
                }
             },
             show: {
@@ -159,10 +169,6 @@ export function rootReducer(state = initialState, action) {
                ...state.show,
                moreLocations: action.showMoreLocations
             },
-
-
-
-            showMoreLocations: action.showMoreLocations
          }
 
       case VIEW_WEATHER_HISTORY:
@@ -173,9 +179,6 @@ export function rootReducer(state = initialState, action) {
                ...state.show,
                weatherHistory: action.showWeatherHistory
             },
-
-
-            showWeatherHistory: action.showWeatherHistory
          }
 
       case CHANGE_LOCATION:
@@ -196,10 +199,6 @@ export function rootReducer(state = initialState, action) {
                ...state.show,
                moreLocations: false
             },
-
-
-            showMoreLocations: action.showMoreLocations,
-            locationIndex: action.chosenIndex
          }
 
       case CHANGE_THEME:
