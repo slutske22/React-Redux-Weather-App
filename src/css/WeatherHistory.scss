@@ -12,26 +12,21 @@
 
    .content{
       flex-grow: 1;
-      border: 1px solid var(--foreground-color);
+      // border: 1px solid var(--foreground-color);
       display: grid;
       grid-template-columns: auto 1fr;
       grid-gap: 20px;
    }
 
-   .content > * {
-      border: 1px solid blue;
-   }
-
-   figure{
-      padding: 0px;
-      margin: 0px;
-   }
+   // .content > * {
+   //    border: 1px solid blue;
+   // }
 
    .menu {
 
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: space-around;
 
       h4 {
          margin: 5px;
@@ -43,6 +38,34 @@
 
       }
 
+   }
+
+   figure{
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 0px;
+      margin: 0px;
+      border-left: 1px solid blue;
+      border-bottom: 1px solid blue;
+
+
+      .column {
+         width: 50px;
+         writing-mode: tb-rl;
+         transform: rotate(-180deg);
+         background-color: lightblue;
+      }
+
+      .bar {
+         display: flex;
+         align-items: center;
+         width: 100%;
+         padding: 20px;
+         height: 75%;
+         background-color: lightgrey;
+      }
    }
 
 
