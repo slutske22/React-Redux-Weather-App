@@ -9,9 +9,7 @@ import { celciusToFerinheight } from '../constants'
 class WeatherHistory extends React.Component {
 
    state = {
-      // sort: "byMonth",
       sort: "byType",
-      view: "byMonth",
       slot: 0,
       type: "Average Temperature"
    }
@@ -19,6 +17,13 @@ class WeatherHistory extends React.Component {
    componentDidMount(){
       let delay = () => { this.setState({class: 'visible'}) };
       setTimeout(delay, 1)
+   }
+
+   setSort = e => {
+      e.persist()
+      this.setState({
+         sort: e.target.getAttribute('name')
+      })
    }
 
    setDataType = e => {
@@ -31,7 +36,7 @@ class WeatherHistory extends React.Component {
 
    render() {
 
-      const { sort, view, slot, type } = this.state
+      const { sort, slot, type } = this.state
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
       const dataPointBySortNamesArray = Object.keys(this.props.data[sort][0].datum)
@@ -42,8 +47,8 @@ class WeatherHistory extends React.Component {
             <h3>Weather Trends for {this.props.locationData[this.props.locationIndex].display_name}</h3>
             <h4 className="sort-by">
                Sort by: 
-               <span className={this.state.sort === 'byMonth' ? 'active' : ''}>Month</span> 
-               <span className={this.state.sort === 'byType' ? 'active' : ''}>Weather Detail</span>
+               <span className={this.state.sort === 'byMonth' ? 'active' : ''} name="byMonth" onClick={this.setSort}>Month</span> 
+               <span className={this.state.sort === 'byType' ? 'active' : ''} name="byType" onClick={this.setSort}>Weather Detail</span>
             </h4>
 
             <article className="content">
@@ -63,7 +68,7 @@ class WeatherHistory extends React.Component {
 
                <figure>
                   {
-                     dataPointBySortNamesArray.map( (name, index) => {
+                     dataPointBySortNamesArray.map( name => {
 
                      // Numbers will have to be normalized to their range to get the bar graphs looking nice
                      // Here is a nice little discussion of thatL
@@ -74,7 +79,7 @@ class WeatherHistory extends React.Component {
                         const dateReference = typeof rawValue === 'object' ? rawValue[1] : null
                         let dateReferenceSorted = null
                         if (dateReference) {
-                           dateReferenceSorted = sort === 'byType' ? dateReference.slice(0,4) : dateReference
+                           dateReferenceSorted = sort === 'byType' ? dateReference.slice(0,4) : dateReference.slice(0,4)
                         }
 
 
