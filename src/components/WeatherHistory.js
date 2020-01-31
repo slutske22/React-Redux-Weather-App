@@ -4,13 +4,15 @@ import store from '../store/store'
 
 import '../css/WeatherHistory.scss'
 
+import { celciusToFerinheight } from '../constants'
+
 class WeatherHistory extends React.Component {
 
    state = {
       // sort: "byMonth",
       sort: "byType",
-      view: "byType",
-      month: 1,
+      view: "byMonth",
+      slot: 0,
       type: "Average Temperature"
    }
 
@@ -21,12 +23,25 @@ class WeatherHistory extends React.Component {
       setTimeout(delay, 1)
    }
 
+   setDataType = e => {
+      e.persist()
+      console.log(e)
+      this.setState({
+         type: e.target.getAttribute('type'),
+         slot: e.target.getAttribute('index')
+      })
+   }
+
    render() {
 
-      const { sort, view, month, type } = this.state
+      const { sort, view, slot, type } = this.state
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
-      const dataPointNamesArray = Object.keys(this.props.data[sort][0].datum)
+      const dataPointBySortNamesArray = Object.keys(this.props.data[sort][0].datum)
+      const dataPointByViewNamesArray = Object.keys(this.props.data[view][0].datum)
+
+      console.log(this.props.data[sort][slot])
+      // console.log(this.props.data[view])
 
       return (
          <main className={`WeatherHistory ${this.state.class}`}>
@@ -42,21 +57,38 @@ class WeatherHistory extends React.Component {
                <section className="menu">
                   {
                      this.props.data[sort].map( (dataPoint, index) =>
-                        <h4 key={dataPoint.name} index={index}>{dataPoint.name}</h4> )
+                        <h4 key={dataPoint.name}
+                           type={dataPoint.name}
+                           index={index} 
+                           className={dataPoint.name === type ? 'active' : ''}
+                           onClick={this.setDataType}>
+                           {dataPoint.name}
+                        </h4> )
                   }
                </section>
 
                <figure>
                   {
-                     dataPointNamesArray.map( (name, index) => 
+                     dataPointBySortNamesArray.map( (name, index) => {
+
+                        const barStyle = {
+                           height: `${celciusToFerinheight(this.props.data[sort][slot].datum[name])}%`,
+                           // transition: 'height 250ms'
+                        }
                         
-                        <div key={name} className="column">
-                           <div className="bar">
-                              {name}
-                           </div>
-                        </div> 
-                        
-                     )
+                        return (
+                           <div key={name} className="column">
+
+                              <div className="bar" style={barStyle}>
+                                 {name}
+                              </div>
+                              <div className="value">
+                                 {celciusToFerinheight(this.props.data[sort][slot].datum[name]).toFixed(0)}°
+                              </div>
+
+                           </div> 
+                        )
+                     })
                   }
                </figure>
 

@@ -3,6 +3,8 @@ export const daysFull = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
 export const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const monthsFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+export const celciusToFerinheight = c => c * 9/5 + 32
+
 
 export const sampleData = {
    "meta": {
