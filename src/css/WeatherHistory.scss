@@ -16,18 +16,20 @@
 
          margin-left: 30px;
          padding: 5px;
-         border: 1px solid var(--foreground-color);
+         text-decoration: underline;
+         border: 1px solid var(--background-color);
 
          &:not(.active):hover{
             cursor: pointer;
             text-decoration: underline;
-            color: var(--nice-blue);
-            border: 1px solid var(--nice-blue);
+            color: #00aedd;
+            border: 1px solid #00aedd;
          }
 
          &.active {
-            color: var(--nice-blue);
-            border: 1px solid var(--nice-blue);
+            color: #00aedd;
+            border: 1px solid #00aedd;
+            text-decoration: none;
             cursor: auto;
          }
 
@@ -58,7 +60,7 @@
 
          &.active {
             text-decoration: underline;
-            color: var(--nice-blue);
+            color: #00aedd;
             cursor: auto;
          }
 
@@ -87,6 +89,7 @@
       }
 
       .bar {
+         position: relative;
          display: flex;
          align-items: center;
          width: 80%;
@@ -96,12 +99,21 @@
          height: 75%;
          border: 1px solid var(--foreground-color);
          background-color: var(--background-color);
-         transition: height 2000ms;
+         transition: height 1000ms;
       }
 
       .value {
          writing-mode: horizontal-tb;
          transform: rotate(-180deg);
+      }
+
+      .date-reference {
+         position: absolute;
+         bottom: -55px;
+         left: 10px;
+         transform: rotate(30deg);
+         font-family: monospace;
+         color: #b40000;
       }
    }
 

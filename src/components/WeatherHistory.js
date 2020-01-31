@@ -17,15 +17,12 @@ class WeatherHistory extends React.Component {
    }
 
    componentDidMount(){
-      // console.log('from cdm', this.props.data)
-      console.log('from cdm', this.props.data)
       let delay = () => { this.setState({class: 'visible'}) };
       setTimeout(delay, 1)
    }
 
    setDataType = e => {
       e.persist()
-      console.log(e)
       this.setState({
          type: e.target.getAttribute('type'),
          slot: e.target.getAttribute('index')
@@ -38,10 +35,7 @@ class WeatherHistory extends React.Component {
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
       const dataPointBySortNamesArray = Object.keys(this.props.data[sort][0].datum)
-      const dataPointByViewNamesArray = Object.keys(this.props.data[view][0].datum)
 
-      console.log(this.props.data[sort][slot])
-      // console.log(this.props.data[view])
 
       return (
          <main className={`WeatherHistory ${this.state.class}`}>
@@ -71,9 +65,23 @@ class WeatherHistory extends React.Component {
                   {
                      dataPointBySortNamesArray.map( (name, index) => {
 
+                     // Numbers will have to be normalized to their range to get the bar graphs looking nice
+                     // Here is a nice little discussion of thatL
+                     // https://stats.stackexchange.com/questions/351696/normalize-an-array-of-numbers-to-specific-range
+
+                        const rawValue = this.props.data[sort][slot].datum[name]
+                        const numericalValue = typeof rawValue === 'number' ? rawValue : rawValue[0]
+                        const dateReference = typeof rawValue === 'object' ? rawValue[1] : null
+                        let dateReferenceSorted = null
+                        if (dateReference) {
+                           dateReferenceSorted = sort === 'byType' ? dateReference.slice(0,4) : dateReference
+                        }
+
+
+                        console.log(rawValue)
+
                         const barStyle = {
-                           height: `${celciusToFerinheight(this.props.data[sort][slot].datum[name])}%`,
-                           // transition: 'height 250ms'
+                           height: `${celciusToFerinheight(numericalValue)}%`,
                         }
                         
                         return (
@@ -81,10 +89,16 @@ class WeatherHistory extends React.Component {
 
                               <div className="bar" style={barStyle}>
                                  {name}
+                                 {dateReferenceSorted && 
+                                    <div className="date-reference">
+                                       {dateReferenceSorted}
+                                    </div>
+                                 }
                               </div>
                               <div className="value">
-                                 {celciusToFerinheight(this.props.data[sort][slot].datum[name]).toFixed(0)}°
+                                 {celciusToFerinheight(numericalValue).toFixed(0)}°
                               </div>
+
 
                            </div> 
                         )
