@@ -89,16 +89,19 @@ class WeatherHistory extends React.Component {
                         return (
                            <div key={name} className="column">
 
-                              <div className="bar" style={barStyle}>
-                                 {name}
-                                 {dateReferenceSorted && 
-                                    <div className="date-reference">
-                                       {dateReferenceSorted}
-                                    </div>
-                                 }
-                              </div>
                               <div className="value">
                                  {celciusToFerinheight(numericalValue).toFixed(0)}°
+                              </div>
+                              <div className="bar" style={barStyle}>
+                                 <div className="data-name">{name}</div>
+                                 {dateReferenceSorted && 
+                                 <div className="date-reference">
+                                    {dateReferenceSorted}
+                                 </div>
+                                 }
+                              </div>
+                              <div className="short-name">
+                                 {name.slice(0,3).toUpperCase()}
                               </div>
 
 
