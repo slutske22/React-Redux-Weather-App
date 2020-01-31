@@ -82,9 +82,6 @@ class WeatherHistory extends React.Component {
                            dateReferenceSorted = sort === 'byType' ? dateReference.slice(0,4) : dateReference.slice(0,4)
                         }
 
-
-                        console.log(rawValue)
-
                         const barStyle = {
                            height: `${celciusToFerinheight(numericalValue)}%`,
                         }
