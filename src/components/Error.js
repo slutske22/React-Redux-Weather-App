@@ -1,8 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
+import WeatherIcon from '../svgIcons'
+
 const Error = props => (
-      <h3 className="error">{props.callerError}</h3>
+      <div className="Error">
+         <WeatherIcon icon="warning" className="warning-icon" />
+         <h3 className="error">{props.callerError}</h3>
+      </div>
    )
 
 

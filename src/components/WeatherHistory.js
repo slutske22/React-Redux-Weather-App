@@ -7,18 +7,25 @@ import '../css/WeatherHistory.scss'
 class WeatherHistory extends React.Component {
 
    state = {
-      sort: "byMonth",
+      // sort: "byMonth",
+      sort: "byType",
       view: "byType",
-      class: ''
+      month: 1,
+      type: "Average Temperature"
    }
 
    componentDidMount(){
+      // console.log('from cdm', this.props.data)
       console.log('from cdm', this.props.data)
       let delay = () => { this.setState({class: 'visible'}) };
       setTimeout(delay, 1)
    }
 
    render() {
+
+      const { sort, view, month, type } = this.state
+      const dataPointNamesArray = Object.keys(this.props.data[sort][month].datum)
+
       return (
          <main className={`WeatherHistory ${this.state.class}`}>
             <h3>Weather Trends for {this.props.locationData[this.props.locationIndex].display_name}</h3>
@@ -28,13 +35,23 @@ class WeatherHistory extends React.Component {
 
                <section className="menu">
                   {
-                     this.props.data[this.state.sort].map( (dataPoint, index) =>
-                        <h4 key={dataPoint.name} name={dataPoint.name}>{dataPoint.name}</h4> )
+                     this.props.data[sort].map( (dataPoint, index) =>
+                        <h4 key={dataPoint.name} index={index}>{dataPoint.name}</h4> )
                   }
                </section>
 
                <figure>
-                  Figures here
+                  {
+                     dataPointNamesArray.map( (name, index) => 
+                        
+                        <div key={name} className="column">
+                           <div className="bar">
+                              {name}
+                           </div>
+                        </div> 
+                        
+                     )
+                  }
                </figure>
 
             </article>

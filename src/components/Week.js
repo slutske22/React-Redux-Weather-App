@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { viewLocationlist, viewWeatherHistory, getWeatherHistory } from '../store/actions'
 
 import Day from './Day'
+import WeatherIcon from '../svgIcons'
 
 class Week extends React.Component {
    constructor(props){
@@ -50,10 +51,13 @@ class Week extends React.Component {
             {this.props.locationData.length > 1 &&
             <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={ this.props.viewLocationlist }>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
             }
-            <h5><a href="#" onClick={this.props.getWeatherHistory}>View Weather History and Trends</a></h5>
+            <h5 className="history-title">
+               <WeatherIcon icon="graph" className="weather-history-icon" />
+               <a href="#" onClick={this.props.getWeatherHistory}>View Weather History and Trends</a>
+            </h5>
             {/* <Link onClick={this.props.viewWeatherHistory} to={'/weatherhistory'}><h5>View Weather History and Trends</h5></Link> */}
 
-            <div className="week">
+            <div className="Week">
                {days}
             </div>
 

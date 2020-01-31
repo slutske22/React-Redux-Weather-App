@@ -11,7 +11,7 @@ export const SEARCH_LOCATION = "SEARCH_LOCATION";
 export const SHOW_SPINNER = "SHOW_SPINNER";
 export const RECIEVE_LOCATION_DATA = "RECIEVE_LOCATION_DATA";
 export const RECIEVE_WEATHER_DATA = "RECIEVE_WEATHER_DATA";
-export const CHECK_NEXT_WEATHER_STATION = "CHECK_NEXT_WEATHER_STATION";
+export const INCREMENT_WEATHER_STATION = "INCREMENT_WEATHER_STATION";
 export const RECIEVE_WEATHER_HISTORY = "RECIEVE_WEATHER_HISTORY";
 export const THROW_CALLER_ERROR = "THROW_CALLER_ERROR";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
@@ -217,20 +217,22 @@ export function getWeatherHistory() {
    const locationIndex = store.getState().data.locations.index
 
    // Craft url from lat and lng from the location
-   let lat = locationData[locationIndex].lat
-   let lon = locationData[locationIndex].lon
-   let meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=10&key=${meteoStatKey}`
+   const lat = locationData[locationIndex].lat
+   const lon = locationData[locationIndex].lon
+   const stationlimit = 100
+
+   const meteostatSearchUrl = `https://api.meteostat.net/v1/stations/nearby?lat=${lat}&lon=${lon}&limit=${stationlimit}&key=${meteoStatKey}`
 
    const { index } = store.getState().data.history.station
 
-   // Fetch that URL, ask for only 1 result (the nearest weatherstation), get the number, make another call:
    return function(){
       fetch(meteostatSearchUrl)
       .then( response => response.json() )
       .then( historyData => {
          console.log(historyData)
+         const totalstations = historyData.data.length
          const { id, name, distance } = historyData.data[index]
-         getHistoryFromWeatherStation( id, name, distance )()
+         getHistoryFromWeatherStation(id, name, distance, totalstations)()
       })
       // .catch( (error) => {
       //    store.dispatch(throwCallerError(error.message))
@@ -243,26 +245,61 @@ export function getWeatherHistory() {
 
 
 // Fetch URL that gets weather history from weather station number.  Currently the time period is static
-export const getHistoryFromWeatherStation = ( id, name, distance) => {
+export const getHistoryFromWeatherStation = ( id, name, distance, totalstations) => {
 
-   let meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${id}&start=2008-01&end=2018-12&key=${meteoStatKey}`
+   const { index } = store.getState().data.history.station
 
-   console.log(meteostatHistoryURL)
+   const meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${id}&start=2012-01&end=2017-12&key=${meteoStatKey}`
+   const maxRadius = 50 //in miles
+   const maxRaiusKm = maxRadius * 1.60934
 
    return function(){
       fetch(meteostatHistoryURL)
       .then( response => response.json() )
       .then( data => {
-         console.log(data.data)
-         if (data.data.length > 0){
-            const processedData = processWeatherHistoryData(data.data)
-            store.dispatch( receiveWeatherHistory(processedData, id, name, distance) )
-         } else if (store.getState().data.history.station.index < 10){
-            store.dispatch( checkNextWeatherStation() )
-            store.dispatch( getWeatherHistory() )
+         if (data.data.length > 1){
+
+            if (Number(distance) > maxRaiusKm) {
+               store.dispatch(throwCallerError("No weather history available within 20km"))
+            } else {
+               console.log('data legit')
+               const processedData = processWeatherHistoryData(data.data)
+               store.dispatch( receiveWeatherHistory(processedData, id, name, distance) )
+            }
+
          } else {
-            store.dispatch(throwCallerError("No weather history found for this location"))
+
+            console.log("checking station index", store.getState().data.history.station.index)
+            console.log('distance', distance)
+
+            if (index + 1 >= totalstations) {
+               store.dispatch(throwCallerError(`Sorry, weather history and trends not available for this location.  Try searching for a nearby location.`))
+            } else {
+               store.dispatch( incrementWeatherStation(id, name, distance) )
+               store.dispatch( getWeatherHistory() )
+            }
+            
          }
+         
+         
+         
+         
+         
+         // if (store.getState().data.history.station.index < stationlimit-1) {
+
+         //    if (distance > 20) {
+         //       store.dispatch(throwCallerError("No weather history available within 20km"))
+         //    } else {
+         //       store.dispatch( incrementWeatherStation() )
+         //       store.dispatch( getWeatherHistory() )
+         //    }
+
+         // } else if (data.data.length < 1 
+         //             && store.getState().data.history.station.index === stationlimit-1 ) {
+         //    store.dispatch(throwCallerError("No weather history available"))
+         // }
+
+
       })
       // .catch( (error) => {
       //    store.dispatch(throwCallerError(error.message))
@@ -270,10 +307,15 @@ export const getHistoryFromWeatherStation = ( id, name, distance) => {
    }
 }
 
-export const checkNextWeatherStation = () => ({
-   type: CHECK_NEXT_WEATHER_STATION,
-   index: store.getState().data.history.station.index + 1
-})
+export const incrementWeatherStation = (id, name, distance) => {
+   return{
+      type: INCREMENT_WEATHER_STATION,
+      index: store.getState().data.history.station.index + 1,
+      id,
+      name,
+      distance
+   }
+}
 
 
 export const receiveWeatherHistory = (data, id, name, distance) => {
