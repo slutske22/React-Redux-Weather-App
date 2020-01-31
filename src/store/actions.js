@@ -250,7 +250,7 @@ export const getHistoryFromWeatherStation = ( id, name, distance, totalstations)
 
    const { index } = store.getState().data.history.station
 
-   const meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${id}&start=2012-01&end=2017-12&key=${meteoStatKey}`
+   const meteostatHistoryURL = `https://api.meteostat.net/v1/history/monthly?station=${id}&start=2010-01&end=2019-12&key=${meteoStatKey}`
    const maxRadius = 50 //in miles
    const maxRaiusKm = maxRadius * 1.60934
 
@@ -360,7 +360,7 @@ export const processWeatherHistoryData = (data) => {
             ],
             "Record Low": [
                round( Math.max( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),1),
-               allData[indexOfMinValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
+               allData[indexOfMinValue( nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
             ]
          }
 
