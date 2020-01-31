@@ -12,6 +12,7 @@ export const SHOW_SPINNER = "SHOW_SPINNER";
 export const RECIEVE_LOCATION_DATA = "RECIEVE_LOCATION_DATA";
 export const RECIEVE_WEATHER_DATA = "RECIEVE_WEATHER_DATA";
 export const INCREMENT_WEATHER_STATION = "INCREMENT_WEATHER_STATION";
+export const RESET_WEATHER_STATION_INDEX = "RESET_WEATHER_STATION_INDEX";
 export const RECIEVE_WEATHER_HISTORY = "RECIEVE_WEATHER_HISTORY";
 export const THROW_CALLER_ERROR = "THROW_CALLER_ERROR";
 export const VIEW_LOCATIONLIST = "OPEN_LOCATIONLIST";
@@ -274,30 +275,13 @@ export const getHistoryFromWeatherStation = ( id, name, distance, totalstations)
 
             if (index + 1 >= totalstations) {
                store.dispatch(throwCallerError(`Sorry, weather history and trends not available for this location.  Try searching for a nearby location.`))
+               store.dispatch( resetWeatherStationIndex() )
             } else {
                store.dispatch( incrementWeatherStation(id, name, distance) )
                store.dispatch( getWeatherHistory() )
             }
             
          }
-         
-         
-         
-         
-         
-         // if (store.getState().data.history.station.index < stationlimit-1) {
-
-         //    if (distance > 20) {
-         //       store.dispatch(throwCallerError("No weather history available within 20km"))
-         //    } else {
-         //       store.dispatch( incrementWeatherStation() )
-         //       store.dispatch( getWeatherHistory() )
-         //    }
-
-         // } else if (data.data.length < 1 
-         //             && store.getState().data.history.station.index === stationlimit-1 ) {
-         //    store.dispatch(throwCallerError("No weather history available"))
-         // }
 
 
       })
@@ -314,6 +298,13 @@ export const incrementWeatherStation = (id, name, distance) => {
       id,
       name,
       distance
+   }
+}
+
+export const resetWeatherStationIndex = () => {
+   return {
+      type: RESET_WEATHER_STATION_INDEX,
+      index: 0
    }
 }
 

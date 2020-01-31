@@ -6,6 +6,7 @@ import {
    RECIEVE_LOCATION_DATA,
    RECIEVE_WEATHER_DATA,
    INCREMENT_WEATHER_STATION,
+   RESET_WEATHER_STATION_INDEX,
    RECIEVE_WEATHER_HISTORY,
    VIEW_LOCATIONLIST,
    CHANGE_LOCATION,
@@ -138,6 +139,21 @@ export function rootReducer(state = initialState, action) {
                      id: action.id,
                      name: action.name,
                      distance: action.distance
+                  }
+               }
+            }
+         }
+      
+      case RESET_WEATHER_STATION_INDEX:
+         return {
+            ...state,
+            data: {
+               ...state.data,
+               history: {
+                  ...state.data.history,
+                  station: {
+                     ...state.data.history.station,
+                     index: action.index,
                   }
                }
             }

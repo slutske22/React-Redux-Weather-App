@@ -24,12 +24,18 @@ class WeatherHistory extends React.Component {
    render() {
 
       const { sort, view, month, type } = this.state
-      const dataPointNamesArray = Object.keys(this.props.data[sort][month].datum)
+      // choose static array [0].datum so that new divs aren't rendered each time
+      // will have same divs, but style element will change
+      const dataPointNamesArray = Object.keys(this.props.data[sort][0].datum)
 
       return (
          <main className={`WeatherHistory ${this.state.class}`}>
             <h3>Weather Trends for {this.props.locationData[this.props.locationIndex].display_name}</h3>
-            <h3>Sort by: <span>Month</span> <span>Weather Detail</span></h3>
+            <h4 className="sort-by">
+               Sort by: 
+               <span className={this.state.sort === 'byMonth' ? 'active' : ''}>Month</span> 
+               <span className={this.state.sort === 'byType' ? 'active' : ''}>Weather Detail</span>
+            </h4>
 
             <article className="content">
 
