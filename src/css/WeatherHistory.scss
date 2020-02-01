@@ -91,7 +91,6 @@
       .bar {
          position: relative;
          display: flex;
-         // align-items: flex-end;
          justify-content: center;
          width: 80%;
          max-width: 50px;
@@ -106,7 +105,6 @@
       .data-name{
          // display: none;
          display: inline-block;
-         width: 100%;
          display: flex;
          align-items: center;
          padding-top: 20px;

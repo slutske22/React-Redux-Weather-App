@@ -22,7 +22,9 @@ class WeatherHistory extends React.Component {
    setSort = e => {
       e.persist()
       this.setState({
-         sort: e.target.getAttribute('name')
+         sort: e.target.getAttribute('name'),
+         type: e.target.getAttribute('type'),
+         slot: 0
       })
    }
 
@@ -30,7 +32,7 @@ class WeatherHistory extends React.Component {
       e.persist()
       this.setState({
          type: e.target.getAttribute('type'),
-         slot: e.target.getAttribute('index')
+         slot: e.target.getAttribute('index'),
       })
    }
 
@@ -47,8 +49,8 @@ class WeatherHistory extends React.Component {
             <h3>Weather Trends for {this.props.locationData[this.props.locationIndex].display_name}</h3>
             <h4 className="sort-by">
                Sort by: 
-               <span className={this.state.sort === 'byMonth' ? 'active' : ''} name="byMonth" onClick={this.setSort}>Month</span> 
-               <span className={this.state.sort === 'byType' ? 'active' : ''} name="byType" onClick={this.setSort}>Weather Detail</span>
+               <span className={this.state.sort === 'byMonth' ? 'active' : ''} name="byMonth" type="January" onClick={this.setSort}>Month</span> 
+               <span className={this.state.sort === 'byType' ? 'active' : ''} name="byType" type="Average Temperature" onClick={this.setSort}>Weather Detail</span>
             </h4>
 
             <article className="content">
@@ -59,8 +61,9 @@ class WeatherHistory extends React.Component {
                         <h4 key={dataPoint.name}
                            type={dataPoint.name}
                            index={index} 
-                           className={dataPoint.name === type ? 'active' : ''}
-                           onClick={this.setDataType}>
+                           className={dataPoint.name === this.state.type ? 'active' : ''}
+                           onClick={this.setDataType}
+                        >
                            {dataPoint.name}
                         </h4> )
                   }
