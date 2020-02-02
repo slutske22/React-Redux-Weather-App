@@ -60,8 +60,8 @@ export function geolocateUser(){
                console.log('it is nighttime')
                store.dispatch( setTheme(darkTheme) )
             }
-
          })
+         .catch( error => console.log(error) )
    }
 
    const error = (error) => {

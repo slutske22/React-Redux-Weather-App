@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { colorTemperature2rgb } from 'color-temperature'
 import store from '../store/store'
 
 import '../css/WeatherHistory.scss'
@@ -89,9 +90,18 @@ class WeatherHistory extends React.Component {
                            width: `calc(${1/dataPointBySortNamesArray.length} * 100%)` 
                         }
 
+                        const adaptedColor = colorTemperature2rgb((35-numericalValue)*400)
+
+                        console.log(adaptedColor)
+
                         const barStyle = {
                            height: `${celciusToFerinheight(numericalValue)}%`,
-                           backgroundColor: perc2color(100-numericalValue)
+                           // backgroundColor: perc2color(0.2*(120-numericalValue))
+                           backgroundColor: `rgb(
+                              ${adaptedColor.red},
+                              ${adaptedColor.green ? adaptedColor.green : 0},
+                              ${adaptedColor.blue}
+                           )`
                         }
                         
                         return (
