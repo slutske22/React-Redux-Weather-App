@@ -90,7 +90,7 @@ class WeatherHistory extends React.Component {
                            width: `calc(${1/dataPointBySortNamesArray.length} * 100%)` 
                         }
 
-                        const adaptedColor = colorTemperature2rgb((35-numericalValue)*400)
+                        const adaptedColor = colorTemperature2rgb((31-numericalValue)*400)
 
                         console.log(adaptedColor)
 
