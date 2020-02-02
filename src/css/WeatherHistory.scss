@@ -98,13 +98,18 @@
          height: 75%;
          border: 1px solid var(--foreground-color);
          border-bottom: none;
-         background-color: var(--background-color);
+         background-color: var(--nice-blue);
          transition: height 1000ms;
       }
 
       .data-name{
-         // display: none;
-         // display: inline-block;
+
+         // For when bars are shorter than labels:
+         position: absolute;
+         bottom: -15px;
+         left: -25px;
+         white-space: nowrap;
+
          display: flex;
          align-items: center;
          padding-top: 20px;

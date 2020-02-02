@@ -4,7 +4,7 @@ import store from '../store/store'
 
 import '../css/WeatherHistory.scss'
 
-import { celciusToFerinheight } from '../constants'
+import { celciusToFerinheight, perc2color } from '../constants'
 
 class WeatherHistory extends React.Component {
 
@@ -91,6 +91,7 @@ class WeatherHistory extends React.Component {
 
                         const barStyle = {
                            height: `${celciusToFerinheight(numericalValue)}%`,
+                           backgroundColor: perc2color(100-numericalValue)
                         }
                         
                         return (
