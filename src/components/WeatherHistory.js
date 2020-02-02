@@ -85,27 +85,33 @@ class WeatherHistory extends React.Component {
                            dateReferenceSorted = sort === 'byType' ? dateReference.slice(0,4) : dateReference.slice(0,4)
                         }
 
+                        const columnStyle = {
+                           width: `calc(${1/dataPointBySortNamesArray.length} * 100%)` 
+                        }
+
                         const barStyle = {
                            height: `${celciusToFerinheight(numericalValue)}%`,
                         }
                         
                         return (
-                           <div key={name} className="column">
+                           <div key={name} style={columnStyle} className="column">
 
                               <div className="value">
                                  {celciusToFerinheight(numericalValue).toFixed(0)}°
                               </div>
+
                               <div className="bar" style={barStyle}>
-                                 <div className="data-name">{name}</div>
+                                 {sort === 'byMonth' && <div className="data-name">{name}</div>}
                                  {dateReferenceSorted && 
                                  <div className="date-reference">
                                     {dateReferenceSorted}
                                  </div>
                                  }
                               </div>
-                              <div className="short-name">
+
+                              {sort === 'byType' && <div className="short-name">
                                  {name.slice(0,3).toUpperCase()}
-                              </div>
+                              </div>}
 
 
                            </div> 
