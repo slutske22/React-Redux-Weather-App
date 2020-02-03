@@ -71,12 +71,25 @@
    figure{
 
       display: flex;
-      flex-direction: row;
-      justify-content: space-around;
+      flex-direction: column;
       padding: 0px 10px;
       margin: 0px;
       border-left: 1px solid var(--foreground-color);
       border-bottom: 1px solid var(--foreground-color);
+
+      .positive{
+         display: flex;
+         flex-direction: row;
+         justify-content: space-around;
+         height: 100%;
+         transition: height 1000ms;
+      }
+
+      .negative{
+         height: 0%;
+         padding-bottom: 0px;
+         transition: height 1000ms;
+      }
 
 
       .column {

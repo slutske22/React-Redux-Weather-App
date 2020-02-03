@@ -1,6 +1,6 @@
 import store from './store'
 import { lightTheme, darkTheme } from '../components/ThemeChanger'
-import { monthsFull } from '../constants.js'
+import { monthsFull, celciusToFerinheight } from '../constants.js'
 
 
 export const GEOLOCATE_USER = "GEOLOCATE_USER";
@@ -363,49 +363,111 @@ export const processWeatherHistoryData = (data) => {
 
    function processByMonth(data){
 
+      // ---- First round of processing - organizing into the structure I need for raw celcius values
       dataByMonth.forEach( (month, index) => {
+
+         month.datum = {
+            c: {
+               raw: {},
+               normalized: {}
+            },
+            f: {
+               raw: {},
+               normalized: {}
+            },
+         }
 
          const allData = filterByMonth(data, index+1)
 
          month.name = monthsFull[index]
-         month.datum = {
-            "Average Temperature": round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ), 1),
-            "Average High Temp": round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_max') ) ), 1),
-            "Average Low Temp": round( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ), 1),
+         month.datum.c.raw = {
+            "Average Temperature": 
+               average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ),
+            "Average High Temp": 
+               average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_max') ) ),
+            "Average Low Temp": 
+               average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ),
             "Record High": [
-               round( Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ),1), allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
+               Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ), 
+               allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
             ],
             "Record Low": [
-               round( Math.min( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),1),
+               Math.min( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),
                allData[indexOfMinValue( nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
             ]
          }
 
+         month.datum.f.raw = {
+            "Average Temperature": 
+               celciusToFerinheight(average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ) ),
+            "Average High Temp": 
+               celciusToFerinheight( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_max') ) ) ),
+            "Average Low Temp": 
+               celciusToFerinheight( average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean_min') ) ) ),
+            "Record High": [
+               celciusToFerinheight( Math.max( ...nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) ) ), 
+               allData[indexOfMaxValue( nullFilteredMaxArray( extractValues( filterByMonth(data, index+1), 'temperature_max') ) )].month 
+            ],
+            "Record Low": [
+               celciusToFerinheight( Math.min( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ) ),
+               allData[indexOfMinValue( nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
+            ]
+         }
 
       } ) //forEach
 
+
+      // ---- Second round: transforming into Farenheight Units (American Units)
+      // const dataTypes = Object.keys(dataByMonth[0].datum.c.raw)
+
+      // dataTypes.forEach( type => {
+      //    dataByMonth.forEach( month => {
+
+      //       month.datum.f.raw[type] = celciusToFerinheight(month.datum.c.raw[type])
+            
+      //    }) // forEach dataByMonth
+      // })  // forEach dataTypes
+
+
+
    } // processData
 
+   // console.log('dataByMonth', dataByMonth)
+
    
+   // ---- Fifth round: reorganizing to categorize by weather data type
    const dataByType = []
 
    function processByType(){
 
-      const dataTypes = Object.keys(dataByMonth[0].datum)
+      const dataTypes = Object.keys(dataByMonth[0].datum.c.raw)
 
-      dataTypes.forEach( type => {
+      dataTypes.forEach( typeName => {
          dataByType.push({
-            name: type,
-            datum: {}
+            name: typeName,
+            datum: {
+               c: {
+                  raw: {},
+                  normalized: {}
+               },
+               f: {
+                  raw: {},
+                  normalized: {}
+               },
+            }
          })
       })
 
       dataByMonth.forEach( month => {
          dataByType.forEach( type => {
             let thisMonth = month.name
-            type.datum[thisMonth] = (dataByMonth.filter( month => month.name === thisMonth))[0].datum[type.name]
+            type.datum.c.raw[thisMonth] = (dataByMonth.filter( month => month.name === thisMonth))[0].datum.c.raw[type.name]
+            type.datum.f.raw[thisMonth] = (dataByMonth.filter( month => month.name === thisMonth))[0].datum.f.raw[type.name]
+
          })
       })
+
+      // console.log('dataByType', dataByType)
 
 
    }
