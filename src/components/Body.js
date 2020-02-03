@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect  } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
@@ -14,12 +14,20 @@ class Body extends React.Component{
 
    render(){
 
-      const { dataReady, weatherData, locationData, showMoreLocations, showWeatherHistory, locationIndex, callerError, weatherSpinnerOpen } = this.props   
+      const { currentRoute, dataReady, weatherData, locationData, showMoreLocations, showWeatherHistory, locationIndex, callerError, weatherSpinnerOpen } = this.props  
+
+      const components = {
+         "/": <Empty />,
+         "/forecast": <Week />,
+         "locationlist": <LocationList />,
+         "/weatherhistory": <WeatherHistory />
+      } 
 
 
       return (
          <Router>
-            {weatherSpinnerOpen && <WeatherSpinner />}
+
+            {/* {weatherSpinnerOpen && <WeatherSpinner />}
             {dataReady && !callerError && !weatherSpinnerOpen && !showMoreLocations && !showWeatherHistory && 
                <Week locationIndex={locationIndex}
                locationData={locationData} weatherData={weatherData} showMoreLocations={showMoreLocations} openLocationList={this.openLocationList}
@@ -27,7 +35,10 @@ class Body extends React.Component{
             {showWeatherHistory && <WeatherHistory />}
             {callerError && <Error />}
             {showMoreLocations &&  
-               <LocationList locationData={locationData} locationIndex={locationIndex} />}
+               <LocationList locationData={locationData} locationIndex={locationIndex} />} */}
+
+            <Redirect to={currentRoute} />
+
 
             <Switch>
                <Route exact path="/" component={Empty} />
@@ -35,6 +46,9 @@ class Body extends React.Component{
                <Route path="/locationlist" component={LocationList} />
                <Route path="/weatherhistory" component={WeatherHistory} />
             </Switch>
+
+
+
          </Router>
       )
 
@@ -44,6 +58,7 @@ class Body extends React.Component{
 
 const mapStateToProps = (state) => {
    return {
+      route: state.currentRoute,
       dataReady: state.data.forecast.ready,
       weatherData: state.data.forecast.data,
       locationData: state.data.locations.data,
