@@ -99,7 +99,7 @@
          border: 1px solid var(--foreground-color);
          border-bottom: none;
          background-color: var(--nice-blue);
-         transition: height 1000ms;
+         transition: height 1000ms, background-color 1000ms;
       }
 
       .data-name{
