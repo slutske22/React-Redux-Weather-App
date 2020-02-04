@@ -29,6 +29,7 @@ class WeatherHistory extends React.Component {
       e.persist()
       this.setState({
          sort: e.target.getAttribute('name'),
+         type: e.target.getAttribute('type'),
          slot: 0
       })
    }
@@ -62,7 +63,6 @@ class WeatherHistory extends React.Component {
       let ratio
 
       if ( values.some( value => value < 0) ) {
-         console.log('there are subzero values')
          ratio = Number((Math.abs( Math.min(...values) / (Math.abs( Math.min(...values)) + Math.abs( Math.max(...values))) ) * 100).toFixed(0))
          this.setState( prevState => {
             if (prevState.subzero.ratio !== ratio) {
@@ -88,9 +88,6 @@ class WeatherHistory extends React.Component {
             }
          })
       }
-
-      console.log(values, 'ratio', ratio)
-
 
       return (
          <main className={`WeatherHistory ${this.state.class}`}>

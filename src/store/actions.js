@@ -247,7 +247,7 @@ export function getWeatherHistory() {
       fetch(meteostatSearchUrl)
       .then( response => response.json() )
       .then( historyData => {
-         console.log(historyData)
+         // console.log(historyData)
          const totalstations = historyData.data.length
          const { id, name, distance } = historyData.data[index]
          getHistoryFromWeatherStation(id, name, distance, totalstations)()
@@ -280,15 +280,15 @@ export const getHistoryFromWeatherStation = ( id, name, distance, totalstations)
             if (Number(distance) > maxRaiusKm) {
                store.dispatch(throwCallerError("No weather history available within 20km"))
             } else {
-               console.log('data legit')
+               // console.log('data legit')
                const processedData = processWeatherHistoryData(data.data)
                store.dispatch( receiveWeatherHistory(processedData, id, name, distance) )
             }
 
          } else {
 
-            console.log("checking station index", store.getState().data.history.station.index)
-            console.log('distance', distance)
+            // console.log("checking station index", store.getState().data.history.station.index)
+            // console.log('distance', distance)
 
             if (index + 1 >= totalstations) {
                store.dispatch(throwCallerError(`Sorry, weather history and trends not available for this location.  Try searching for a nearby location.`))
