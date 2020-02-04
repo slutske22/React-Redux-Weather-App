@@ -1,19 +1,21 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom'
 
-import Empty from './Empty'
 import SearchBar from './Search';
 import ThemeChanger from './ThemeChanger';
 import LogoHeader from './LogoHeader';
 import Body from './Body';
+import Week from './Week';
+import LocationList from './LocationList';
+import WeatherHistory from './WeatherHistory';
 
-import { geolocateUser, processWeatherHistoryData } from '../store/actions';
+import { geolocateUser } from '../store/actions';
 
 
 class App extends React.Component {
 
    componentDidMount(){
       geolocateUser()
-      // processWeatherHistoryData()
    }
 
    render(){
@@ -25,6 +27,13 @@ class App extends React.Component {
             <LogoHeader />
             <SearchBar />
             <Body />
+{/* 
+            <Switch>
+               <Route exact path="/" component={Body} />
+               <Route path="/forecast" component={Week} />
+               <Route path="/locationlist" component={LocationList} />
+               <Route path="/weatherhistory" component={WeatherHistory} />
+            </Switch> */}
 
 
          </div>

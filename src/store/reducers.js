@@ -162,7 +162,7 @@ export function rootReducer(state = initialState, action) {
       case RECIEVE_WEATHER_HISTORY:
          return {
             ...state,
-            currentRoute: '/history',
+            currentRoute: '/weatherhistory',
             data: {
                ...state.data,
                callerError:false,

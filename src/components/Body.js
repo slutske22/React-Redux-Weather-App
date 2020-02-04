@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
@@ -18,8 +18,8 @@ class Body extends React.Component{
 
 
       return (
-         <Router>
-            {weatherSpinnerOpen && <WeatherSpinner />}
+         <>
+            {/* {weatherSpinnerOpen && <WeatherSpinner />}
             {dataReady && !callerError && !weatherSpinnerOpen && !showMoreLocations && !showWeatherHistory && 
                <Week locationIndex={locationIndex}
                locationData={locationData} weatherData={weatherData} showMoreLocations={showMoreLocations} openLocationList={this.openLocationList}
@@ -27,15 +27,18 @@ class Body extends React.Component{
             {showWeatherHistory && <WeatherHistory />}
             {callerError && <Error />}
             {showMoreLocations &&  
-               <LocationList locationData={locationData} locationIndex={locationIndex} />}
+               <LocationList locationData={locationData} locationIndex={locationIndex} />} */}
 
+            {weatherSpinnerOpen && <WeatherSpinner />}
+            {!weatherSpinnerOpen && <Redirect to={this.props.currentRoute} />}
+            
             <Switch>
                <Route exact path="/" component={Empty} />
                <Route path="/forecast" component={Week} />
                <Route path="/locationlist" component={LocationList} />
                <Route path="/weatherhistory" component={WeatherHistory} />
             </Switch>
-         </Router>
+         </>
       )
 
    }
@@ -44,12 +47,13 @@ class Body extends React.Component{
 
 const mapStateToProps = (state) => {
    return {
+      currentRoute: state.currentRoute,
       dataReady: state.data.forecast.ready,
       weatherData: state.data.forecast.data,
       locationData: state.data.locations.data,
+      locationIndex: state.data.locations.index,
       showMoreLocations: state.show.moreLocations,
       showWeatherHistory: state.show.weatherHistory,
-      locationIndex: state.data.locations.index,
       callerError: state.data.callerError,
       weatherSpinnerOpen: state.show.weatherSpinner
    }

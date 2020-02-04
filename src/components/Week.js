@@ -6,6 +6,8 @@ import { viewLocationlist, viewWeatherHistory, getWeatherHistory } from '../stor
 
 import Day from './Day'
 import WeatherIcon from '../svgIcons'
+import LocationList from './LocationList'
+import WeatherHistory from './WeatherHistory'
 
 class Week extends React.Component {
    constructor(props){
@@ -27,12 +29,17 @@ class Week extends React.Component {
    }
    
    componentDidMount(){
+      console.log(this.props)
       let delay = () => { this.setState({class: 'visible'}) };
       setTimeout(delay, 1)
       // console.log('<Week> mounted')
    }
 
    render (){
+
+      if (!this.props.dataReady || this.props.weatherSpinnerOpen){
+         return <div>this is some bullshit</div>
+      }
 
       let days = [];
       for (var i = 0; i < 7 ; i++) {
@@ -67,6 +74,14 @@ class Week extends React.Component {
    }
 }
 
+const mapStateToProps = state => ({
+   weatherSpinnerOpen: state.show.weatherSpinner,
+   dataReady: state.data.forecast.ready,
+   locationData: state.data.locations.data,
+   locationIndex: state.data.locations.index,
+   weatherData: state.data.forecast.data
+})
+
 const mapDispatchToProps = dispatch => {
    return {
       viewLocationlist: () => { store.dispatch( viewLocationlist() ) },
@@ -75,4 +90,4 @@ const mapDispatchToProps = dispatch => {
    }
 }
 
-export default connect(mapDispatchToProps)(Week);
+export default connect(mapStateToProps, mapDispatchToProps)(Week);

@@ -44,6 +44,10 @@ class WeatherHistory extends React.Component {
 
    render() {
 
+      if (!this.props.data || this.props.weatherSpinnerOpen) {
+         return null
+      }
+
       const { sort, slot, unit } = this.state
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
@@ -199,9 +203,10 @@ class WeatherHistory extends React.Component {
 }
 
 const mapStateToProps = state => ({
+   weatherSpinnerOpen: state.show.weatherSpinner,
+   data: state.data.history.data,
    locationData: state.data.locations.data,
    locationIndex: state.data.locations.index,
-   data: state.data.history.data
 })
 
 const mapDispatchToProps = dispatch => ({
