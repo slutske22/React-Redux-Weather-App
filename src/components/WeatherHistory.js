@@ -152,15 +152,22 @@ class WeatherHistory extends React.Component {
                                  ${adaptedColor.blue}
                               )`
                            }
+
+                           if (numericalValue < 0) {
+                              barStyle.height = `${Math.abs(numericalValue)}%`
+                              barStyle.bottom = `${numericalValue}%`
+                              barStyle.borderBottom = `1px solid var(--foreground-color)`
+                              // barStyle.borderTop = 'none'
+
+                           }
                            
                            return (
                               <div key={name} style={columnStyle} className="column">
 
-                                 <div className="value">
-                                    {numericalValue.toFixed(0)}°
-                                 </div>
-
                                  <div className="bar" style={barStyle}>
+                                    <div className="value">
+                                       {numericalValue.toFixed(0)}°
+                                    </div>
                                     {sort === 'byMonth' && <div className="data-name">{name}</div>}
                                     {dateReferenceSorted && 
                                     <div className="date-reference">
