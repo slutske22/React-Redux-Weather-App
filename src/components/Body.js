@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
@@ -11,6 +11,17 @@ import LocationList from './LocationList';
 import WeatherHistory from './WeatherHistory'
 
 class Body extends React.Component{
+
+   componentDidMount(){
+      window.routerhistory = this.props.history
+   }
+
+   componentDidUpdate(prevProps){
+      if (prevProps.route !== this.props.route){
+         console.log(this.props.route)
+         this.props.history.push(this.props.route)
+      }
+   }
 
    render(){
 
@@ -30,13 +41,14 @@ class Body extends React.Component{
                <LocationList locationData={locationData} locationIndex={locationIndex} />} */}
 
             {weatherSpinnerOpen && <WeatherSpinner />}
-            {!weatherSpinnerOpen && <Redirect to={this.props.currentRoute} />}
+            {/* {!weatherSpinnerOpen && <Redirect to={this.props.route} />} */}
             
             <Switch>
                <Route exact path="/" component={Empty} />
                <Route path="/forecast" component={Week} />
                <Route path="/locationlist" component={LocationList} />
                <Route path="/weatherhistory" component={WeatherHistory} />
+               <Route path="/err" component={Error} />
             </Switch>
          </>
       )
@@ -47,7 +59,7 @@ class Body extends React.Component{
 
 const mapStateToProps = (state) => {
    return {
-      currentRoute: state.currentRoute,
+      route: state.currentRoute,
       dataReady: state.data.forecast.ready,
       weatherData: state.data.forecast.data,
       locationData: state.data.locations.data,
@@ -60,4 +72,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(Body)
+export default connect(mapStateToProps)(withRouter(Body))
