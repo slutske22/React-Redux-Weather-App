@@ -56,7 +56,7 @@ class Week extends React.Component {
          <div id="forecast" className={this.state.class}>
             <h3>Weather for {this.props.locationData[this.props.locationIndex].display_name}</h3>
             {this.props.locationData.length > 1 &&
-            <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <a href="#" onClick={ this.props.viewLocationlist }>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</a></h5>
+            <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <Link onClick={ this.props.viewLocationlist }>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</Link></h5>
             }
             <h5 className="history-title">
                <WeatherIcon icon="graph" className="weather-history-icon" />

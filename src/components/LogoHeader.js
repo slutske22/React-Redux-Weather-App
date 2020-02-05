@@ -1,11 +1,13 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { Spinner1 } from './WeatherSpinner'
 import { connect } from 'react-redux'
 
 class LogoHeader extends React.Component {
    render () {
       return(
-         <div className={`LogoHeader ${this.props.expandedClass}`}>
+         <div className={`LogoHeader ${this.props.history.location.pathname !== '/' 
+         || this.props.weatherSpinnerOpen ? 'step-aside' : ''}`}>
             <img className="slowSpin" src="/icons/react-logo.svg" />
             <Spinner1 />
             <img className="slowSpin" src="/icons/redux-logo.svg" />
@@ -17,8 +19,8 @@ class LogoHeader extends React.Component {
 
 const mapStateToProps = (state) => {
    return {
-      expandedClass: state.class
+      weatherSpinnerOpen: state.show.weatherSpinner
    }
 }
 
-export default connect(mapStateToProps)(LogoHeader);
+export default connect(mapStateToProps)(withRouter(LogoHeader));

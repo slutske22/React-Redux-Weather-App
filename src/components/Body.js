@@ -41,7 +41,6 @@ class Body extends React.Component{
                <LocationList locationData={locationData} locationIndex={locationIndex} />} */}
 
             {weatherSpinnerOpen && <WeatherSpinner />}
-            {/* {!weatherSpinnerOpen && <Redirect to={this.props.route} />} */}
             
             <Switch>
                <Route exact path="/" component={Empty} />

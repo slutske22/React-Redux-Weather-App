@@ -26,7 +26,6 @@ export const initialState = {
       weatherHistory: false,
       weatherSpinner: false,
    },
-   class: '',
    theme: lightTheme,
    userInput: {
       zipValue: '',
@@ -82,7 +81,6 @@ export function rootReducer(state = initialState, action) {
       case SHOW_SPINNER:
       return {
          ...state,
-         class: 'data-ready',
          data: {
             ...state.data,
             callerError: null
@@ -97,7 +95,6 @@ export function rootReducer(state = initialState, action) {
       case RECIEVE_LOCATION_DATA:
          return {
             ...state,
-            class: 'data-ready',
             data: {
                ...state.data,
                callerError: false,
@@ -188,7 +185,6 @@ export function rootReducer(state = initialState, action) {
          return {
             ...initialState,
             currentRoute: '/err',
-            class: 'data-ready',
             data: {
                ...state.data,
                callerError: action.error,

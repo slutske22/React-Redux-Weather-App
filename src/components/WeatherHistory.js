@@ -25,29 +25,12 @@ class WeatherHistory extends React.Component {
       setTimeout(delay, 1)
    }
 
-   setSort = e => {
-      e.persist()
-      this.setState({
-         sort: e.target.getAttribute('name'),
-         type: e.target.getAttribute('type'),
-         slot: 0
-      })
-   }
-
-   setDataType = e => {
-      e.persist()
-      this.setState({
-         slot: e.target.getAttribute('index'),
-         type: e.target.getAttribute('type'),
-      })
-   }
-
-   render() {
+   componentDidUpdate(){
 
       if (!this.props.data || this.props.weatherSpinnerOpen) {
          return null
       }
-
+      
       const { sort, slot, unit } = this.state
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
@@ -92,6 +75,35 @@ class WeatherHistory extends React.Component {
             }
          })
       }
+   }
+
+   setSort = e => {
+      e.persist()
+      this.setState({
+         sort: e.target.getAttribute('name'),
+         type: e.target.getAttribute('type'),
+         slot: 0
+      })
+   }
+
+   setDataType = e => {
+      e.persist()
+      this.setState({
+         slot: e.target.getAttribute('index'),
+         type: e.target.getAttribute('type'),
+      })
+   }
+
+   render() {
+
+      if (!this.props.data || this.props.weatherSpinnerOpen) {
+         return null
+      }
+
+      const { sort, slot, unit } = this.state
+      // choose static array [0].datum so that new divs aren't rendered each time
+      // will have same divs, but style element will change
+      const dataPointBySortNamesArray = Object.keys(this.props.data[sort][0].datum[unit].raw)
 
       return (
          <main className={`WeatherHistory ${this.state.class}`}>
