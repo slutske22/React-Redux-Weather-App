@@ -32,14 +32,15 @@ class WeatherHistory extends React.Component {
       }
       
       const { sort, slot, unit } = this.state
+      const data = this.props.data[sort]
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
-      const dataPointBySortNamesArray = Object.keys(this.props.data[sort][0].datum[unit].raw)
+      const dataPointBySortNamesArray = Object.keys(data[0].datum[unit].raw)
 
 
       // Tease out values and normalize them, for bar graph purposes
       const values = dataPointBySortNamesArray.map( name => {
-         const value  = this.props.data[sort][slot].datum[unit].raw[name]
+         const value  = data[slot].datum[unit].raw[name]
          if (typeof value === 'number') {
             return value
          } else {
@@ -100,29 +101,30 @@ class WeatherHistory extends React.Component {
          return null
       }
 
-      const { sort, slot, unit } = this.state
+      const { sort, slot, unit, type, subzero: { ratio } } = this.state
+      const { data, locationData, locationIndex, station: { distance } } = this.props
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
-      const dataPointBySortNamesArray = Object.keys(this.props.data[sort][0].datum[unit].raw)
+      const dataPointBySortNamesArray = Object.keys(data[sort][0].datum[unit].raw)
 
       return (
          <main className={`WeatherHistory ${this.state.class}`}>
-            <h3>Weather Trends for {this.props.locationData[this.props.locationIndex].display_name}</h3>
+            <h3>Weather Trends { distance > 20 ? 'near' : 'for'} {locationData[locationIndex].display_name}</h3>
             <h4 className="sort-by">
                Sort by: 
-               <span className={this.state.sort === 'byMonth' ? 'active' : ''} name="byMonth" type="January" onClick={this.setSort}>Month</span> 
-               <span className={this.state.sort === 'byType' ? 'active' : ''} name="byType" type="Average Temperature" onClick={this.setSort}>Weather Detail</span>
+               <span className={sort === 'byMonth' ? 'active' : ''} name="byMonth" type="January" onClick={this.setSort}>Month</span> 
+               <span className={sort === 'byType' ? 'active' : ''} name="byType" type="Average Temperature" onClick={this.setSort}>Weather Detail</span>
             </h4>
 
             <article className="content">
 
                <section className="menu">
                   {
-                     this.props.data[sort].map( (dataPoint, index) =>
+                     data[sort].map( (dataPoint, index) =>
                         <h4 key={dataPoint.name}
                            type={dataPoint.name}
                            index={index} 
-                           className={dataPoint.name === this.state.type ? 'active' : ''}
+                           className={dataPoint.name === type ? 'active' : ''}
                            onClick={this.setDataType}
                         >
                            {dataPoint.name}
@@ -132,7 +134,7 @@ class WeatherHistory extends React.Component {
 
                <figure>
                   
-                  <div className="positive" style={{height: `${100-this.state.subzero.ratio}%`}}>
+                  <div className="positive" style={{height: `${100-ratio}%`}}>
                      {
                         dataPointBySortNamesArray.map( name => {
 
@@ -140,7 +142,7 @@ class WeatherHistory extends React.Component {
                         // Here is a nice little discussion of thatL
                         // https://stats.stackexchange.com/questions/351696/normalize-an-array-of-numbers-to-specific-range
 
-                           const rawValue = this.props.data[sort][slot].datum[unit].raw[name]
+                           const rawValue = data[sort][slot].datum[unit].raw[name]
                            const numericalValue = typeof rawValue === 'number' ? rawValue : rawValue[0]
                            const dateReference = typeof rawValue === 'object' ? rawValue[1] : null
                            let dateReferenceSorted = null
@@ -152,7 +154,7 @@ class WeatherHistory extends React.Component {
                               width: `calc(${1/dataPointBySortNamesArray.length} * 100%)` 
                            }
 
-                           const rawCelciusValue = this.props.data[sort][slot].datum.c.raw[name]
+                           const rawCelciusValue = data[sort][slot].datum.c.raw[name]
                            const celciusValue = typeof rawCelciusValue === 'number' ? rawCelciusValue : rawCelciusValue[0]
                            const adaptedColor = colorTemperature2rgb((31-celciusValue)*400)
 
@@ -200,7 +202,7 @@ class WeatherHistory extends React.Component {
                      }
                   </div> {/* end positive */}
 
-                  <div className={`negative`} style={{height: `${this.state.subzero.ratio}%`}}>
+                  <div className={`negative`} style={{height: `${ratio}%`}}>
                   </div>
                   
                </figure>
@@ -217,6 +219,7 @@ class WeatherHistory extends React.Component {
 const mapStateToProps = state => ({
    weatherSpinnerOpen: state.show.weatherSpinner,
    data: state.data.history.data,
+   station: state.data.history.station,
    locationData: state.data.locations.data,
    locationIndex: state.data.locations.index,
 })
