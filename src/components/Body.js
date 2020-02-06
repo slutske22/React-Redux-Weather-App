@@ -9,6 +9,7 @@ import WeatherSpinner from './WeatherSpinner'
 import Week from './Week'
 import LocationList from './LocationList';
 import WeatherHistory from './WeatherHistory'
+import WeatherIcon from '../svgIcons'
 
 class Body extends React.Component{
 
@@ -48,6 +49,12 @@ class Body extends React.Component{
                <Route path="/locationlist" component={LocationList} />
                <Route path="/weatherhistory" component={WeatherHistory} />
                <Route path="/err" component={Error} />
+               <Route render={
+                  () => <>
+                        <WeatherIcon icon="warning" className="warning-icon" />
+                        <h3>Oops!  There's nothing here.  Go back!</h3>
+                     </>
+               } />
             </Switch>
          </>
       )
