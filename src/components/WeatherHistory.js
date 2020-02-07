@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { colorTemperature2rgb } from 'color-temperature'
-import store from '../store/store'
 
 import '../css/WeatherHistory.scss'
-
-import { celciusToFerinheight } from '../constants'
 
 class WeatherHistory extends React.Component {
 
@@ -17,7 +14,8 @@ class WeatherHistory extends React.Component {
       subzero: {
          active: false,
          ratio: undefined
-      }
+      },
+      tooFarWarning: false
    }
 
    componentDidMount(){
@@ -95,6 +93,24 @@ class WeatherHistory extends React.Component {
       })
    }
 
+   TooFarIcon = () => 
+      <>
+         near <sup><span role="img" aria-label="Too Far Warning" className="too-far-icon"
+            onMouseMove={ (e) => {this.setState({tooFarWarning: [e.clientX, e.clientY]})}}
+            onMouseLeave={() => this.setState({tooFarWarning: false})}
+            >
+            ⚠️
+            </span></sup>
+      </>
+
+   TooFarWarning = () => 
+      <div className="too-far-warning" 
+         style={{position: 'fixed', left: this.state.tooFarWarning[0], top: this.state.tooFarWarning[1]}} 
+         // onMouseLeave={() => this.setState({tooFarWarning: false})}
+         >
+         No weather stations closer than 20km offer weather history data.  This data comes from the {this.props.station.name} station, {this.props.station.distance} km from your searched location.
+      </div>
+
    render() {
 
       if (!this.props.data || this.props.weatherSpinnerOpen) {
@@ -109,11 +125,12 @@ class WeatherHistory extends React.Component {
 
       return (
          <main className={`WeatherHistory ${this.state.class}`}>
-            <h3>Weather Trends { distance > 20 ? 'near' : 'for'} {locationData[locationIndex].display_name}</h3>
+            <h3>Weather Trends { distance > 20 ? <this.TooFarIcon /> : 'for'} {locationData[locationIndex].display_name}</h3>
             <h4 className="sort-by">
                Sort by: 
                <span className={sort === 'byMonth' ? 'active' : ''} name="byMonth" type="January" onClick={this.setSort}>Month</span> 
                <span className={sort === 'byType' ? 'active' : ''} name="byType" type="Average Temperature" onClick={this.setSort}>Weather Detail</span>
+               {this.state.tooFarWarning && <this.TooFarWarning />}
             </h4>
 
             <article className="content">
