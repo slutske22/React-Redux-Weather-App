@@ -197,6 +197,7 @@ class WeatherHistory extends React.Component {
                               <div key={name} style={columnStyle} className="column">
 
                                  <div className="bar" style={barStyle}>
+
                                     <div className="value">
                                        {numericalValue.toFixed(0)}°
                                     </div>
@@ -206,14 +207,13 @@ class WeatherHistory extends React.Component {
                                        {dateReferenceSorted}
                                     </div>
                                     }
-                                 </div>
+                                 </div>   {/* bar */}
 
                                  {sort === 'byType' && <div className="short-name">
                                     {name.slice(0,3).toUpperCase()}
                                  </div>}
 
-
-                              </div> 
+                              </div> // column
                            )
                         })
                      }
