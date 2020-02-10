@@ -35,16 +35,23 @@ class WeatherHistory extends React.Component {
       // will have same divs, but style element will change
       const dataPointBySortNamesArray = Object.keys(data[0].datum[unit].raw)
 
-
-      // Tease out values and normalize them, for bar graph purposes
-      const values = dataPointBySortNamesArray.map( name => {
+      // Create an array of values (need to pull numerical value out of record-hi or lo values, which are arrays with a value and date)
+      const unfilteredValues = dataPointBySortNamesArray.map( name => {
          const value  = data[slot].datum[unit].raw[name]
          if (typeof value === 'number') {
             return value
          } else {
             return value[0]
          }
-      }) // values
+      }) // unfilteredValues
+
+      // Filter out inifinity values so that the ratio can be calculated properly with each time the user changes the type or slot
+      const values = unfilteredValues.filter( value => {
+         if (value === Infinity || value === -Infinity){
+            return false
+         }
+         return true
+      })
 
       let ratio
 
@@ -162,22 +169,28 @@ class WeatherHistory extends React.Component {
                            const rawValue = data[sort][slot].datum[unit].raw[name]
                            const numericalValue = typeof rawValue === 'number' ? rawValue : rawValue[0]
                            const dateReference = typeof rawValue === 'object' ? rawValue[1] : null
+
                            let dateReferenceSorted = null
+                           let dataPointAvailable = true
+
+
                            if (dateReference) {
                               dateReferenceSorted = sort === 'byType' ? dateReference.slice(0,4) : dateReference.slice(0,4)
                            }
 
-                           const columnStyle = {
-                              width: `calc(${1/dataPointBySortNamesArray.length} * 100%)` 
-                           }
+                           console.log(numericalValue)
 
                            const rawCelciusValue = data[sort][slot].datum.c.raw[name]
                            const celciusValue = typeof rawCelciusValue === 'number' ? rawCelciusValue : rawCelciusValue[0]
                            const adaptedColor = colorTemperature2rgb((31-celciusValue)*400)
 
+                        // Dynamic styles --------------------------------------------
+                           const columnStyle = {
+                              width: `calc(${1/dataPointBySortNamesArray.length} * 100%)` 
+                           }
+
                            const barStyle = {
                               height: `calc(${numericalValue}% - 25px)`,
-                              // backgroundColor: perc2color(0.2*(120-numericalValue))
                               backgroundColor: `rgb(
                                  ${adaptedColor.red},
                                  ${adaptedColor.green ? adaptedColor.green : 0},
@@ -185,29 +198,43 @@ class WeatherHistory extends React.Component {
                               )`
                            }
 
+                        // Conditionals on dynamic styles for values below 0, or infinity values
                            if (numericalValue < 0) {
                               barStyle.height = `${Math.abs(numericalValue)}%`
                               barStyle.bottom = `${numericalValue}%`
                               barStyle.borderBottom = `1px solid var(--foreground-color)`
-                              // barStyle.borderTop = 'none'
+                           }
 
+                           if (numericalValue === Infinity || numericalValue === -Infinity){
+                              dataPointAvailable = false
+                              barStyle.height = '100%'
+                              barStyle.backgroundColor = 'rgb(82,82,82)';
+                              barStyle.background = 'linear-gradient(0deg, rgba(82,82,82,1) 0%, rgba(82,82,82,0) 100%)';
+                              barStyle.border = 'none'
+                              barStyle.borderBottom = 'none'
                            }
                            
                            return (
                               <div key={name} style={columnStyle} className="column">
 
                                  <div className="bar" style={barStyle}>
+                                 
 
-                                    <div className="value">
+                                    {dataPointAvailable && <div className="value">
                                        {numericalValue.toFixed(0)}°
-                                    </div>
+                                    </div>}
+
                                     {sort === 'byMonth' && <div className="data-name">{name}</div>}
-                                    {dateReferenceSorted && 
-                                    <div className="date-reference">
-                                       {dateReferenceSorted}
-                                    </div>
+
+                                    {!dataPointAvailable && <div className="not-available">Data not available</div>}
+
+                                    {dateReferenceSorted && dataPointAvailable &&
+                                       <div className="date-reference">
+                                          {dateReferenceSorted}
+                                       </div>
                                     }
-                                 </div>   {/* bar */}
+
+                                 </div>  {/* bar */}
 
                                  {sort === 'byType' && <div className="short-name">
                                     {name.slice(0,3).toUpperCase()}
