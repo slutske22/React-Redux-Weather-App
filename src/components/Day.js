@@ -1,5 +1,6 @@
 import React from 'react';
 import { days, daysFull, months, monthsFull } from '../constants.js'
+import Moon from './Moon'
 import WeatherIcon from '../svgIcons'
 
 
@@ -92,7 +93,8 @@ class Day extends React.Component {
                <p>{summary}</p>
                <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime, timezone)}</p>
                <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime, timezone)}</p>
-               <p>Humidity: {Number(humidity.toFixed(0)) * 100}%</p>
+               <p>Humidity: {(humidity * 100).toFixed(0)}%</p>
+               <Moon moonPhase={moonPhase} />
                <div className="sunrise-sunset">
                   <WeatherIcon icon={'sunrise'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunrise: {convertTimeStamp(sunriseTime, timezone)}</p>
