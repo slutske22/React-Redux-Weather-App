@@ -1,13 +1,14 @@
 .Moon{
 
-   position: relative;
-   overflow: hidden;
+   // position: relative;
+   // overflow: hidden;
    width: 100px;
    height: 100px;
    border-radius: 50%;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
+   // display: flex;
+   // flex-direction: row;
+   // align-items: center;
+   transform: rotate(10deg);
 
    .outline{
       position: relative;

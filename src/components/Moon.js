@@ -34,7 +34,7 @@ class Moon extends React.Component{
          //    <div className="shadow" style={this.shadowStyle}></div>
          // </div>
          <>
-            <div id={`Moon-${this.props.number}`}></div>
+            <div className="Moon" id={`Moon-${this.props.number}`}></div>
             <div>DS Lunation #: {this.props.moonPhase}</div>
          </>
       )
