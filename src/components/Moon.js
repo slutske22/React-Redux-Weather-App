@@ -4,7 +4,7 @@ import '../css/Moon.scss'
 const Moon = props => {
 
    const shadowStyle = {
-      left: `${props.moonPhase * 100}%`
+      left: `${2 * ( 0.5 - props.moonPhase ) * 100}%`,
    }
 
    return (
