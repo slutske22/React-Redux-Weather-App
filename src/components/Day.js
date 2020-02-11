@@ -108,7 +108,7 @@ class Day extends React.Component {
                   <WeatherIcon icon={'sunset'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunset: {convertTimeStamp(sunsetTime, timezone)}</p>
                   <Moon moonPhase={moonPhase} number={this.props.number} />
-                  <p>DS Lunation #: {this.props.moonPhase}</p>
+                  <p>DS Lunation #: {moonPhase}</p>
                </div>
 
             </div>
