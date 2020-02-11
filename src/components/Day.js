@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/Day.scss'
 import { days, daysFull, months, monthsFull } from '../constants.js'
 import Moon from './Moon'
 import WeatherIcon from '../svgIcons'
@@ -88,20 +89,28 @@ class Day extends React.Component {
 
 
             <div className="expandedDay">
-               <WeatherIcon icon={icon} className="weatherIcon" />
-               <h2>{ daysFull[ thisDay.getDay() ] }, { monthsFull[ thisDay.getMonth() ] } { thisDay.getDate() }</h2>
-               <p>{summary}</p>
+
+               <header>
+                  <WeatherIcon icon={icon} className="weatherIcon" />
+                  <div className="title">
+                     <h2>{ daysFull[ thisDay.getDay() ] }, { monthsFull[ thisDay.getMonth() ] } { thisDay.getDate() }</h2>
+                     <p>{summary}</p>
+                  </div>
+               </header>
+
                <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime, timezone)}</p>
                <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime, timezone)}</p>
                <p>Humidity: {(humidity * 100).toFixed(0)}%</p>
-               <Moon moonPhase={moonPhase} number={this.props.number} />
+
                <div className="sunrise-sunset">
                   <WeatherIcon icon={'sunrise'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunrise: {convertTimeStamp(sunriseTime, timezone)}</p>
                   <WeatherIcon icon={'sunset'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunset: {convertTimeStamp(sunsetTime, timezone)}</p>
-
+                  <Moon moonPhase={moonPhase} number={this.props.number} />
+                  <p>DS Lunation #: {this.props.moonPhase}</p>
                </div>
+
             </div>
 
          </div>

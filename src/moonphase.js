@@ -115,9 +115,9 @@ export const drawPlanetPhase = (function(){
    var defaultConfig = {
        shadowColour: 'black', // CSS background-colour value for the shaded part of the disc
        lightColour:  'white', // CSS background-colour value for the illuminated part of the disc
-       diameter:      100,    // diameter of the moon/planets disc in pixels
+       diameter:      32,    // diameter of the moon/planets disc in pixels
        earthshine :   0.1,    // between 0 and 1, the amount of light falling on the shaded part of the disc 0=none, 1=full illumination
-       blur:          3       // amount of blur on the terminator in pixels, 0=no blur
+       blur:          2       // amount of blur on the terminator in pixels, 0=no blur
    };
 
    function populateMissingConfigValues(config){

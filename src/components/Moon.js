@@ -2,6 +2,9 @@ import React from 'react'
 import '../css/Moon.scss'
 import { drawPlanetPhase } from '../moonphase'
 
+// uses function from http://codebox.org.uk/pages/html-moon-planet-phases
+// darksky moonphase units: https://darksky.net/dev/docs#data-point-object
+
 class Moon extends React.Component{
 
    shadowStyle = {
@@ -10,7 +13,7 @@ class Moon extends React.Component{
 
    moonPhaseStyle = {
       lightColour: 'white',
-      diameter: 3,
+      diameter: '64px',
       earthshine: 0
    }
 
@@ -27,17 +30,7 @@ class Moon extends React.Component{
    }
 
    render(){
-
-      return (
-         // <div className="Moon">
-         //    <div className="outline"></div>
-         //    <div className="shadow" style={this.shadowStyle}></div>
-         // </div>
-         <>
-            <div className="Moon" id={`Moon-${this.props.number}`}></div>
-            <div>DS Lunation #: {this.props.moonPhase}</div>
-         </>
-      )
+      return <div className="Moon" id={`Moon-${this.props.number}`}></div>
    }
 
 
