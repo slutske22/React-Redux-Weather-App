@@ -94,7 +94,7 @@ class Day extends React.Component {
                <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime, timezone)}</p>
                <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime, timezone)}</p>
                <p>Humidity: {(humidity * 100).toFixed(0)}%</p>
-               <Moon moonPhase={moonPhase} />
+               <Moon moonPhase={moonPhase} number={this.props.number} />
                <div className="sunrise-sunset">
                   <WeatherIcon icon={'sunrise'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunrise: {convertTimeStamp(sunriseTime, timezone)}</p>
