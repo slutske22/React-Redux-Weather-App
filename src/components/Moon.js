@@ -13,8 +13,9 @@ class Moon extends React.Component{
 
    moonPhaseStyle = {
       lightColour: 'white',
-      diameter: '64px',
-      earthshine: 0
+      shadowColour: 'var(--background-color)',
+      diameter: 32,
+      earthshine: 1
    }
 
    componentDidMount(){
