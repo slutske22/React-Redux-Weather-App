@@ -70,6 +70,37 @@ class Day extends React.Component {
          summary, 
          icon } = weatherData.daily.data[this.props.number]
 
+      {/* [
+         0 - 0.25: waxing crescent
+         0.25 - 0.5: waxing gibbous
+         0.5 - 0.75: waning gibbous
+         0.75 - 1: waning crescent
+      ] */}
+
+      let moonText
+      
+      if ( moonPhase > 0 && moonPhase < 0.25) {
+         moonText = 'Waxing Crescent'
+      } else if ( moonPhase > 0.25 && moonPhase < 0.5 ) {
+         moonText = 'Waxing Gibbous'
+      } else if ( moonPhase > 0.5 && moonPhase < 0.75 ) {
+         moonText = 'Waning Gibbous'
+      } else if ( moonPhase > 0.75 && moonPhase < 1 ) {
+         moonText = 'Waning Crescent'
+      } 
+      
+      if ( Math.abs(0-moonPhase) <= 0.02 ) {
+         moonText = 'New Moon'
+      } else if ( Math.abs(0.25-moonPhase) <= 0.02 ) {
+         moonText = 'First Quarter Moon'
+      } else if ( Math.abs(0.5-moonPhase) <= 0.02 ) {
+         moonText = 'Full Moon'
+      } else if ( Math.abs(0.75-moonPhase) <= 0.02 ) {
+         moonText = 'Last Quarter Moon'
+      }
+
+      const illumination = moonPhase < 0.5 ? moonPhase * 2 * 100 : ( 1 - moonPhase ) * 2 * 100
+
       return (
          <div className={`day ${this.state.style}`} number={this.props.number} onClick={this.expandDay} >
 
@@ -108,8 +139,10 @@ class Day extends React.Component {
                   <WeatherIcon icon={'sunset'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunset: {convertTimeStamp(sunsetTime, timezone)}</p>
                   <Moon moonPhase={moonPhase} number={this.props.number} />
-                  <p>DS Lunation #: {moonPhase}</p>
+                  {/* <p>DS Lunation #: {moonPhase}</p> */}
+                  <p>{illumination.toFixed(0)}% Illumination <br /> {moonText}</p>
                </div>
+
 
             </div>
 
@@ -119,51 +152,3 @@ class Day extends React.Component {
 }
 
 export default Day;
-
-
-
-// from https://darksky.net/dev/docs#response-format
-// const conditions = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night']
-
-
-// weatherData.data[number]:
-// {
-//   "time": 1574496000,
-//   "summary": "Clear throughout the day.",
-//   "icon": "clear-day",
-//   "sunriseTime": 1574519280,
-//   "sunsetTime": 1574556360,
-//   "moonPhase": 0.91,
-//   "precipIntensity": 0,
-//   "precipIntensityMax": 0.0005,
-//   "precipIntensityMaxTime": 1574579160,
-//   "precipProbability": 0.04,
-//   "temperatureHigh": 71.14,
-//   "temperatureHighTime": 1574546160,
-//   "temperatureLow": 51.79,
-//   "temperatureLowTime": 1574605200,
-//   "apparentTemperatureHigh": 70.64,
-//   "apparentTemperatureHighTime": 1574546160,
-//   "apparentTemperatureLow": 52.28,
-//   "apparentTemperatureLowTime": 1574605200,
-//   "dewPoint": 45.7,
-//   "humidity": 0.57,
-//   "pressure": 1018.4,
-//   "windSpeed": 2.47,
-//   "windGust": 9.47,
-//   "windGustTime": 1574550120,
-//   "windBearing": 314,
-//   "cloudCover": 0.09,
-//   "uvIndex": 4,
-//   "uvIndexTime": 1574538300,
-//   "visibility": 8.409,
-//   "ozone": 282.2,
-//   "temperatureMin": 53.82,
-//   "temperatureMinTime": 1574520060,
-//   "temperatureMax": 71.14,
-//   "temperatureMaxTime": 1574546160,
-//   "apparentTemperatureMin": 54.31,
-//   "apparentTemperatureMinTime": 1574520060,
-//   "apparentTemperatureMax": 70.64,
-//   "apparentTemperatureMaxTime": 1574546160
-// }
