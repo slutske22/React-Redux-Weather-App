@@ -84,7 +84,10 @@ DAY CARD STYLES
 }
 
 .day.expanded .expandedDay{
-   display: block;
+   display: grid;
+   grid-template-columns: auto 1fr auto;
+   grid-template-rows: 1fr 1fr;
+   grid-gap: 10px;
    position: relative;
    width: 100%;
    height: 100%;
@@ -96,6 +99,7 @@ DAY CARD STYLES
    }
 
    header{
+      grid-column: 1 / -1;
       display: flex;
       flex-direction: row;
    }
@@ -114,7 +118,7 @@ DAY CARD STYLES
    }
    
    .sunrise-sunset{
-      position: absolute;
+      // position: absolute;
       right: 20px;
       bottom: 10px;
       display: grid;
