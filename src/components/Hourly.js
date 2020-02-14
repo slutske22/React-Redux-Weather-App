@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import '../css/Hourly.scss'
 
 class Hourly extends React.Component{
 
@@ -13,14 +14,14 @@ class Hourly extends React.Component{
 
       return(
 
-         <section>
+         <section className="Hourly">
 
-            {number < 2  && <svg style={{height: '100%',}} className="graph" viewBox="0 0 2400 100" width="100%" preserveAspectRatio="none">
+            {number < 2  && <svg className="graph" viewBox="0 0 2300 100" width="100%" preserveAspectRatio="none">
                <g className="grid x-grid">
-                  <line x1="90" x2="90" y1="5" y2="371"></line>
+                  <line x1="0" x2="2300" y1="100" y2="100"></line>
                </g>
                <g className="grid y-grid">
-                  <line x1="90" x2="705" y1="370" y2="370"></line>
+                  <line x1="2" x2="2" y1="0" y2="100"></line>
                </g>
                <polyline
                   fill="none"

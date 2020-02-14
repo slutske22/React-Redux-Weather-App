@@ -1,0 +1,19 @@
+.Hourly{
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin: 5px 5px 0px 5px;
+   border: 1px solid var(--foreground-color);
+
+   svg{
+      height: 100%;
+   }
+
+   // .grid{
+   //    stroke: var(--foreground-color);
+   //    stroke-width: 1;
+   // }
+
+
+}

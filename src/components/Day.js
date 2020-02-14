@@ -37,7 +37,6 @@ class Day extends React.Component {
 
       const clickedDay = this.props.expandedDay
 
-
       if (prevProps.expandedDay !== this.props.expandedDay && clickedDay == this.props.number){
          this.setState({
             style: 'expanded'
@@ -56,9 +55,7 @@ class Day extends React.Component {
 
    render(){
 
-      const thisDay = new Date( currentTimeStamp + 86400000 * this.props.number )
-
-      const { weatherData } = this.props
+      const { weatherData, number } = this.props
       const { timezone } = weatherData
       const { temperatureHigh, 
          temperatureLow, 
@@ -71,12 +68,8 @@ class Day extends React.Component {
          summary, 
          icon } = weatherData.daily.data[this.props.number]
 
-      {/* [
-         0 - 0.25: waxing crescent
-         0.25 - 0.5: waxing gibbous
-         0.5 - 0.75: waning gibbous
-         0.75 - 1: waning crescent
-      ] */}
+      const thisDay = new Date( currentTimeStamp + 86400000 * number )
+
 
       let moonText
       
@@ -89,7 +82,6 @@ class Day extends React.Component {
       } else if ( moonPhase > 0.75 && moonPhase < 1 ) {
          moonText = 'Waning Crescent'
       } 
-      
       if ( Math.abs(0-moonPhase) <= 0.02 ) {
          moonText = 'New Moon'
       } else if ( Math.abs(0.25-moonPhase) <= 0.02 ) {
@@ -101,12 +93,13 @@ class Day extends React.Component {
       }
 
       const illumination = moonPhase < 0.5 ? moonPhase * 2 * 100 : ( 1 - moonPhase ) * 2 * 100
+      const dayClass = number < 2 ? 'with-hourly' : ''
 
       return (
-         <div className={`day ${this.state.style}`} number={this.props.number} onClick={this.expandDay} >
+         <div className={`Day ${this.state.style}`} number={number} onClick={this.expandDay} >
 
             <div className={`summaryDay`}>
-               <div className="cardIndex">{ this.props.number }</div>
+               <div className="cardIndex">{ number }</div>
 
                <h2>
                   { days[ thisDay.getDay() ] }
@@ -120,7 +113,7 @@ class Day extends React.Component {
             </div>
 
 
-            <div className="expandedDay">
+            <div className={`expandedDay ${dayClass}`}>
 
                <header>
                   <WeatherIcon icon={icon} className="weatherIcon" />
@@ -130,20 +123,20 @@ class Day extends React.Component {
                   </div>
                </header>
 
-               <section>
+               <section className="high-low">
                   <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime, timezone)}</p>
                   <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime, timezone)}</p>
                   <p>Humidity: {(humidity * 100).toFixed(0)}%</p>
                </section>
 
-               <Hourly number={this.props.number} />
+               <Hourly number={number} />
 
                <section className="sunrise-sunset">
                   <WeatherIcon icon={'sunrise'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunrise: {convertTimeStamp(sunriseTime, timezone)}</p>
                   <WeatherIcon icon={'sunset'} className="sunriseIcon" style={{width: '64px'}} />
                   <p>Sunset: {convertTimeStamp(sunsetTime, timezone)}</p>
-                  <Moon moonPhase={moonPhase} number={this.props.number} />
+                  <Moon moonPhase={moonPhase} number={number} />
                   {/* <p>DS Lunation #: {moonPhase}</p> */}
                   <p>{illumination.toFixed(0)}% Illumination <br /> {moonText}</p>
                </section>
