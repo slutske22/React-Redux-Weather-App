@@ -5,8 +5,19 @@ export const monthsFull = ["January", "February", "March", "April", "May", "June
 
 export const celciusToFerinheight = c => c * 9/5 + 32
 
-export function normalizeArray( array, maxValue, minValue ) {
+export function normalizeArray( array, minValue, maxValue ) {
   
+  const minOfArray = Math.min( ...array.map( value => value === null ? Infinity : value) )
+  const shiftedArray = array.map( value => value - minOfArray)
+  const maxOfShiftedArray = Math.max(...shiftedArray)
+  const normalizedTo1 = shiftedArray.map( value => value / maxOfShiftedArray )
+
+  const range = maxValue - minValue
+  const scaledtoRangeMax = normalizedTo1.map( value => value * range )
+  const normalized = scaledtoRangeMax.map( value => value + minValue)
+
+  return normalized
+
 }
 
 

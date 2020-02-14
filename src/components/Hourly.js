@@ -2,12 +2,17 @@ import React from 'react'
 import { connect } from 'react-redux'
 import '../css/Hourly.scss'
 
+import { normalizeArray } from '../constants'
+
 class Hourly extends React.Component{
 
    render(){
 
       const { data, number } = this.props
       const todaysData = data.slice(1 + number*24, 1 + (number + 1)*24)
+
+      const test = normalizeArray( todaysData.map( hour => hour.temperature), 0 ,10).map( value => Number(value.toFixed(1)) )
+      console.log(test)
 
       const temperaturePoints = todaysData.map( (hour, index) => [index*100, hour.temperature] )
       const formattedTempPoints = JSON.stringify(temperaturePoints).split('],[').join(' ').replace('[[','').replace(']]','')
