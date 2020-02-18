@@ -280,7 +280,7 @@ export const getHistoryFromWeatherStation = ( id, name, distance, totalstations)
             if (Number(distance) > maxRaiusKm) {
                store.dispatch(throwCallerError("No weather history available within 20km"))
             } else {
-               // console.log('data legit')
+               console.log('History Data', data.data)
                const processedData = processWeatherHistoryData(data.data)
                store.dispatch( receiveWeatherHistory(processedData, id, name, distance) )
             }
@@ -367,20 +367,14 @@ export const processWeatherHistoryData = (data) => {
       dataByMonth.forEach( (month, index) => {
 
          month.datum = {
-            c: {
-               raw: {},
-               normalized: {}
-            },
-            f: {
-               raw: {},
-               normalized: {}
-            },
+            c: {},
+            f: {},
          }
 
          const allData = filterByMonth(data, index+1)
 
          month.name = monthsFull[index]
-         month.datum.c.raw = {
+         month.datum.c = {
             "Average Temperature": 
                average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ),
             "Average High Temp": 
@@ -394,10 +388,12 @@ export const processWeatherHistoryData = (data) => {
             "Record Low": [
                Math.min( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ),
                allData[indexOfMinValue( nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
-            ]
+            ],
+            "Total Rainfall": 
+               average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'precipitation') ) ),
          }
 
-         month.datum.f.raw = {
+         month.datum.f = {
             "Average Temperature": 
                celciusToFerinheight(average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'temperature_mean') ) ) ),
             "Average High Temp": 
@@ -411,7 +407,9 @@ export const processWeatherHistoryData = (data) => {
             "Record Low": [
                celciusToFerinheight( Math.min( ...nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) ) ),
                allData[indexOfMinValue( nullFilteredMinArray( extractValues( filterByMonth(data, index+1), 'temperature_min') ) )].month 
-            ]
+            ],
+            "Total Rainfall": 
+               average( filterArrayByNull( extractValues( filterByMonth(data, index+1), 'precipitation') ) ) / 25.4,
          }
 
       } ) //forEach
@@ -440,20 +438,14 @@ export const processWeatherHistoryData = (data) => {
 
    function processByType(){
 
-      const dataTypes = Object.keys(dataByMonth[0].datum.c.raw)
+      const dataTypes = Object.keys(dataByMonth[0].datum.c)
 
       dataTypes.forEach( typeName => {
          dataByType.push({
             name: typeName,
             datum: {
-               c: {
-                  raw: {},
-                  normalized: {}
-               },
-               f: {
-                  raw: {},
-                  normalized: {}
-               },
+               c: {},
+               f: {},
             }
          })
       })
@@ -461,8 +453,8 @@ export const processWeatherHistoryData = (data) => {
       dataByMonth.forEach( month => {
          dataByType.forEach( type => {
             let thisMonth = month.name
-            type.datum.c.raw[thisMonth] = (dataByMonth.filter( month => month.name === thisMonth))[0].datum.c.raw[type.name]
-            type.datum.f.raw[thisMonth] = (dataByMonth.filter( month => month.name === thisMonth))[0].datum.f.raw[type.name]
+            type.datum.c[thisMonth] = (dataByMonth.filter( month => month.name === thisMonth))[0].datum.c[type.name]
+            type.datum.f[thisMonth] = (dataByMonth.filter( month => month.name === thisMonth))[0].datum.f[type.name]
 
          })
       })
@@ -498,10 +490,6 @@ export const processWeatherHistoryData = (data) => {
 
    // console.log(dataByMonth)
    // console.log(dataByType)
-
-   // fetch('./sampleData.json')
-   //    .then( response => response.json() )
-   //    .then( data => processData(data.data) ) // average over all januaries
 
    processData(data)
 
