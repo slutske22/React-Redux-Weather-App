@@ -4,6 +4,8 @@ import { colorTemperature2rgb } from 'color-temperature'
 
 import '../css/WeatherHistory.scss'
 
+import { celciusToFerinheight, normalizeArray } from '../constants'
+
 class WeatherHistory extends React.Component {
 
    state = {
@@ -33,11 +35,11 @@ class WeatherHistory extends React.Component {
       const data = this.props.data[sort]
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
-      const dataPointBySortNamesArray = Object.keys(data[0].datum[unit].raw)
+      const dataPointBySortNamesArray = Object.keys(data[0].datum[unit])
 
       // Create an array of values (need to pull numerical value out of record-hi or lo values, which are arrays with a value and date)
       const unfilteredValues = dataPointBySortNamesArray.map( name => {
-         const value  = data[slot].datum[unit].raw[name]
+         const value  = data[slot].datum[unit][name]
          if (typeof value === 'number') {
             return value
          } else {
@@ -128,7 +130,25 @@ class WeatherHistory extends React.Component {
       const { data, locationData, locationIndex, station: { distance } } = this.props
       // choose static array [0].datum so that new divs aren't rendered each time
       // will have same divs, but style element will change
-      const dataPointBySortNamesArray = Object.keys(data[sort][0].datum[unit].raw)
+      const dataPointBySortNamesArray = Object.keys(data[sort][0].datum[unit])
+      // Get array of values that are associated with that name array
+      const dataValues = dataPointBySortNamesArray.map( name => {
+
+         const rawValue = data[sort][slot].datum[unit][name]
+         const numericalValue = typeof rawValue === 'number' ? rawValue : rawValue[0]
+         return numericalValue
+
+      })
+      const rainFallValues = data["byMonth"].map( month => month.datum.c["Total Rainfall"])
+
+      // normalize data for styliing purposes
+      // https://stats.stackexchange.com/questions/351696/normalize-an-array-of-numbers-to-specific-range
+
+      const normalizedData = normalizeArray( dataValues, Math.min(...dataValues), 90 )
+      const normalizedRainfallValues = normalizeArray( rainFallValues, Math.min(...rainFallValues), 90 )
+      console.log(normalizedRainfallValues)
+
+      console.log(rainFallValues)
 
       return (
          <main className={`WeatherHistory ${this.state.class}`}>
@@ -160,37 +180,38 @@ class WeatherHistory extends React.Component {
                   
                   <div className="positive" style={{height: `${100-ratio}%`}}>
                      {
-                        dataPointBySortNamesArray.map( name => {
+                        dataPointBySortNamesArray.map( (name, index) => {
 
-                        // Numbers will have to be normalized to their range to get the bar graphs looking nice
-                        // Here is a nice little discussion of thatL
-                        // https://stats.stackexchange.com/questions/351696/normalize-an-array-of-numbers-to-specific-range
 
-                           const rawValue = data[sort][slot].datum[unit].raw[name]
+                        // Tease out numerical and date values -----------------------------------
+
+                           const rawValue = data[sort][slot].datum[unit][name]
                            const numericalValue = typeof rawValue === 'number' ? rawValue : rawValue[0]
                            const dateReference = typeof rawValue === 'object' ? rawValue[1] : null
 
                            let dateReferenceSorted = null
                            let dataPointAvailable = true
 
-
                            if (dateReference) {
                               dateReferenceSorted = sort === 'byType' ? dateReference.slice(0,4) : dateReference.slice(0,4)
                            }
 
-                           console.log(numericalValue)
 
-                           const rawCelciusValue = data[sort][slot].datum.c.raw[name]
+                        // -----------------------------------------------------------
+                        //                      DYNAMIC STYLES
+                        // -----------------------------------------------------------
+
+                        // Calculate color based on celcius value
+                           const rawCelciusValue = data[sort][slot].datum.c[name]
                            const celciusValue = typeof rawCelciusValue === 'number' ? rawCelciusValue : rawCelciusValue[0]
                            const adaptedColor = colorTemperature2rgb((31-celciusValue)*400)
 
-                        // Dynamic styles --------------------------------------------
                            const columnStyle = {
                               width: `calc(${1/dataPointBySortNamesArray.length} * 100%)` 
                            }
 
                            const barStyle = {
-                              height: `calc(${numericalValue}% - 25px)`,
+                              height: `calc(${celciusToFerinheight(celciusValue)}% - 25px)`,
                               backgroundColor: `rgb(
                                  ${adaptedColor.red},
                                  ${adaptedColor.green ? adaptedColor.green : 0},
@@ -213,6 +234,16 @@ class WeatherHistory extends React.Component {
                               barStyle.border = 'none'
                               barStyle.borderBottom = 'none'
                            }
+
+                           if (name === "Total Rainfall" || type === "Total Rainfall") {
+                              barStyle.height = sort === "byMonth" ? `${normalizedRainfallValues[slot]}%` : `${normalizedRainfallValues[index]}%`
+                              barStyle.backgroundColor = '#00aedd'
+                           }
+
+                        // ---------------- DYNAMIC STYLES END -----------------------
+                        // -----------------------------------------------------------
+
+
                            
                            return (
                               <div key={name} style={columnStyle} className="column">

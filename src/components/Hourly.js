@@ -12,7 +12,7 @@ class Hourly extends React.Component{
       const todaysData = data.slice(1 + number*24, 1 + (number + 1)*24)
 
       const test = normalizeArray( todaysData.map( hour => hour.temperature), 0 ,10).map( value => Number(value.toFixed(1)) )
-      console.log(test)
+      // console.log(test)
 
       const temperaturePoints = todaysData.map( (hour, index) => [index*100, hour.temperature] )
       const formattedTempPoints = JSON.stringify(temperaturePoints).split('],[').join(' ').replace('[[','').replace(']]','')
