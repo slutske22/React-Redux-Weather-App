@@ -180,7 +180,7 @@ export function getWeather(locationData, locationIndex) {
    //  Feed the lat lng into the weather caller
    let lat = locationData[locationIndex].lat
    let lon = locationData[locationIndex].lon
-   let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
+   let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}?extend=hourly`
    // let url = `https://api.darksky.net/forecast/${dsAPIKey}/${lat},${lon}`
 
    let fetchOptions = {
