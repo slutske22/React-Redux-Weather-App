@@ -6,15 +6,31 @@ import { normalizeArray, svgPath, bezierCommand } from '../constants'
 
 class Hourly extends React.Component{
 
+   state = {
+      weatherSpec: 'temperature',
+      hoveredIndex: undefined
+   }
+
+   units = {
+      c: {
+         temperature: '°C',
+         precipitation: 'mm'
+      },
+      f: {
+         temperature: '°F',
+         precipitation: 'mm'
+      }
+   }
+
    render(){
 
       const { data, number } = this.props
       const todaysData = data.slice(1 + number*24, 1 + (number + 1)*24)
 
-      const test = normalizeArray( todaysData.map( hour => hour.temperature), 20 ,80).map( value => Number(value.toFixed(1)) )
+      const test = normalizeArray( todaysData.map( hour => hour[this.state.weatherSpec]), 20 ,80).map( value => Number(value.toFixed(1)) )
       // console.log('test', test)
 
-      const temperaturePoints = todaysData.map( (hour, index) => [index*100, 100 - test[index]] )
+      const temperaturePoints = todaysData.map( (hour, index) => [index*100 + 50, 100 - test[index]] )
       // console.log('temperaturePoints', temperaturePoints)
       // const formattedTempPoints = JSON.stringify(temperaturePoints).split('],[').join(' ').replace('[[','').replace(']]','')
       const formattedTempPoints = svgPath(temperaturePoints, bezierCommand, 0.2)
@@ -23,7 +39,7 @@ class Hourly extends React.Component{
 
          <section className="Hourly">
 
-            <svg className="graph" viewBox="0 0 2300 100" width="100%" preserveAspectRatio="none">
+            <svg className="graph" viewBox="0 0 2400 100" width="100%" preserveAspectRatio="none">
                <g className="grid x-grid">
                   <line x1="0" x2="2300" y1="100" y2="100"></line>
                </g>
@@ -35,15 +51,32 @@ class Hourly extends React.Component{
                   stroke="#0074d9"
                   strokeWidth="3"
                   d={formattedTempPoints} />
-
-               {todaysData.map( (datapoint, index) => {
-                  return (
-                     <rect onMouseEnter={ () => console.log(datapoint)} x={index*100} y="0" width="100" height="100" style={{fill: `rgba(200,200,200, ${0.2 * (index % 2 === 0 ? 0 : 1)})`, stroke: 'grey', strokeWidth: 1}} />
-                  )
-               })}
                
-
             </svg>
+
+            <div className="overlay">
+               {todaysData.map( (datapoint, index) => {    
+
+                  const barStyle = {
+                     backgroundColor: this.state.hoveredIndex === index 
+                        ? 'rgba(0,0,200,0.2)' 
+                        : `rgba(200,200,200, ${0.2 * (index % 2 === 0 ? 0 : 1)})`
+                     }
+
+                  return (
+                     <div className="column" 
+                        onMouseEnter={ () => { this.setState({hoveredIndex: index})} } 
+                        onMouseLeave={ () => { this.setState({hoveredIndex: undefined})}}
+                        style={barStyle}>
+
+                           {this.state.hoveredIndex === index && 
+                              <p>{todaysData[index][this.state.weatherSpec].toFixed(0)}{this.units['f'][this.state.weatherSpec]}</p>
+                           }
+                        
+                     </div>
+                  )
+               })}    
+            </div>
 
             {todaysData.length < 23 && <div>Hourly Data Not Available</div>}
 

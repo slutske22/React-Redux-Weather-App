@@ -5,9 +5,7 @@ import SearchBar from './Search';
 import ThemeChanger from './ThemeChanger';
 import LogoHeader from './LogoHeader';
 import Body from './Body';
-import Week from './Week';
-import LocationList from './LocationList';
-import WeatherHistory from './WeatherHistory';
+import Footer from './Footer'
 
 import { geolocateUser } from '../store/actions';
 
@@ -27,6 +25,7 @@ class App extends React.Component {
             <LogoHeader />
             <SearchBar />
             <Body />
+            <Footer />
 
          </div>
 
