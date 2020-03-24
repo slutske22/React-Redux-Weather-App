@@ -9,7 +9,7 @@ class LogoHeader extends React.Component {
          <div className={`LogoHeader ${
             (this.props.history.location.pathname !== '/'
                && (this.props.forecastReady || this.props.weatherHistoryReady)) 
-               || this.props.weatherSpinnerOpen 
+               || this.props.weatherSpinnerOpen || this.props.callerError
                   ? 'step-aside' 
                   : ''
          }`}>
@@ -26,7 +26,8 @@ const mapStateToProps = (state) => {
    return {
       weatherSpinnerOpen: state.show.weatherSpinner,
       forecastReady: state.data.forecast.ready,
-      weatherHistoryReady: state.data.history.ready
+      weatherHistoryReady: state.data.history.ready,
+      callerError: state.data.callerError
    }
 }
 

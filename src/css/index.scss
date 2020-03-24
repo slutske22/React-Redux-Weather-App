@@ -286,10 +286,30 @@ FOOTER STYLES
 ---------------------------------------------------*/
 footer{
    position: absolute;
-   bottom: 0px;
+   bottom: 5px;
 
    p {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       font-size: 0.8em;
       margin: 5px;
+
+      a.footer-link {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         margin: 0px 10px;
+         color: var(--foreground-color)
+      }
+
+      a.footer-link:hover{
+         border-bottom: none;
+         color: #00aedd
+      }
+
+      img {
+         margin-right: 5px;
+      }
    }
 }

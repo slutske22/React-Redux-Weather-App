@@ -1,20 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import WeatherIcon from '../svgIcons'
 
-const Error = props => (
-      <div className="Error">
-         <WeatherIcon icon="warning" className="warning-icon" />
-         <h3 className="error">{props.callerError}</h3>
-      </div>
-   )
+const Error = props => {
 
-
-const mapStateToProps = (state) => {
-   return {
-      callerError: state.data.callerError
+   const callerError = useSelector(state => state.data.callerError)
+   const loaderingScreenOpen = useSelector(state => state.show.weatherSpinner)
+   
+   if (!loaderingScreenOpen){
+      return(
+         <div className="Error">
+            <WeatherIcon icon="warning" className="warning-icon" />
+            <h3 className="error">{callerError}</h3>
+         </div>
+      )
    }
+
+   return null
+
 }
 
-export default connect(mapStateToProps)(Error);
+export default Error
