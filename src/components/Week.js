@@ -26,7 +26,7 @@ class Week extends React.Component {
    }
    
    componentDidMount(){
-      console.log('youre in the forecast')
+      // console.log('youre in the forecast')
       let delay = () => { this.setState({class: 'visible'}) };
       setTimeout(delay, 1)
    }
@@ -34,7 +34,7 @@ class Week extends React.Component {
    render (){
 
       if (!this.props.dataReady || this.props.weatherSpinnerOpen){
-         return <div>this is some bullshit</div>
+         return null
       }
 
       let days = [];

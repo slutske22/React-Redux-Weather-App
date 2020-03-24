@@ -22,19 +22,11 @@ class App extends React.Component {
       return (
          <div className="App">
 
-            <h1>Seth's React Redux Weather App</h1>
+            <h1>React Redux Weather Forecast App</h1>
             <ThemeChanger />
             <LogoHeader />
             <SearchBar />
             <Body />
-{/* 
-            <Switch>
-               <Route exact path="/" component={Body} />
-               <Route path="/forecast" component={Week} />
-               <Route path="/locationlist" component={LocationList} />
-               <Route path="/weatherhistory" component={WeatherHistory} />
-            </Switch> */}
-
 
          </div>
 

@@ -69,6 +69,7 @@ class Day extends React.Component {
          icon } = weatherData.daily.data[this.props.number]
 
       const thisDay = new Date( currentTimeStamp + 86400000 * number )
+      const todaysData = weatherData.hourly.data.slice(1 + number*24, 1 + (number + 1)*24)
 
 
       let moonText
@@ -93,7 +94,7 @@ class Day extends React.Component {
       }
 
       const illumination = moonPhase < 0.5 ? moonPhase * 2 * 100 : ( 1 - moonPhase ) * 2 * 100
-      const dayClass = number < 2 ? 'with-hourly' : ''
+      const dayClass = todaysData.length === 24 ? 'with-hourly' : ''
 
       return (
          <div className={`Day ${this.state.style}`} number={number} onClick={this.expandDay} >
