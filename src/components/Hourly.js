@@ -4,6 +4,13 @@ import '../css/Hourly.scss'
 
 import { normalizeArray, svgPath, bezierCommand } from '../constants'
 
+const formatHour = timestamp => {
+   const date = new Date(timestamp * 1000)
+   const hour = date.toLocaleTimeString()
+   const formattedHour = `${hour.split(':')[0]} ${hour.split(' ')[1]}`
+   return formattedHour
+}
+
 class Hourly extends React.Component{
 
    state = {
@@ -27,7 +34,7 @@ class Hourly extends React.Component{
       const { data, number } = this.props
       const todaysData = data.slice(1 + number*24, 1 + (number + 1)*24)
 
-      const test = normalizeArray( todaysData.map( hour => hour[this.state.weatherSpec]), 20 ,80).map( value => Number(value.toFixed(1)) )
+      const test = normalizeArray( todaysData.map( hour => hour[this.state.weatherSpec]), 30 ,80).map( value => Number(value.toFixed(1)) )
       // console.log('test', test)
 
       const temperaturePoints = todaysData.map( (hour, index) => [index*100 + 50, 100 - test[index]] )
@@ -64,14 +71,26 @@ class Hourly extends React.Component{
                      }
 
                   return (
-                     <div className="column" 
+                     <div className="column" key={index} 
                         onMouseEnter={ () => { this.setState({hoveredIndex: index})} } 
                         onMouseLeave={ () => { this.setState({hoveredIndex: undefined})}}
                         style={barStyle}>
 
-                           {this.state.hoveredIndex === index && 
-                              <p>{todaysData[index][this.state.weatherSpec].toFixed(0)}{this.units['f'][this.state.weatherSpec]}</p>
-                           }
+                           <p className="data-specs">
+                              {this.state.hoveredIndex === index && 
+                                 <>
+                                    {datapoint[this.state.weatherSpec].toFixed(0)}{this.units['f'][this.state.weatherSpec]}
+                                 </>
+                              }
+                           </p>
+
+                           <p style={{fontSize: '0.7em'}}>
+                              { (new Date(datapoint.time * 1000).getHours() % 3 === 0) &&
+                                 <>
+                                    {formatHour(datapoint.time)}
+                                 </>
+                              }
+                           </p>
                         
                      </div>
                   )
