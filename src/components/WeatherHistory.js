@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { CSSTransition } from 'react-transition-group'
 import { colorTemperature2rgb } from 'color-temperature'
 
 import '../css/WeatherHistory.scss'
@@ -9,6 +10,7 @@ import { celciusToFerinheight, normalizeArray } from '../constants'
 class WeatherHistory extends React.Component {
 
    state = {
+      visible: false,
       sort: "byType",
       slot: 0,
       type: "Average Temperature",
@@ -21,8 +23,9 @@ class WeatherHistory extends React.Component {
    }
 
    componentDidMount(){
-      let delay = () => { this.setState({class: 'visible'}) };
-      setTimeout(delay, 1)
+      this.setState({
+         visible: true
+      })
    }
 
    componentDidUpdate(){
@@ -151,7 +154,14 @@ class WeatherHistory extends React.Component {
       console.log(rainFallValues)
 
       return (
-         <main className={`WeatherHistory ${this.state.class}`}>
+
+         <CSSTransition 
+            in={this.state.visible}
+            appear
+            classNames="weather-history"
+            timeout={500}> 
+
+         <main className={`WeatherHistory`}>
             <h3>Weather Trends { distance > 20 ? <this.TooFarIcon /> : 'for'} {locationData[locationIndex].display_name}</h3>
             <h4 className="sort-by">
                Sort by: 
@@ -285,6 +295,9 @@ class WeatherHistory extends React.Component {
             </article>
 
          </main>
+
+         </CSSTransition>
+
       )
    }
 

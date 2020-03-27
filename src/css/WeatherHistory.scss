@@ -1,3 +1,14 @@
+.weather-history-enter, .weather-history-appear{
+   opacity: 0
+}
+.weather-history-enter-active, .weather-history-appear-active{
+   opacity: 1;
+   transition: opacity 500ms;
+}
+.weather-history-enter-done{
+   opacity: 1
+}
+
 .WeatherHistory{
 
    width: 100%;

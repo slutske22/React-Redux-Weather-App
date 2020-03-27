@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import store from '../store/store'
 import { connect } from 'react-redux'
+import { CSSTransition } from 'react-transition-group'
 import { viewLocationlist, viewWeatherHistory, getWeatherHistory } from '../store/actions'
 
 import Day from './Day'
@@ -11,9 +12,15 @@ class Week extends React.Component {
    constructor(props){
       super(props)
       this.state = {
-         class: '',
+         visible: false,
          expandedDay: null
       }
+   }
+
+   componentDidMount(){
+      this.setState({
+         visible: true
+      })
    }
 
 
@@ -25,11 +32,6 @@ class Week extends React.Component {
       }
    }
    
-   componentDidMount(){
-      // console.log('youre in the forecast')
-      let delay = () => { this.setState({class: 'visible'}) };
-      setTimeout(delay, 1)
-   }
 
    render (){
 
@@ -49,22 +51,31 @@ class Week extends React.Component {
       }
 
       return(
-         <div id="forecast" className={this.state.class}>
-            <h3>Weather for {this.props.locationData[this.props.locationIndex].display_name}</h3>
-            {this.props.locationData.length > 1 &&
-            <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <Link onClick={ this.props.viewLocationlist }>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</Link></h5>
-            }
-            <h5 className="history-title">
-               <WeatherIcon icon="graph" className="weather-history-icon" />
-               <Link onClick={this.props.getWeatherHistory}>View Weather History and Trends</Link>
-            </h5>
+         <CSSTransition 
+            in={this.state.visible} 
+            appear 
+            classNames="forecast" 
+            timeout={500} >
+
+            <div id="forecast">
+               <h3>Weather for {this.props.locationData[this.props.locationIndex].display_name}</h3>
+               {this.props.locationData.length > 1 &&
+               <h5>Were you looking for something else?  Your search returned {this.props.locationData.length-1} other result{this.props.locationData.length > 2 ? 's' : ''}. <Link onClick={ this.props.viewLocationlist }>Click here to see {this.props.locationData.length > 2 ? 'them' : 'it'}</Link></h5>
+               }
+               <h5 className="history-title">
+                  <WeatherIcon icon="graph" className="weather-history-icon" />
+                  <Link onClick={this.props.getWeatherHistory}>View Weather History and Trends</Link>
+               </h5>
 
 
-            <div className="Week">
-               {days}
+               <div className="Week">
+                  {days}
+               </div>
+
             </div>
+            
+         </CSSTransition>
 
-         </div>
       )
 
    }

@@ -168,17 +168,10 @@ FORECAST STYLES
 #forecast{
    width: 100%;
    height: 45%;
-   opacity: 0;
    flex-grow: 1;
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
-   transition: opacity 1ms, height 0.5s;
-
-   &.visible{
-      opacity: 1.0;
-      transition: opacity 0.75s;
-   }
 
    .Week{
       flex-grow: 1;
@@ -217,6 +210,17 @@ FORECAST STYLES
       text-transform: capitalize;
    }
 
+}
+
+.forecast-enter, .forecast-appear{
+   opacity: 0
+}
+.forecast-enter-active, .forecast-appear-active{
+   opacity: 1;
+   transition: opacity 500ms;
+}
+.forecast-enter-done{
+   opacity: 1
 }
 
 
@@ -278,6 +282,17 @@ h3.error{
    width: 150px;
    height: 150px;
    margin: 20px;
+}
+
+.error-transition-enter, .error-transition-appear{
+   opacity: 0
+}
+.error-transition-enter-active, .error-transition-appear-active{
+   opacity: 1;
+   transition: opacity 500ms;
+}
+.error-transition-enter-done{
+   opacity: 1
 }
 
 
