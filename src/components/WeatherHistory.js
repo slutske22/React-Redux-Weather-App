@@ -149,9 +149,9 @@ class WeatherHistory extends React.Component {
 
       const normalizedData = normalizeArray( dataValues, Math.min(...dataValues), 90 )
       const normalizedRainfallValues = normalizeArray( rainFallValues, Math.min(...rainFallValues), 90 )
-      console.log(normalizedRainfallValues)
+      // console.log(normalizedRainfallValues)
 
-      console.log(rainFallValues)
+      // console.log(rainFallValues)
 
       return (
 
@@ -262,7 +262,7 @@ class WeatherHistory extends React.Component {
                                  
 
                                     {dataPointAvailable && <div className="value">
-                                       {numericalValue.toFixed(0)}°
+                                       {numericalValue.toFixed(0)}{name === "Total Rainfall" || type === "Total Rainfall" ? '"' : '°'}
                                     </div>}
 
                                     {sort === 'byMonth' && <div className="data-name">{name}</div>}
