@@ -31,7 +31,7 @@ class Moon extends React.Component{
    }
 
    render(){
-      return <div className="Moon" id={`Moon-${this.props.number}`}></div>
+      return <div className={`Moon ${this.props.className}`} id={`Moon-${this.props.number}`}></div>
    }
 
 

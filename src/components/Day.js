@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import '../css/Day.scss'
 import { days, daysFull, months, monthsFull } from '../constants.js'
 import Hourly from './Hourly'
@@ -100,8 +101,6 @@ class Day extends React.Component {
          <div className={`Day ${this.state.style}`} number={number} onClick={this.expandDay} >
 
             <div className={`summaryDay`}>
-               <div className="cardIndex">{ number }</div>
-
                <h2>
                   { days[ thisDay.getDay() ] }
                </h2>
@@ -111,6 +110,10 @@ class Day extends React.Component {
                <WeatherIcon icon={icon} className="weatherIcon" style={{width: '100px'}} />
                <p className="maxTemp">{temperatureHigh.toFixed(0)} °F</p>
                <p className="minTemp">{temperatureLow.toFixed(0)} °F</p>
+               <div className="clickme-overlay">
+                  <div><FaChevronLeft /></div>
+                  <div><FaChevronRight /></div>
+               </div>
             </div>
 
 
@@ -124,22 +127,27 @@ class Day extends React.Component {
                   </div>
                </header>
 
-               <section className="high-low">
-                  <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime, timezone)}</p>
-                  <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime, timezone)}</p>
-                  <p>Humidity: {(humidity * 100).toFixed(0)}%</p>
-               </section>
-
                <Hourly number={number} />
 
-               <section className="sunrise-sunset">
-                  <WeatherIcon icon={'sunrise'} className="sunriseIcon" style={{width: '64px'}} />
-                  <p>Sunrise: {convertTimeStamp(sunriseTime, timezone)}</p>
-                  <WeatherIcon icon={'sunset'} className="sunriseIcon" style={{width: '64px'}} />
-                  <p>Sunset: {convertTimeStamp(sunsetTime, timezone)}</p>
-                  <Moon moonPhase={moonPhase} number={number} />
+               <section className="details">
+
+                  <p><span className="temp">{Math.round(temperatureHigh)}°F</span> High at {convertTimeStamp(temperatureMaxTime, timezone)}</p>
+                  <p><span className="temp">{Math.round(temperatureLow)}°F</span> Low at {convertTimeStamp(temperatureMinTime, timezone)}</p>
+                  {/* <p>Humidity: {(humidity * 100).toFixed(0)}%</p> */}
+
+                  <div className="icon-value-pair">
+                     <WeatherIcon icon={'sunrise'} className="sunriseIcon" />
+                     Sunrise: {convertTimeStamp(sunriseTime, timezone)}
+                  </div>
+                  <div className="icon-value-pair">
+                     <WeatherIcon icon={'sunset'} className="sunriseIcon" />
+                     Sunset: {convertTimeStamp(sunsetTime, timezone)}
+                  </div>
                   {/* <p>DS Lunation #: {moonPhase}</p> */}
-                  <p>{illumination.toFixed(0)}% Illumination <br /> {moonText}</p>
+                  <div className="icon-value-pair">
+                     <Moon moonPhase={moonPhase} number={number} className="sunriseIcon" />
+                     {illumination.toFixed(0)}% Illumination <br /> {moonText}
+                  </div>
                </section>
 
 
