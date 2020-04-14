@@ -21,11 +21,13 @@ class Hourly extends React.Component{
    units = {
       c: {
          temperature: '°C',
-         precipitation: 'mm'
+         precipitation: 'mm',
+         humidity: "%"
       },
       f: {
          temperature: '°F',
-         precipitation: 'mm'
+         precipitation: 'in',
+         humidity: "%"
       }
    }
 
@@ -77,7 +79,7 @@ class Hourly extends React.Component{
                         style={barStyle}>
 
                            <p className="data-specs">
-                              {this.state.hoveredIndex === index && 
+                              {(this.state.hoveredIndex === index || (new Date(datapoint.time * 1000).getHours() % 3 === 0)) && 
                                  <>
                                     {datapoint[this.state.weatherSpec].toFixed(0)}{this.units['f'][this.state.weatherSpec]}
                                  </>

@@ -232,6 +232,7 @@ LOCATION LIST STYLES
 ---------------------------------------------------*/
 .location-list{
    width: 100%;
+   margin-bottom: 100px;
 }
 .location-result{
    padding: 10px;
@@ -326,5 +327,43 @@ footer{
       img {
          margin-right: 5px;
       }
+   }
+}
+
+
+.BackButton {
+   position: fixed;
+   top: 0px;
+   left: 0px;
+   margin: 10px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+
+   &:hover {
+      cursor: pointer;
+
+      h3 {
+         opacity: 1;
+         transition: opacity 250ms;
+      }
+
+   }
+
+   h3 {
+      opacity: 0;
+      transition: opacity 250ms;
+   }
+
+   svg {
+      font-size: 3em;
+      margin: 10px;
+   }
+
+}
+
+@media (max-width: 1186px) {
+   .BackButton h3 span {
+      display: none
    }
 }

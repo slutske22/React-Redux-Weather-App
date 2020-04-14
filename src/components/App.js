@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom'
 
 import SearchBar from './Search';
+import BackButton from './BackButton'
 import ThemeChanger from './ThemeChanger';
 import LogoHeader from './LogoHeader';
 import Body from './Body';
@@ -26,6 +27,7 @@ class App extends React.Component {
             <SearchBar />
             <Body />
             <Footer />
+            <BackButton />
 
          </div>
 

@@ -91,8 +91,8 @@ class WeatherHistory extends React.Component {
    setSort = e => {
       e.persist()
       this.setState({
-         sort: e.target.getAttribute('name'),
-         type: e.target.getAttribute('type'),
+         sort: e.target.id,
+         type: e.target.value,
          slot: 0
       })
    }
@@ -164,10 +164,21 @@ class WeatherHistory extends React.Component {
          <main className={`WeatherHistory`}>
             <h3>Weather Trends { distance > 20 ? <this.TooFarIcon /> : 'for'} {locationData[locationIndex].display_name}</h3>
             <h4 className="sort-by">
-               Sort by: 
-               <span className={sort === 'byMonth' ? 'active' : ''} name="byMonth" type="January" onClick={this.setSort}>Month</span> 
-               <span className={sort === 'byType' ? 'active' : ''} name="byType" type="Average Temperature" onClick={this.setSort}>Weather Detail</span>
+
+               <img className="weather-history-icon" src="icons/sort.png" /> Sort by:
+
+               <label>
+                  <input type="radio" name="sortBy" value="January" id="byMonth" checked={sort === 'byMonth' ? true : false} onClick={this.setSort}/> 
+                  Month
+               </label> 
+
+               <label>
+                  <input type="radio" name="sortBy" value="Average Temperature" id="byType" checked={sort === 'byType' ? true : false} onClick={this.setSort}/>
+                  Weather Detail
+               </label> 
+
                {this.state.tooFarWarning && <this.TooFarWarning />}
+
             </h4>
 
             <article className="content">

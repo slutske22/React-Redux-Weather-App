@@ -23,27 +23,32 @@
 
    h4.sort-by{
 
-      span{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 0.9em;
 
-         margin-left: 30px;
-         padding: 5px;
-         text-decoration: underline;
-         border: 1px solid var(--background-color);
+      label {
+         margin-left: 10px;
+         display: flex;
+         flex-direction: row;
+         align-items: center;
 
-         &:not(.active):hover{
+         &:hover {
             cursor: pointer;
-            text-decoration: underline;
-            color: #00aedd;
-            border: 1px solid #00aedd;
          }
 
-         &.active {
-            color: #00aedd;
-            border: 1px solid #00aedd;
-            text-decoration: none;
-            cursor: auto;
-         }
+      }
 
+      input {
+         width: auto;
+         margin: 3px;
+      }
+
+      & .weather-history-icon {
+         height: 1.5em;
+         width: 1.5em;
+         margin-right: 5px;
       }
 
    } 
@@ -197,6 +202,7 @@
       pointer-events: none;
       box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.4)
    }
+
 
 
 }
