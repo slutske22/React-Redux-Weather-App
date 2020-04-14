@@ -27,7 +27,7 @@ const BackButton = props => {
    }, [location])
 
    const clickBackButton = () => { 
-      props.history.goBack()
+      window.history.back()
    }
 
    return transitions.map(({ item, key, props }) =>

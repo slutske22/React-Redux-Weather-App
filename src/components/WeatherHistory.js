@@ -168,12 +168,12 @@ class WeatherHistory extends React.Component {
                <img className="weather-history-icon" src="icons/sort.png" /> Sort by:
 
                <label>
-                  <input type="radio" name="sortBy" value="January" id="byMonth" checked={sort === 'byMonth' ? true : false} onClick={this.setSort}/> 
+                  <input type="radio" name="sortBy" value="January" id="byMonth" checked={sort === 'byMonth' ? true : false} onChange={this.setSort}/> 
                   Month
                </label> 
 
                <label>
-                  <input type="radio" name="sortBy" value="Average Temperature" id="byType" checked={sort === 'byType' ? true : false} onClick={this.setSort}/>
+                  <input type="radio" name="sortBy" value="Average Temperature" id="byType" checked={sort === 'byType' ? true : false} onChange={this.setSort}/>
                   Weather Detail
                </label> 
 
@@ -273,7 +273,7 @@ class WeatherHistory extends React.Component {
                                  
 
                                     {dataPointAvailable && <div className="value">
-                                       {numericalValue.toFixed(0)}{name === "Total Rainfall" || type === "Total Rainfall" ? '"' : '°'}
+                                       {numericalValue.toFixed(name === "Total Rainfall" || type === "Total Rainfall" ? 1 : 0)}{name === "Total Rainfall" || type === "Total Rainfall" ? '"' : '°'}
                                     </div>}
 
                                     {sort === 'byMonth' && <div className="data-name">{name}</div>}
