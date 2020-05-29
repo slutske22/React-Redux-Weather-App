@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "color-temperature": "^0.2.7",
+    "gh-pages": "^3.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-icons": "^3.9.0",
@@ -20,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,5 +43,6 @@
   "devDependencies": {
     "node-sass": "^4.13.1",
     "redux-devtools-extension": "^2.13.8"
-  }
+  },
+  "homepage": "http://myname.github.io/myapp"
 }
