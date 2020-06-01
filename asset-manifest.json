@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/myapp/static/css/main.eb67e578.chunk.css",
-    "main.js": "/myapp/static/js/main.2843a289.chunk.js",
-    "main.js.map": "/myapp/static/js/main.2843a289.chunk.js.map",
-    "runtime-main.js": "/myapp/static/js/runtime-main.f7649034.js",
-    "runtime-main.js.map": "/myapp/static/js/runtime-main.f7649034.js.map",
-    "static/js/2.402f1f6f.chunk.js": "/myapp/static/js/2.402f1f6f.chunk.js",
-    "static/js/2.402f1f6f.chunk.js.map": "/myapp/static/js/2.402f1f6f.chunk.js.map",
-    "index.html": "/myapp/index.html",
-    "precache-manifest.6c36c4d0914de60f51dfe17ae7cadb6d.js": "/myapp/precache-manifest.6c36c4d0914de60f51dfe17ae7cadb6d.js",
-    "service-worker.js": "/myapp/service-worker.js",
-    "static/css/main.eb67e578.chunk.css.map": "/myapp/static/css/main.eb67e578.chunk.css.map"
+    "main.css": "/react-redux-weather-app/static/css/main.eb67e578.chunk.css",
+    "main.js": "/react-redux-weather-app/static/js/main.2843a289.chunk.js",
+    "main.js.map": "/react-redux-weather-app/static/js/main.2843a289.chunk.js.map",
+    "runtime-main.js": "/react-redux-weather-app/static/js/runtime-main.99359d3f.js",
+    "runtime-main.js.map": "/react-redux-weather-app/static/js/runtime-main.99359d3f.js.map",
+    "static/js/2.402f1f6f.chunk.js": "/react-redux-weather-app/static/js/2.402f1f6f.chunk.js",
+    "static/js/2.402f1f6f.chunk.js.map": "/react-redux-weather-app/static/js/2.402f1f6f.chunk.js.map",
+    "index.html": "/react-redux-weather-app/index.html",
+    "precache-manifest.5dfef4157cec1c1b0406925a9aecd887.js": "/react-redux-weather-app/precache-manifest.5dfef4157cec1c1b0406925a9aecd887.js",
+    "service-worker.js": "/react-redux-weather-app/service-worker.js",
+    "static/css/main.eb67e578.chunk.css.map": "/react-redux-weather-app/static/css/main.eb67e578.chunk.css.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.f7649034.js",
+    "static/js/runtime-main.99359d3f.js",
     "static/js/2.402f1f6f.chunk.js",
     "static/css/main.eb67e578.chunk.css",
     "static/js/main.2843a289.chunk.js"
