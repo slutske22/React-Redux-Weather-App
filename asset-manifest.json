@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/react-redux-weather-app/static/css/main.eb67e578.chunk.css",
-    "main.js": "/react-redux-weather-app/static/js/main.2843a289.chunk.js",
-    "main.js.map": "/react-redux-weather-app/static/js/main.2843a289.chunk.js.map",
-    "runtime-main.js": "/react-redux-weather-app/static/js/runtime-main.99359d3f.js",
-    "runtime-main.js.map": "/react-redux-weather-app/static/js/runtime-main.99359d3f.js.map",
-    "static/js/2.402f1f6f.chunk.js": "/react-redux-weather-app/static/js/2.402f1f6f.chunk.js",
-    "static/js/2.402f1f6f.chunk.js.map": "/react-redux-weather-app/static/js/2.402f1f6f.chunk.js.map",
-    "index.html": "/react-redux-weather-app/index.html",
-    "precache-manifest.5dfef4157cec1c1b0406925a9aecd887.js": "/react-redux-weather-app/precache-manifest.5dfef4157cec1c1b0406925a9aecd887.js",
-    "service-worker.js": "/react-redux-weather-app/service-worker.js",
-    "static/css/main.eb67e578.chunk.css.map": "/react-redux-weather-app/static/css/main.eb67e578.chunk.css.map"
+    "main.css": "/React-Redux-Weather-App/static/css/main.eb67e578.chunk.css",
+    "main.js": "/React-Redux-Weather-App/static/js/main.2843a289.chunk.js",
+    "main.js.map": "/React-Redux-Weather-App/static/js/main.2843a289.chunk.js.map",
+    "runtime-main.js": "/React-Redux-Weather-App/static/js/runtime-main.13f5d302.js",
+    "runtime-main.js.map": "/React-Redux-Weather-App/static/js/runtime-main.13f5d302.js.map",
+    "static/js/2.402f1f6f.chunk.js": "/React-Redux-Weather-App/static/js/2.402f1f6f.chunk.js",
+    "static/js/2.402f1f6f.chunk.js.map": "/React-Redux-Weather-App/static/js/2.402f1f6f.chunk.js.map",
+    "index.html": "/React-Redux-Weather-App/index.html",
+    "precache-manifest.90e36ab1c86e431322195f8c1ef7156c.js": "/React-Redux-Weather-App/precache-manifest.90e36ab1c86e431322195f8c1ef7156c.js",
+    "service-worker.js": "/React-Redux-Weather-App/service-worker.js",
+    "static/css/main.eb67e578.chunk.css.map": "/React-Redux-Weather-App/static/css/main.eb67e578.chunk.css.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.99359d3f.js",
+    "static/js/runtime-main.13f5d302.js",
     "static/js/2.402f1f6f.chunk.js",
     "static/css/main.eb67e578.chunk.css",
     "static/js/main.2843a289.chunk.js"
