@@ -2,6 +2,9 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Spinner1 } from './WeatherSpinner'
 import { connect } from 'react-redux'
+import ReactLogo from '../svgIcons/react-logo.svg'
+import ReduxLogo from '../svgIcons/redux-logo.svg'
+
 
 class LogoHeader extends React.Component {
    render () {
@@ -13,9 +16,9 @@ class LogoHeader extends React.Component {
                   ? 'step-aside' 
                   : ''
          }`}>
-            <img className="slowSpin" src="/icons/react-logo.svg" />
+            <img className="slowSpin" src={ReactLogo} />
             <Spinner1 />
-            <img className="slowSpin" src="/icons/redux-logo.svg" />
+            <img className="slowSpin" src={ReduxLogo} />
          </div>
 
       )
