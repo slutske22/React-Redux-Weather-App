@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/react-redux-weather-app/static/css/main.eb67e578.chunk.css",
-    "main.js": "/react-redux-weather-app/static/js/main.7b6586b1.chunk.js",
-    "main.js.map": "/react-redux-weather-app/static/js/main.7b6586b1.chunk.js.map",
-    "runtime-main.js": "/react-redux-weather-app/static/js/runtime-main.99359d3f.js",
-    "runtime-main.js.map": "/react-redux-weather-app/static/js/runtime-main.99359d3f.js.map",
-    "static/js/2.fb7324ca.chunk.js": "/react-redux-weather-app/static/js/2.fb7324ca.chunk.js",
-    "static/js/2.fb7324ca.chunk.js.map": "/react-redux-weather-app/static/js/2.fb7324ca.chunk.js.map",
-    "index.html": "/react-redux-weather-app/index.html",
-    "precache-manifest.c78a5224e4f14fc4b60ca3e26bc62621.js": "/react-redux-weather-app/precache-manifest.c78a5224e4f14fc4b60ca3e26bc62621.js",
-    "service-worker.js": "/react-redux-weather-app/service-worker.js",
-    "static/css/main.eb67e578.chunk.css.map": "/react-redux-weather-app/static/css/main.eb67e578.chunk.css.map",
-    "static/media/react-logo.svg": "/react-redux-weather-app/static/media/react-logo.f0793d9f.svg",
-    "static/media/redux-logo.svg": "/react-redux-weather-app/static/media/redux-logo.c1e24127.svg"
+    "main.css": "/React-Redux-Weather-App/static/css/main.eb67e578.chunk.css",
+    "main.js": "/React-Redux-Weather-App/static/js/main.4607053e.chunk.js",
+    "main.js.map": "/React-Redux-Weather-App/static/js/main.4607053e.chunk.js.map",
+    "runtime-main.js": "/React-Redux-Weather-App/static/js/runtime-main.13f5d302.js",
+    "runtime-main.js.map": "/React-Redux-Weather-App/static/js/runtime-main.13f5d302.js.map",
+    "static/js/2.fb7324ca.chunk.js": "/React-Redux-Weather-App/static/js/2.fb7324ca.chunk.js",
+    "static/js/2.fb7324ca.chunk.js.map": "/React-Redux-Weather-App/static/js/2.fb7324ca.chunk.js.map",
+    "index.html": "/React-Redux-Weather-App/index.html",
+    "precache-manifest.39f7ad2987560d6109e2191a6b80a466.js": "/React-Redux-Weather-App/precache-manifest.39f7ad2987560d6109e2191a6b80a466.js",
+    "service-worker.js": "/React-Redux-Weather-App/service-worker.js",
+    "static/css/main.eb67e578.chunk.css.map": "/React-Redux-Weather-App/static/css/main.eb67e578.chunk.css.map",
+    "static/media/react-logo.svg": "/React-Redux-Weather-App/static/media/react-logo.f0793d9f.svg",
+    "static/media/redux-logo.svg": "/React-Redux-Weather-App/static/media/redux-logo.c1e24127.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.99359d3f.js",
+    "static/js/runtime-main.13f5d302.js",
     "static/js/2.fb7324ca.chunk.js",
     "static/css/main.eb67e578.chunk.css",
-    "static/js/main.7b6586b1.chunk.js"
+    "static/js/main.4607053e.chunk.js"
   ]
 }
