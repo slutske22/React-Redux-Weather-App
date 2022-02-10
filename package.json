@@ -41,7 +41,7 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "redux-devtools-extension": "^2.13.8"
   },
   "homepage": "http://slutske22.github.io/React-Redux-Weather-App"
